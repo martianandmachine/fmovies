@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fmovies/src/domain/popular/popular_movies_bloc.dart';
 import 'package:fmovies/src/presentation/popular/popular_movies_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,7 +12,10 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   final widgetOptions = [
-    PopularMoviesPage(),
+    BlocProvider(
+      builder: (context) => PopularMoviesBloc(),
+      child: PopularMoviesPage(),
+    ),
     Text('Favorites'),
     Text('Cinemas'),
   ];
