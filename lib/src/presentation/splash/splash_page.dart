@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:fmovies/src/presentation/popular/popular_movies_page.dart';
+import 'package:fmovies/src/presentation/home_page.dart';
 
 const int _SPLASH_DURATION = 3;
 
@@ -24,7 +24,7 @@ class _SplashPageState extends State<SplashPage> {
 
   onDoneLoading() async {
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => PopularMoviesPage()));
+        MaterialPageRoute(builder: (context) => HomePage()));
   }
 
   @override

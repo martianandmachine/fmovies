@@ -12,7 +12,7 @@ class _PopularMoviesState extends State<PopularMoviesPage> {
     setState(() {
       _counter++;
     });
-  } 
+  }
 
   @override
   Widget build(BuildContext context) {
