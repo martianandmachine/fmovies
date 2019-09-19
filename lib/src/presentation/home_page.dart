@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.movie),
-            title: Text('Popular movies'),
+            title: Text('Popular'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
