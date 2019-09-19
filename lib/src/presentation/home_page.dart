@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fmovies/src/domain/cinemas/cinemas_bloc.dart';
 import 'package:fmovies/src/domain/popular/popular_movies_bloc.dart';
+import 'package:fmovies/src/presentation/cinemas/cinemas.dart';
 import 'package:fmovies/src/presentation/popular/popular_movies_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +19,10 @@ class _HomePageState extends State<HomePage> {
       child: PopularMoviesPage(),
     ),
     Text('Favorites'),
-    Text('Cinemas'),
+    BlocProvider(
+      builder: (context) => CinemasBloc(),
+      child: CinemasPage(),
+    ),
   ];
 
   @override
