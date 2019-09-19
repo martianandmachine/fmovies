@@ -4,20 +4,7 @@ import 'package:fmovies/src/domain/popular/popular_movies_bloc.dart';
 import 'package:fmovies/src/domain/popular/popular_movies_event.dart';
 import 'package:fmovies/src/domain/popular/popular_movies_state.dart';
 
-class PopularMoviesPage extends StatefulWidget {
-  @override
-  _PopularMoviesState createState() => _PopularMoviesState();
-}
-
-class _PopularMoviesState extends State<PopularMoviesPage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
+class PopularMoviesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<PopularMoviesBloc>(context);
@@ -30,13 +17,6 @@ class _PopularMoviesState extends State<PopularMoviesPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
             BlocBuilder<PopularMoviesBloc, PopularMoviesState>(
               builder: (context, state) {
                 if (state is PopularMoviesLoading) {
