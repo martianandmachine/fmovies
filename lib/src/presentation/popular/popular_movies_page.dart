@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
 class PopularMoviesPage extends StatefulWidget {
-  PopularMoviesPage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
   @override
   _PopularMoviesState createState() => _PopularMoviesState();
 }
@@ -16,13 +12,13 @@ class _PopularMoviesState extends State<PopularMoviesPage> {
     setState(() {
       _counter++;
     });
-  }
+  } 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("Popular movies"),
       ),
       body: Center(
         child: Column(

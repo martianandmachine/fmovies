@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fmovies/src/presentation/popular/popular_movies_page.dart';
+import 'package:fmovies/src/presentation/splash_page.dart';
 
 class App extends StatelessWidget {
   @override
@@ -9,7 +9,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: PopularMoviesPage(title: 'Popular movies'),
+      home: SplashPage(),
     );
   }
 }
