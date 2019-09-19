@@ -8,6 +8,9 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
 
   @override
   Stream<PopularMoviesState> mapEventToState(PopularMoviesEvent event) async* {
-
+      if (event is FetchPopularMovies) {
+        print('Fetch movies triggered');
+        yield PopularMoviesLoaded();
+      }
   }
 }
