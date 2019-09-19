@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fmovies/src/presentation/splash_page.dart';
+import 'package:fmovies/src/presentation/splash/splash_page.dart';
 
 class App extends StatelessWidget {
   @override
