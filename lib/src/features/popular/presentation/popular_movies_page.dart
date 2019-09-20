@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fmovies/src/domain/popular/popular_movies_bloc.dart';
-import 'package:fmovies/src/domain/popular/popular_movies_event.dart';
-import 'package:fmovies/src/domain/popular/popular_movies_state.dart';
+import 'package:fmovies/src/features/popular/domain/popular_movies_bloc.dart';
+import 'package:fmovies/src/features/popular/domain/popular_movies_event.dart';
+import 'package:fmovies/src/features/popular/domain/popular_movies_state.dart';
 
 class PopularMoviesPage extends StatelessWidget {
   @override
