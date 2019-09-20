@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fmovies/src/domain/popular/popular_movies_bloc.dart';
-import 'package:fmovies/src/presentation/popular/popular_movies_page.dart';
+import 'package:fmovies/src/features/popular/domain/popular_movies_bloc.dart';
+import 'package:fmovies/src/features/popular/presentation/popular_movies_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
