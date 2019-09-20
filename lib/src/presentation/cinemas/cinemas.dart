@@ -2,34 +2,55 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/domain/cinemas/cinemas_bloc.dart';
 import 'package:fmovies/src/domain/cinemas/cinemas_state.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class CinemasPage extends StatelessWidget {
+class CinemasPage extends StatefulWidget {
+  @override
+  State<CinemasPage> createState() => CinemasPageState();
+}
+
+class CinemasPageState extends State<CinemasPage> {
+  GoogleMapController mapController;
+  final LatLng _center = const LatLng(45.521563, -122.677433);
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
   @override
   Widget build(BuildContext context) {
 //    final bloc = BlocProvider.of<CinemasBloc>(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Cinemas nearby"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            BlocBuilder<CinemasBloc, CinemasState>(
-              builder: (context, state) {
-                if (state is CinemasLoading) {
-                  return CircularProgressIndicator();
-                }
-                if (state is CinemasLoaded) {
-                  return Text('Finished loading');
-                }
-                return Text('Something went wrong');
-              },
+      body:Stack(
+        children: <Widget>[
+          GoogleMap(
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: CameraPosition(
+              target: _center,
+              zoom: 11.0,
             ),
-          ],
-        ),
+          ),
+          BlocBuilder<CinemasBloc, CinemasState>(
+            builder: (context, state) {
+              if (state is CinemasLoading) {
+                print('Loading map');
+                return Align(
+                  alignment: Alignment.center,
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (state is CinemasLoaded) {
+                return Text('Finished loading');
+              }
+              return Text('Something went wrong');
+            },
+          ),
+        ],
       ),
     );
   }
+
 }
