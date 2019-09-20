@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fmovies/src/domain/cinemas/cinemas_bloc.dart';
-import 'package:fmovies/src/domain/cinemas/cinemas_state.dart';
+import 'package:fmovies/src/features/cinemas/domain/cinemas_bloc.dart';
+import 'package:fmovies/src/features/cinemas/domain/cinemas_state.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CinemasPage extends StatefulWidget {

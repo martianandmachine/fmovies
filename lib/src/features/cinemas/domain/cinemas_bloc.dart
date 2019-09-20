@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:fmovies/src/domain/cinemas/cinemas_event.dart';
-import 'package:fmovies/src/domain/cinemas/cinemas_state.dart';
+import 'package:fmovies/src/features/cinemas/domain/cinemas_event.dart';
+import 'package:fmovies/src/features/cinemas/domain/cinemas_state.dart';
 
 class CinemasBloc extends Bloc<CinemasEvent, CinemasState> {
   @override

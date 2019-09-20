@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:fmovies/src/presentation/home_page.dart';
+import 'package:fmovies/src/features/home_page.dart';
 
 const int _SPLASH_DURATION = 3;
 
