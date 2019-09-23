@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fmovies/src/core/api/movie_api_service.dart';
 import 'package:fmovies/src/core/api/movie_api_service_factory.dart';
