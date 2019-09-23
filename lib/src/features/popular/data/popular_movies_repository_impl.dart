@@ -25,7 +25,6 @@ class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
 
         return Result(success: model);
       } catch(error) {
-        print('Response error =' + error.toString());
         return Result(error: ServerError());
       }
     } else {
