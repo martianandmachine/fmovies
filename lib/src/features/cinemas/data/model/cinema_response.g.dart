@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'CinemaResponse.dart';
+part of 'cinema_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
