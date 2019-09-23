@@ -26,11 +26,13 @@ dependencies:
   flutter_bloc: ^0.21.0
   google_maps_flutter: ^0.5.21+2
   dartz: ^0.8.7
+  json_annotation: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  json_serializable: ^2.0.0
+  build_runner: ^1.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
