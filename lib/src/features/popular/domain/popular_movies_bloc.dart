@@ -7,6 +7,13 @@ import 'package:fmovies/src/features/popular/domain/popular_movies_state.dart';
 import 'package:get_it/get_it.dart';
 
 class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
+
+  PopularMoviesRepository _popularMoviesRepository;
+
+  PopularMoviesBloc() {
+    _popularMoviesRepository = GetIt.instance.get<PopularMoviesRepository>();
+  }
+
   @override
   PopularMoviesState get initialState => PopularMoviesLoading();
 
@@ -15,9 +22,7 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
     if (event is FetchPopularMovies) {
       print('Fetch movies triggered');
 
-      var popularMoviesRepository = GetIt.instance.get<PopularMoviesRepository>();
-
-      final results = await popularMoviesRepository.getPopularMovies();
+      final results = await _popularMoviesRepository.getPopularMovies();
 
       if (results.success != null) {
         print('Success = ' + results.success.results[0].title);

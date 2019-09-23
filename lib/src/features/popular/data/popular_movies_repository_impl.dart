@@ -9,15 +9,15 @@ import 'package:get_it/get_it.dart';
 
 class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
 
-  NetworkInfo networkInfo;
+  NetworkInfo _networkInfo;
 
   PopularMoviesRepositoryImpl() {
-    networkInfo = GetIt.instance.get<NetworkInfo>();
+    _networkInfo = GetIt.instance.get<NetworkInfo>();
   }
 
   @override
   Future<Result<PopularMoviesResponse>> getPopularMovies() async {
-    bool isConnected = await networkInfo.isConnected();
+    bool isConnected = await _networkInfo.isConnected();
 
     if (isConnected) {
       Dio dio = Dio();
