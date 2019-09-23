@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fmovies/src/core/app.dart';
+import 'package:fmovies/src/core/utils/network_info.dart';
 import 'package:fmovies/src/features/popular/data/popular_movies_repository.dart';
 import 'package:fmovies/src/features/popular/data/popular_movies_repository_impl.dart';
 import 'package:get_it/get_it.dart';
@@ -7,6 +8,9 @@ import 'package:get_it/get_it.dart';
 GetIt getIt = GetIt.instance;
 
 void main() {
+
+  getIt.registerLazySingleton<NetworkInfo>(() => NetworkInfo());
+
   getIt.registerFactory<PopularMoviesRepository>(
     () => PopularMoviesRepositoryImpl(),
   );

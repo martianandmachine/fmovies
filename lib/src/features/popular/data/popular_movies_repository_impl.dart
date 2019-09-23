@@ -5,11 +5,19 @@ import 'package:fmovies/src/core/utils/network_info.dart';
 import 'package:fmovies/src/core/utils/result.dart';
 import 'package:fmovies/src/features/popular/data/models/popular_movies_response.dart';
 import 'package:fmovies/src/features/popular/data/popular_movies_repository.dart';
+import 'package:get_it/get_it.dart';
 
 class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
+
+  NetworkInfo networkInfo;
+
+  PopularMoviesRepositoryImpl() {
+    networkInfo = GetIt.instance.get<NetworkInfo>();
+  }
+
   @override
   Future<Result<PopularMoviesResponse>> getPopularMovies() async {
-    bool isConnected = await NetworkInfo().isConnected();
+    bool isConnected = await networkInfo.isConnected();
 
     if (isConnected) {
       Dio dio = Dio();
