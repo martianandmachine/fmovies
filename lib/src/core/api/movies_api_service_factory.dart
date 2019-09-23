@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:fmovies/src/core/api/movie_api_service.dart';
+import 'package:fmovies/src/core/api/movies_api_service.dart';
 
-class MovieApiServiceFactory implements MovieApiService {
+class MoviesApiServiceFactory implements MoviesApiService {
   @override
   buildClient() {
     BaseOptions baseOptions = BaseOptions(

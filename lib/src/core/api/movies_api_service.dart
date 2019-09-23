@@ -1,4 +1,4 @@
-abstract class MovieApiService {
+abstract class MoviesApiService {
   buildClient();
 
   getPopularMovies();

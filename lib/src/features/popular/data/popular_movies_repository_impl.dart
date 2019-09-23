@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:fmovies/src/core/api/movie_api_service.dart';
+import 'package:fmovies/src/core/api/movies_api_service.dart';
 import 'package:fmovies/src/core/utils/network_info.dart';
 import 'package:fmovies/src/core/utils/result.dart';
 import 'package:fmovies/src/features/popular/data/models/popular_movies_response.dart';
@@ -9,11 +9,11 @@ import 'package:get_it/get_it.dart';
 
 class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
   NetworkInfo _networkInfo;
-  MovieApiService _movieApiService;
+  MoviesApiService _movieApiService;
 
   PopularMoviesRepositoryImpl() {
     _networkInfo = GetIt.instance.get<NetworkInfo>();
-    _movieApiService = GetIt.instance.get<MovieApiService>();
+    _movieApiService = GetIt.instance.get<MoviesApiService>();
   }
 
   @override
