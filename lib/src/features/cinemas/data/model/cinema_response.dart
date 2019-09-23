@@ -1,6 +1,6 @@
-import 'package:fmovies/src/features/cinemas/data/model/Cinema.dart';
+import 'package:fmovies/src/features/cinemas/data/model/cinema.dart';
 import 'package:json_annotation/json_annotation.dart';
-part 'CinemaResponse.g.dart';
+part 'cinema_response.g.dart';
 
 @JsonSerializable()
 class CinemaResponse {
