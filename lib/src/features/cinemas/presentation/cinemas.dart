@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/features/cinemas/domain/cinemas_bloc.dart';
+import 'package:fmovies/src/features/cinemas/domain/cinemas_event.dart';
 import 'package:fmovies/src/features/cinemas/domain/cinemas_state.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -32,21 +33,23 @@ class CinemasPageState extends State<CinemasPage> {
     var isEnabled = await checkPermission();
     if (isEnabled) {
       Position position = await Geolocator()
-          .getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       print(position);
-      _currentCameraPosition = CameraPosition(
-          target: LatLng(position.latitude, position.longitude), zoom: 16);
-      final GoogleMapController controller = await _controller.future;
-      controller.animateCamera(
-          CameraUpdate.newCameraPosition(_currentCameraPosition));
-      final marker = Marker(
-        markerId: MarkerId('user'),
-        position: LatLng(position.latitude, position.longitude),
-      );
-      setState(() {
-        _markers.clear();
-        _markers['user'] = marker;
-      });
+      if (position != null) {
+        _currentCameraPosition = CameraPosition(
+            target: LatLng(position.latitude, position.longitude), zoom: 16);
+        final GoogleMapController controller = await _controller.future;
+        controller.animateCamera(
+            CameraUpdate.newCameraPosition(_currentCameraPosition));
+        final marker = Marker(
+          markerId: MarkerId('user'),
+          position: LatLng(position.latitude, position.longitude),
+        );
+        setState(() {
+          _markers.clear();
+          _markers['user'] = marker;
+        });
+      } else {}
     }
   }
 
@@ -70,7 +73,7 @@ class CinemasPageState extends State<CinemasPage> {
 
   @override
   Widget build(BuildContext context) {
-//    final bloc = BlocProvider.of<CinemasBloc>(context);
+    final bloc = BlocProvider.of<CinemasBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Cinemas nearby"),
@@ -79,6 +82,7 @@ class CinemasPageState extends State<CinemasPage> {
         children: <Widget>[
           GoogleMap(
             onMapCreated: (GoogleMapController controller) {
+              bloc.dispatch(FetchCinemas());
               _controller.complete(controller);
             },
             initialCameraPosition: _initialCamera,
@@ -87,14 +91,13 @@ class CinemasPageState extends State<CinemasPage> {
           BlocBuilder<CinemasBloc, CinemasState>(
             builder: (context, state) {
               if (state is CinemasLoading) {
-                print('Loading map');
                 return Align(
                   alignment: Alignment.center,
                   child: CircularProgressIndicator(),
                 );
               }
               if (state is CinemasLoaded) {
-                return Text('Finished loading');
+                return Text('LIST OF CINEMAS');
               }
               return Text('Something went wrong');
             },
