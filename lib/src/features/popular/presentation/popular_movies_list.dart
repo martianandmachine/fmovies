@@ -32,12 +32,30 @@ class BuildListTile extends StatelessWidget {
     return GestureDetector(
       onTap: () => print(movie.title),
       child: Card(
-          child: FadeInImage.assetNetwork(
-            placeholder: 'images/placeholder.png',
-            image:
-                BASE_IMAGE_URL + POSTER_SIZES[SIZE_MEDIUM] + movie.posterPath,
-            fit: BoxFit.cover,
-          ),
+        child: Stack(
+          children: <Widget>[
+            FadeInImage.assetNetwork(
+              placeholder: 'images/placeholder.png',
+              image:
+                  BASE_IMAGE_URL + POSTER_SIZES[SIZE_LARGE] + movie.posterPath,
+              fit: BoxFit.cover,
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: GestureDetector(
+                onTap: () => print('TODO: Add ${movie.title} to favorites.'),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5.0, top: 5.0),
+                  child: Icon(
+                    Icons.favorite_border,
+                    color: Colors.white,
+                    size: 25.0,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
