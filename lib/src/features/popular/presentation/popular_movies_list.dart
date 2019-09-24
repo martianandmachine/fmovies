@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fmovies/src/core/utils/image_constants.dart';
 import 'package:fmovies/src/features/popular/data/models/movie.dart';
 
 const String BASE_IMAGE_URL = 'http://image.tmdb.org/t/p/';
@@ -14,7 +15,7 @@ class PopularMoviesList extends StatelessWidget {
       itemCount: movies.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
-        childAspectRatio: 2/3,
+        childAspectRatio: 2 / 3,
       ),
       itemBuilder: (context, position) {
         return BuildListTile(movies[position]);
@@ -30,7 +31,6 @@ class BuildListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String imagePath = BASE_IMAGE_URL + 'w342' + movie.posterPath;
     return GestureDetector(
       onTap: () => print(movie.title),
       child: Card(
@@ -38,7 +38,8 @@ class BuildListTile extends StatelessWidget {
           padding: const EdgeInsets.all(4.0),
           child: FadeInImage.assetNetwork(
             placeholder: 'images/placeholder.png',
-            image: imagePath,
+            image:
+                BASE_IMAGE_URL + POSTER_SIZES[SIZE_MEDIUM] + movie.posterPath,
             fit: BoxFit.cover,
           ),
         ),
