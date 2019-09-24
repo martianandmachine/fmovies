@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fmovies/src/features/popular/data/models/movie.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_bloc.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_event.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_state.dart';
@@ -11,6 +12,8 @@ class PopularMoviesPage extends StatelessWidget {
     final bloc = BlocProvider.of<PopularMoviesBloc>(context);
 
     bloc.dispatch(FetchPopularMovies());
+
+    List<Movie> movies = List<Movie>();
 
     return Scaffold(
       appBar: AppBar(
@@ -33,7 +36,8 @@ class PopularMoviesPage extends StatelessWidget {
               );
             }
             if (state is PopularMoviesLoaded) {
-              return PopularMoviesList(state.movies);
+              movies.addAll(state.movies);
+              return PopularMoviesList(movies);
             }
             return Center(
               child: RaisedButton.icon(
