@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fmovies/src/core/utils/image_constants.dart';
 import 'package:fmovies/src/features/popular/data/models/movie.dart';
@@ -33,6 +34,7 @@ class BuildListTile extends StatelessWidget {
       onTap: () => print(movie.title),
       child: Card(
         child: Stack(
+          fit: StackFit.expand,
           children: <Widget>[
             FadeInImage.assetNetwork(
               placeholder: 'images/placeholder.png',
