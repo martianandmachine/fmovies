@@ -1,5 +1,5 @@
 abstract class MoviesApiService {
   buildClient();
 
-  getPopularMovies();
+  getPopularMovies(int page);
 }
