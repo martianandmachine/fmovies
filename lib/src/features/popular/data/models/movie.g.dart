@@ -11,26 +11,28 @@ Movie _$MovieFromJson(Map<String, dynamic> json) {
       popularity: (json['popularity'] as num)?.toDouble(),
       voteCount: json['voteCount'] as int,
       video: json['video'] as bool,
-      posterPath: json['posterPath'] as String,
+      posterPath: json['poster_path'] as String,
       id: json['id'] as int,
       adult: json['adult'] as bool,
-      originalTitle: json['originalTitle'] as String,
+      originalTitle: json['orginal_title'] as String,
       title: json['title'] as String,
-      voteAverage: (json['voteAverage'] as num)?.toDouble(),
+      voteAverage: (json['vote_average'] as num)?.toDouble(),
       overview: json['overview'] as String,
-      releaseDate: json['releaseDate'] as String);
+      releaseDate: json['release_date'] as String,
+      backdropPath: json['backdrop_path'] as String);
 }
 
 Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
       'popularity': instance.popularity,
       'voteCount': instance.voteCount,
       'video': instance.video,
-      'posterPath': instance.posterPath,
+      'poster_path': instance.posterPath,
       'id': instance.id,
       'adult': instance.adult,
-      'originalTitle': instance.originalTitle,
+      'orginal_title': instance.originalTitle,
       'title': instance.title,
-      'voteAverage': instance.voteAverage,
+      'vote_average': instance.voteAverage,
       'overview': instance.overview,
-      'releaseDate': instance.releaseDate
+      'release_date': instance.releaseDate,
+      'backdrop_path': instance.backdropPath
     };
