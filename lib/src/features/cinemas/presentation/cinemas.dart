@@ -74,6 +74,8 @@ class CinemasPageState extends State<CinemasPage> {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<CinemasBloc>(context);
+    bloc.dispatch(FetchCinemas());
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Cinemas nearby"),
@@ -88,21 +90,37 @@ class CinemasPageState extends State<CinemasPage> {
             initialCameraPosition: _initialCamera,
             markers: _markers.values.toSet(),
           ),
-          BlocBuilder<CinemasBloc, CinemasState>(
-            builder: (context, state) {
-              if (state is CinemasLoading) {
-                return Align(
-                  alignment: Alignment.center,
-                  child: CircularProgressIndicator(),
-                );
-              }
+          BlocListener<CinemasBloc, CinemasState>(
+            listener: (context, state) {
               if (state is CinemasLoaded) {
-                return Text('LIST OF CINEMAS');
+                print(state.cinemas);
+                _showSnackBar(context, 'Here are some cinemas near you');
               }
-              return Text('Something went wrong');
+              if (state is CinemasError) {
+                _showSnackBar(context, 'Something went wrong with the server.');
+              }
             },
+            child: BlocBuilder<CinemasBloc, CinemasState>(
+              builder: (context, state) {
+                if (state is CinemasLoading) {
+                  return Align(
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return Text('Something went wrong');
+              },
+            ),
           ),
         ],
+      ),
+    );
+  }
+
+  _showSnackBar(BuildContext context, String message) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
       ),
     );
   }
