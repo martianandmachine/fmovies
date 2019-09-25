@@ -21,23 +21,35 @@ class PopularMoviesList extends StatelessWidget {
       onNotification: (notification) =>
           _handleScrollNotification(notification, bloc),
       child: GridView.builder(
-        itemCount: movies.length,
+        itemCount: _calculateItemCount(bloc),
         controller: _scrollController,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           childAspectRatio: 2 / 3,
         ),
         itemBuilder: (context, position) {
+          if (position >= movies.length) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           return BuildListTile(movies[position]);
         },
       ),
     );
   }
 
+  int _calculateItemCount(PopularMoviesBloc bloc) {
+    if (bloc.hasReachedEndOfResults) {
+      return movies.length;
+    } else {
+      return movies.length + 1;
+    }
+  }
+
   bool _handleScrollNotification(
       ScrollNotification notification, PopularMoviesBloc bloc) {
-    if (notification is ScrollEndNotification &&
-        _scrollController.position.extentAfter == 0) {
+    if (notification is ScrollEndNotification && !bloc.hasReachedEndOfResults) {
       bloc.dispatch(FetchPopularMovies());
     }
     return false;

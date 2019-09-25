@@ -10,6 +10,8 @@ import 'package:get_it/get_it.dart';
 class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
   PopularMoviesRepository _popularMoviesRepository;
 
+  bool hasReachedEndOfResults = false;
+
   PopularMoviesBloc() {
     _popularMoviesRepository = GetIt.instance.get<PopularMoviesRepository>();
   }
@@ -21,8 +23,11 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
   Stream<PopularMoviesState> mapEventToState(PopularMoviesEvent event) async* {
     if (event is FetchPopularMovies) {
       final results = await _popularMoviesRepository.getPopularMovies();
-
       if (results.success != null) {
+        int nextPage = results.success.page + 1;
+        int totalPages = results.success.totalPages;
+
+        if (nextPage == totalPages) hasReachedEndOfResults = true;
         yield PopularMoviesLoaded(results.success.results);
       }
 

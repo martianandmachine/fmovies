@@ -39,12 +39,17 @@ class PopularMoviesPage extends StatelessWidget {
               movies.addAll(state.movies);
               return PopularMoviesList(movies);
             }
+            if (state is PopularMoviesNoInternet && movies.isEmpty) {
+              return Center(
+                child: RaisedButton.icon(
+                  onPressed: () => bloc.dispatch(FetchPopularMovies()),
+                  icon: Icon(Icons.refresh),
+                  label: Text('Try again.'),
+                ),
+              );
+            }
             return Center(
-              child: RaisedButton.icon(
-                onPressed: () => bloc.dispatch(FetchPopularMovies()),
-                icon: Icon(Icons.refresh),
-                label: Text('Try again.'),
-              ),
+              child: Text('Something went wrong.'),
             );
           },
         ),
