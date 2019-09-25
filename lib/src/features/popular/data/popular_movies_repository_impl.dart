@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:fmovies/src/core/api/movies_api_service.dart';
 import 'package:fmovies/src/core/utils/network_info.dart';
 import 'package:fmovies/src/core/utils/result.dart';
+import 'package:fmovies/src/features/popular/data/models/movie.dart';
 import 'package:fmovies/src/features/popular/data/models/popular_movies_response.dart';
 import 'package:fmovies/src/features/popular/data/popular_movies_repository.dart';
 import 'package:get_it/get_it.dart';
@@ -38,5 +39,13 @@ class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
     } else {
       return Result(error: NoInternetError());
     }
+  }
+
+  @override
+  Future<Result> savePopularMovie(Movie movie) {
+
+
+
+    return null;
   }
 }

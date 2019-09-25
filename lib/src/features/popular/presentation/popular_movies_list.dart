@@ -78,7 +78,7 @@ class BuildListTile extends StatelessWidget {
             Align(
               alignment: Alignment.topRight,
               child: GestureDetector(
-                onTap: () => print('TODO: Add ${movie.title} to favorites.'),
+                onTap: () => SavePopularMovie(movie),
                 child: Padding(
                   padding: const EdgeInsets.only(right: 5.0, top: 5.0),
                   child: Icon(

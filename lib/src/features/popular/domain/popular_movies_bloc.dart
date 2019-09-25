@@ -39,5 +39,11 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
         }
       }
     }
+
+    if (event is SavePopularMovie) {
+        final result = await _popularMoviesRepository.savePopularMovie(event.movie);
+
+        
+    }
   }
 }
