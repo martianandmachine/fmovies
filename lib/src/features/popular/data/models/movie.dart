@@ -6,7 +6,6 @@ part 'movie.g.dart';
 class Movie {
   double popularity;
   int voteCount;
-  bool video;
   @JsonKey(name: 'poster_path')
   String posterPath;
   int id;
@@ -25,7 +24,6 @@ class Movie {
   Movie(
       {this.popularity,
       this.voteCount,
-      this.video,
       this.posterPath,
       this.id,
       this.adult,

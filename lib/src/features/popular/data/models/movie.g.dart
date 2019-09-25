@@ -10,7 +10,6 @@ Movie _$MovieFromJson(Map<String, dynamic> json) {
   return Movie(
       popularity: (json['popularity'] as num)?.toDouble(),
       voteCount: json['voteCount'] as int,
-      video: json['video'] as bool,
       posterPath: json['poster_path'] as String,
       id: json['id'] as int,
       adult: json['adult'] as bool,
@@ -25,7 +24,6 @@ Movie _$MovieFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
       'popularity': instance.popularity,
       'voteCount': instance.voteCount,
-      'video': instance.video,
       'poster_path': instance.posterPath,
       'id': instance.id,
       'adult': instance.adult,
