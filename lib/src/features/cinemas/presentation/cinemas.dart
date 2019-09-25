@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fmovies/src/core/utils/image_utils.dart';
 import 'package:fmovies/src/core/utils/location_service.dart';
 import 'package:fmovies/src/features/cinemas/data/model/cinema.dart';
 import 'package:fmovies/src/features/cinemas/domain/cinemas_bloc.dart';
@@ -54,7 +55,6 @@ class CinemasPageState extends State<CinemasPage> {
                 _addUserMarker(state.position);
               }
               if (state is CinemasLoaded) {
-                print('count: ${state.cinemas.length}');
                 _addCinemasToMap(state.cinemas);
               }
               if (state is CinemasError) {
@@ -85,13 +85,15 @@ class CinemasPageState extends State<CinemasPage> {
 
   _addUserMarker(Position position) async {
     _currentCameraPosition = CameraPosition(
-        target: LatLng(position.latitude, position.longitude), zoom: 14);
+        target: LatLng(position.latitude, position.longitude), zoom: 12);
     final GoogleMapController controller = await _controller.future;
     controller
         .animateCamera(CameraUpdate.newCameraPosition(_currentCameraPosition));
     final marker = Marker(
       markerId: MarkerId('user'),
       infoWindow: InfoWindow(title: 'Me'),
+      zIndex: 1.0,
+      icon: await ImageUtils().getIcon(1.0, 'images/marker.png'),
       position: LatLng(position.latitude, position.longitude),
     );
     setState(() {
@@ -108,6 +110,8 @@ class CinemasPageState extends State<CinemasPage> {
       Marker m = Marker(
         markerId: MarkerId(cinema.id),
         infoWindow: InfoWindow(title: cinema.name),
+        icon:
+            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
         position:
             LatLng(cinema.geometry.location.lat, cinema.geometry.location.lng),
       );
