@@ -32,7 +32,6 @@ class CinemasRepositoryImpl extends CinemasRepository {
 
         return Result(success: model);
       } catch (error) {
-        print(error.toString());
         return Result(error: ServerError());
       }
     } else {

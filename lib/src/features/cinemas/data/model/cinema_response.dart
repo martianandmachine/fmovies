@@ -4,6 +4,8 @@ part 'cinema_response.g.dart';
 
 @JsonSerializable()
 class CinemaResponse {
+  @JsonKey(name: 'error_message')
+  String errorMessage;
   List<Cinema> results;
 
   CinemaResponse(this.results);

@@ -18,7 +18,7 @@ class CinemasApiServiceFactory implements CinemasApiService {
       "/maps/api/place/nearbysearch/json",
       queryParameters: {
         "location": "$latitude,$longitude",
-        "radius": "1500",
+        "radius": "5000",
         "type": "movie_theater",
         "key": "AIzaSyCmRJiynYcCjxYRgbGJEY9eyM9VPYhI_XE",
       },
