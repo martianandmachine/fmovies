@@ -1,25 +1,58 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/utils/image_constants.dart';
 import 'package:fmovies/src/features/popular/data/models/movie.dart';
+import 'package:fmovies/src/features/popular/domain/popular_movies_bloc.dart';
+import 'package:fmovies/src/features/popular/domain/popular_movies_event.dart';
 
 class PopularMoviesList extends StatelessWidget {
+  final ScrollController _scrollController = ScrollController();
+
   final List<Movie> movies;
 
-  const PopularMoviesList(this.movies);
+  PopularMoviesList(this.movies);
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      itemCount: movies.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        childAspectRatio: 2 / 3,
+    final bloc = BlocProvider.of<PopularMoviesBloc>(context);
+
+    return NotificationListener<ScrollNotification>(
+      onNotification: (notification) =>
+          _handleScrollNotification(notification, bloc),
+      child: GridView.builder(
+        itemCount: _calculateItemCount(bloc),
+        controller: _scrollController,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          childAspectRatio: 2 / 3,
+        ),
+        itemBuilder: (context, position) {
+          if (position >= movies.length) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return BuildListTile(movies[position]);
+        },
       ),
-      itemBuilder: (context, position) {
-        return BuildListTile(movies[position]);
-      },
     );
+  }
+
+  int _calculateItemCount(PopularMoviesBloc bloc) {
+    if (bloc.hasReachedEndOfResults) {
+      return movies.length;
+    } else {
+      return movies.length + 1;
+    }
+  }
+
+  bool _handleScrollNotification(
+      ScrollNotification notification, PopularMoviesBloc bloc) {
+    if (notification is ScrollEndNotification && !bloc.hasReachedEndOfResults) {
+      bloc.dispatch(FetchPopularMovies());
+    }
+    return false;
   }
 }
 

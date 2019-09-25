@@ -12,13 +12,14 @@ class MoviesApiServiceFactory implements MoviesApiService {
   }
 
   @override
-  getPopularMovies() {
+  getPopularMovies(int page) {
     Dio client = buildClient();
     return client.request(
       "/3/discover/movie",
       queryParameters: {
         "sort_by": "popularity.desc",
         "api_key": "c1d17945fca15cf2153ab77f065ff55c",
+        "page": "$page",
       },
       options: Options(
         method: "GET",
