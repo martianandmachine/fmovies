@@ -7,7 +7,9 @@ part 'popular_movies_response.g.dart';
 @JsonSerializable()
 class PopularMoviesResponse {
   int page;
+  @JsonKey(name: 'total_results')
   int totalResults;
+  @JsonKey(name: 'total_pages')
   int totalPages;
   List<Movie> results;
 

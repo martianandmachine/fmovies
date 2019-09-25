@@ -11,6 +11,8 @@ class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
   NetworkInfo _networkInfo;
   MoviesApiService _movieApiService;
 
+  int pageNumber = 1;
+
   PopularMoviesRepositoryImpl() {
     _networkInfo = GetIt.instance.get<NetworkInfo>();
     _movieApiService = GetIt.instance.get<MoviesApiService>();
@@ -19,10 +21,11 @@ class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
   @override
   Future<Result<PopularMoviesResponse>> getPopularMovies() async {
     bool isConnected = await _networkInfo.isConnected();
-
     if (isConnected) {
       try {
-        final response = await _movieApiService.getPopularMovies();
+        final response = await _movieApiService.getPopularMovies(pageNumber);
+
+        pageNumber++;
 
         var parsed = json.decode(response.data);
         var model = PopularMoviesResponse.fromJson(parsed);
