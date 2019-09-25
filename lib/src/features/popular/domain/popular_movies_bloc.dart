@@ -29,14 +29,14 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
 
         if (nextPage == totalPages) hasReachedEndOfResults = true;
         yield PopularMoviesLoaded(results.success.results);
-      }
+      } else {
+        if (results.error is NoInternetError) {
+          yield PopularMoviesNoInternet();
+        }
 
-      if (results.error is NoInternetError) {
-        yield PopularMoviesNoInternet();
-      }
-
-      if (results.error is ServerError) {
-        yield PopularMoviesServerError();
+        if (results.error is ServerError) {
+          yield PopularMoviesServerError();
+        }
       }
     }
   }
