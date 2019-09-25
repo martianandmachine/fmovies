@@ -18,10 +18,15 @@ class LocationService {
       case PermissionStatus.granted:
         return true;
         break;
+      case PermissionStatus.denied:
+        return false;
+        break;
       default:
+        await LocationPermissions().requestPermissions();
         PermissionStatus permission =
-            await LocationPermissions().requestPermissions();
-        if (permission == PermissionStatus.granted) {
+            await LocationPermissions().checkPermissionStatus();
+        if (permission == PermissionStatus.granted ||
+            permission == PermissionStatus.restricted) {
           return true;
         } else {
           return false;

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -80,15 +81,24 @@ class CinemasPageState extends State<CinemasPage> {
 
   _getUserLocation() async {
     Position position = await LocationService().getLocation();
-    bloc.dispatch(FetchCinemas(position));
+    if (position != null) {
+      bloc.dispatch(FetchCinemas(position));
+    } else {
+      bloc.dispatch(CannotFetchLocation());
+    }
   }
 
   _addUserMarker(Position position) async {
     _currentCameraPosition = CameraPosition(
-        target: LatLng(position.latitude, position.longitude), zoom: 12);
+        target: LatLng(position.latitude, position.longitude), zoom: 13);
     final GoogleMapController controller = await _controller.future;
-    controller
-        .animateCamera(CameraUpdate.newCameraPosition(_currentCameraPosition));
+    if (Platform.isAndroid) {
+      controller
+          .animateCamera(CameraUpdate.newCameraPosition(_currentCameraPosition));
+    } else if (Platform.isIOS) {
+      controller
+          .moveCamera(CameraUpdate.newCameraPosition(_currentCameraPosition));
+    }
     final marker = Marker(
       markerId: MarkerId('user'),
       infoWindow: InfoWindow(title: 'Me'),

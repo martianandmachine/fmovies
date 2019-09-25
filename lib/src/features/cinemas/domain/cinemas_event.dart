@@ -9,3 +9,5 @@ class FetchCinemas extends CinemasEvent {
 
   FetchCinemas(this.position);
 }
+
+class CannotFetchLocation extends CinemasEvent {}

@@ -17,6 +17,9 @@ class CinemasBloc extends Bloc<CinemasEvent, CinemasState> {
 
   @override
   Stream<CinemasState> mapEventToState(CinemasEvent event) async* {
+    if (event is CannotFetchLocation) {
+      yield CinemasError('Error fetching user location..');
+    }
     if (event is FetchCinemas) {
       FetchCinemas cinemas = event;
       yield ShowUser(cinemas.position);
