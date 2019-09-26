@@ -33,7 +33,7 @@ class PopularMoviesList extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          return BuildListTile(movies[position]);
+          return BuildListTile(movies[position], bloc);
         },
       ),
     );
@@ -58,8 +58,10 @@ class PopularMoviesList extends StatelessWidget {
 
 class BuildListTile extends StatelessWidget {
   final Movie movie;
+  
+  final PopularMoviesBloc bloc;
 
-  BuildListTile(this.movie);
+  BuildListTile(this.movie, this.bloc);
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +80,7 @@ class BuildListTile extends StatelessWidget {
             Align(
               alignment: Alignment.topRight,
               child: GestureDetector(
-                onTap: () => SavePopularMovie(movie),
+                onTap: () => bloc.dispatch(SavePopularMovie(movie)),
                 child: Padding(
                   padding: const EdgeInsets.only(right: 5.0, top: 5.0),
                   child: Icon(
