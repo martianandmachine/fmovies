@@ -17,3 +17,7 @@ class Error extends Result {}
 class NoInternetError extends Error {}
 
 class ServerError extends Error {}
+
+class DbInsertError extends Error {}
+
+class DbDataError extends Error {}
