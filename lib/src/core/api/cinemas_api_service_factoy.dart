@@ -28,5 +28,4 @@ class CinemasApiServiceFactory implements CinemasApiService {
       ),
     );
   }
-
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/utils/image_utils.dart';
 import 'package:fmovies/src/core/utils/location_service.dart';
@@ -27,11 +28,15 @@ class CinemasPageState extends State<CinemasPage> {
     target: LatLng(0, 0),
     zoom: 1,
   );
+  String _mapStyle;
 
   @override
   void initState() {
     bloc = BlocProvider.of<CinemasBloc>(context);
     _getUserLocation();
+    rootBundle.loadString('assets/map_style.txt').then((string) {
+      _mapStyle = string;
+    });
     super.initState();
   }
 
@@ -45,8 +50,10 @@ class CinemasPageState extends State<CinemasPage> {
         children: <Widget>[
           GoogleMap(
             onMapCreated: (GoogleMapController controller) {
+              controller.setMapStyle(_mapStyle);
               _controller.complete(controller);
             },
+            myLocationButtonEnabled: false,
             initialCameraPosition: _initialCamera,
             markers: _markers.values.toSet(),
           ),
@@ -93,8 +100,8 @@ class CinemasPageState extends State<CinemasPage> {
         target: LatLng(position.latitude, position.longitude), zoom: 13);
     final GoogleMapController controller = await _controller.future;
     if (Platform.isAndroid) {
-      controller
-          .animateCamera(CameraUpdate.newCameraPosition(_currentCameraPosition));
+      controller.animateCamera(
+          CameraUpdate.newCameraPosition(_currentCameraPosition));
     } else if (Platform.isIOS) {
       controller
           .moveCamera(CameraUpdate.newCameraPosition(_currentCameraPosition));

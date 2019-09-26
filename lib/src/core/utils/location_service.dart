@@ -5,8 +5,14 @@ class LocationService {
   Future<Position> getLocation() async {
     var isEnabled = await _checkPermission();
     if (isEnabled) {
-      return await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      var lastKnownPosition = await Geolocator()
+          .getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
+      if (lastKnownPosition != null) {
+        return lastKnownPosition;
+      } else {
+        return await Geolocator()
+            .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      }
     } else
       return null;
   }
