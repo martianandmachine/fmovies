@@ -1,5 +1,4 @@
 class Result<T> {
-
   final T success;
 
   final Error error;
@@ -8,7 +7,6 @@ class Result<T> {
 }
 
 class Success<T> extends Result {
-
   final T data = null;
 
   Success(data);
@@ -19,5 +17,3 @@ class Error extends Result {}
 class NoInternetError extends Error {}
 
 class ServerError extends Error {}
-
-

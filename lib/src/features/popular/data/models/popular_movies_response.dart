@@ -1,4 +1,4 @@
-import 'package:fmovies/src/core/db/moor_database.dart';
+import 'package:fmovies/src/core/db/database.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'popular_movies_response.g.dart';

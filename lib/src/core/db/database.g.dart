@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'moor_database.dart';
+part of 'database.dart';
 
 // **************************************************************************
 // MoorGenerator
@@ -440,9 +440,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(const SqlTypeSystem.withDefaults(), e);
   $MoviesTable _movies;
   $MoviesTable get movies => _movies ??= $MoviesTable(this);
-  MoorMoviesDao _moorMoviesDao;
-  MoorMoviesDao get moorMoviesDao =>
-      _moorMoviesDao ??= MoorMoviesDao(this as AppDatabase);
+  MoviesDao _moviesDao;
+  MoviesDao get moviesDao => _moviesDao ??= MoviesDao(this as AppDatabase);
   @override
   List<TableInfo> get allTables => [movies];
 }
@@ -451,6 +450,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 // DaoGenerator
 // **************************************************************************
 
-mixin _$MoorMoviesDaoMixin on DatabaseAccessor<AppDatabase> {
+mixin _$MoviesDaoMixin on DatabaseAccessor<AppDatabase> {
   $MoviesTable get movies => db.movies;
 }
