@@ -13,7 +13,7 @@ import 'package:get_it/get_it.dart';
 GetIt getIt = GetIt.instance;
 
 void main() {
-  getIt.registerLazySingleton<MoorMoviesDao>(() => AppDatabase().moorMoviesDao);
+  getIt.registerLazySingleton<MoviesDao>(() => AppDatabase().moviesDao);
 
   getIt
       .registerLazySingleton<MoviesApiService>(() => MoviesApiServiceFactory());
