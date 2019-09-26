@@ -1,14 +1,17 @@
+import 'dart:convert';
+
+import 'package:fmovies/src/features/popular/data/models/movie.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
 part 'moor_database.g.dart';
 
-class MoorMovies extends Table {
-  IntColumn get id => integer().autoIncrement()();
+//class MoorMovies extends Table {
+//
+//  IntColumn get id => integer().autoIncrement()();
+//
+//}
 
-  TextColumn get title => text()();
-}
-
-@UseMoor(tables: [MoorMovies], daos: [MoorMoviesDao])
+@UseMoor(tables: [Movies], daos: [MoorMoviesDao])
 class AppDatabase extends _$AppDatabase {
   AppDatabase()
       : super(
@@ -22,15 +25,15 @@ class AppDatabase extends _$AppDatabase {
   int get schemaVersion => 1;
 }
 
-@UseDao(tables: [MoorMovies])
+@UseDao(tables: [Movies])
 class MoorMoviesDao extends DatabaseAccessor<AppDatabase>
     with _$MoorMoviesDaoMixin {
   final AppDatabase db;
 
   MoorMoviesDao(this.db) : super(db);
 
-  Future<List<MoorMovie>> getAllMovies() => select(moorMovies).get();
+  Future<List<Movie>> getAllMovies() => select(movies).get();
 
-  Future insertMovie(Insertable<MoorMovie> movie) =>
-      into(moorMovies).insert(movie);
+  Future insertMovie(Insertable<Movie> movie) =>
+      into(movies).insert(movie);
 }

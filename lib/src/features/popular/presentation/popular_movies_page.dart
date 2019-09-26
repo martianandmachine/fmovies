@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fmovies/src/core/db/moor_database.dart';
 import 'package:fmovies/src/features/popular/data/models/movie.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_bloc.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_event.dart';

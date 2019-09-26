@@ -49,17 +49,14 @@ class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
   Future<Result> savePopularMovie(Movie movie) async {
     try {
       print('save movie - ' + movie.title);
-      final moorMovie = MoorMoviesCompanion(
-        title: Value(movie.title),
-      );
 
-      _moorMoviesDao.insertMovie(moorMovie);
+      _moorMoviesDao.insertMovie(movie);
     } catch (error) {
       print('Inserting error - ' + error.toString());
     }
 
     try {
-      List<MoorMovie> moorMovies = await _moorMoviesDao.getAllMovies();
+      List<Movie> moorMovies = await _moorMoviesDao.getAllMovies();
 
       print('getting all movies...');
       moorMovies.forEach((movie) => {print(movie.title)});
