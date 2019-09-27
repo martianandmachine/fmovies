@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/core/utils/image_constants.dart';
+import 'package:fmovies/src/features/movie/domain/movie_details_bloc.dart';
 import 'package:fmovies/src/features/movie/presentation/movie_details.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_bloc.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_event.dart';
@@ -59,7 +60,7 @@ class PopularMoviesList extends StatelessWidget {
 
 class BuildListTile extends StatelessWidget {
   final Movie movie;
-  
+
   final PopularMoviesBloc bloc;
 
   BuildListTile(this.movie, this.bloc);
@@ -69,13 +70,22 @@ class BuildListTile extends StatelessWidget {
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => MovieDetails(movie: movie)),
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return BlocProvider(
+              builder: (context) => MovieDetailsBloc(),
+              child: MovieDetails(movie: movie),
+            );
+          },
+        ),
       ),
       child: Card(
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            _buildPoster(movie.posterPath),
+            Hero(
+                tag: 'poster_${movie.posterPath}',
+                child: _buildPoster(movie.posterPath)),
             Align(
               alignment: Alignment.topRight,
               child: GestureDetector(
