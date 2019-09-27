@@ -44,7 +44,7 @@ class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
   }
 
   @override
-  Future<Result> savePopularMovie(Movie movie) async {
+  Future<Result> saveMovieToFavorites(Movie movie) async {
     try {
       _moviesDao.insertMovie(movie);
       return Result(success: movie);

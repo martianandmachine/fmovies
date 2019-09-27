@@ -8,7 +8,7 @@ abstract class PopularMoviesRepository {
 
   Future<Result<PopularMoviesResponse>> getPopularMovies();
 
-  Future<Result> savePopularMovie(Movie movie);
+  Future<Result> saveMovieToFavorites(Movie movie);
 
   Future<Result<List<Movie>>> getFavoriteMovies();
 }
