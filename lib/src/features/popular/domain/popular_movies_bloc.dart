@@ -39,5 +39,14 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
         }
       }
     }
+
+    if (event is SavePopularMovie) {
+        final result = await _popularMoviesRepository.saveMovieToFavorites(event.movie);
+        if (result.success != null) {
+          print(event.movie.title + ' inserted');
+        } else {
+          print('error');
+        }
+    }
   }
 }

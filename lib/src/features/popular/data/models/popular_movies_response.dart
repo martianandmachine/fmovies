@@ -1,6 +1,5 @@
+import 'package:fmovies/src/core/db/database.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import 'movie.dart';
 
 part 'popular_movies_response.g.dart';
 

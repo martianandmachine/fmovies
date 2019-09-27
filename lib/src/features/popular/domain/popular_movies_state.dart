@@ -1,3 +1,4 @@
+import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/features/popular/data/models/movie.dart';
 
 class PopularMoviesState {
