@@ -11,3 +11,5 @@ class FavoriteMoviesLoaded extends FavoriteMoviesState {
 
   FavoriteMoviesLoaded(this.movies);
 }
+
+class FavoriteMoviesEmpty extends FavoriteMoviesState {}
