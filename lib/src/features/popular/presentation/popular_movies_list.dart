@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/core/utils/image_constants.dart';
-import 'package:fmovies/src/features/popular/data/models/movie.dart';
+import 'package:fmovies/src/features/movie/presentation/movie_details.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_bloc.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_event.dart';
 
@@ -67,7 +67,10 @@ class BuildListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => print(movie.title),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MovieDetails(movie: movie)),
+      ),
       child: Card(
         child: Stack(
           fit: StackFit.expand,
