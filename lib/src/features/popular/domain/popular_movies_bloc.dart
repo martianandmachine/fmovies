@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:fmovies/src/core/utils/result.dart';
 import 'package:fmovies/src/features/favorites/data/favorite_movies_repository.dart';
-import 'package:fmovies/src/features/popular/data/models/movie.dart';
-import 'package:fmovies/src/features/popular/data/models/popular_movies_response.dart';
 import 'package:fmovies/src/features/popular/data/popular_movies_repository.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_event.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_state.dart';
