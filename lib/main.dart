@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fmovies/src/core/api/cinemas_api_service.dart';
+import 'package:fmovies/src/core/api/cinemas_api_service_factoy.dart';
 import 'package:fmovies/src/core/api/movies_api_service.dart';
 import 'package:fmovies/src/core/api/movies_api_service_factory.dart';
 import 'package:fmovies/src/core/app.dart';
@@ -14,6 +16,7 @@ GetIt getIt = GetIt.instance;
 
 void main() {
   getIt.registerLazySingleton<MoviesDao>(() => AppDatabase().moviesDao);
+  getIt.registerLazySingleton<CinemasApiService>(() => CinemasApiServiceFactory());
 
   getIt
       .registerLazySingleton<MoviesApiService>(() => MoviesApiServiceFactory());

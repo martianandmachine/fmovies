@@ -15,7 +15,7 @@ class MoviesApiServiceFactory implements MoviesApiService {
   getPopularMovies(int page) {
     Dio client = buildClient();
     return client.request(
-      "/3/discover/movie",
+      "/3/movie/now_playing",
       queryParameters: {
         "sort_by": "popularity.desc",
         "api_key": "c1d17945fca15cf2153ab77f065ff55c",

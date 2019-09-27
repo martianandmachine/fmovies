@@ -10,8 +10,12 @@ CinemaResponse _$CinemaResponseFromJson(Map<String, dynamic> json) {
   return CinemaResponse((json['results'] as List)
       ?.map(
           (e) => e == null ? null : Cinema.fromJson(e as Map<String, dynamic>))
-      ?.toList());
+      ?.toList())
+    ..errorMessage = json['error_message'] as String;
 }
 
 Map<String, dynamic> _$CinemaResponseToJson(CinemaResponse instance) =>
-    <String, dynamic>{'results': instance.results};
+    <String, dynamic>{
+      'error_message': instance.errorMessage,
+      'results': instance.results
+    };

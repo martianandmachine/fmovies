@@ -1,13 +1,17 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fmovies/src/core/utils/image_utils.dart';
+import 'package:fmovies/src/core/utils/location_service.dart';
+import 'package:fmovies/src/features/cinemas/data/model/cinema.dart';
 import 'package:fmovies/src/features/cinemas/domain/cinemas_bloc.dart';
 import 'package:fmovies/src/features/cinemas/domain/cinemas_event.dart';
 import 'package:fmovies/src/features/cinemas/domain/cinemas_state.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location_permissions/location_permissions.dart';
 
 class CinemasPage extends StatefulWidget {
   @override
@@ -15,6 +19,8 @@ class CinemasPage extends StatefulWidget {
 }
 
 class CinemasPageState extends State<CinemasPage> {
+  CinemasBloc bloc;
+
   final Map<String, Marker> _markers = {};
   CameraPosition _currentCameraPosition;
   Completer<GoogleMapController> _controller = Completer();
@@ -22,60 +28,20 @@ class CinemasPageState extends State<CinemasPage> {
     target: LatLng(0, 0),
     zoom: 1,
   );
+  String _mapStyle;
 
   @override
   void initState() {
+    bloc = BlocProvider.of<CinemasBloc>(context);
+    _getUserLocation();
+    rootBundle.loadString('assets/map_style.txt').then((string) {
+      _mapStyle = string;
+    });
     super.initState();
-    getLocation();
-  }
-
-  void getLocation() async {
-    var isEnabled = await checkPermission();
-    if (isEnabled) {
-      Position position = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      print(position);
-      if (position != null) {
-        _currentCameraPosition = CameraPosition(
-            target: LatLng(position.latitude, position.longitude), zoom: 16);
-        final GoogleMapController controller = await _controller.future;
-        controller.animateCamera(
-            CameraUpdate.newCameraPosition(_currentCameraPosition));
-        final marker = Marker(
-          markerId: MarkerId('user'),
-          position: LatLng(position.latitude, position.longitude),
-        );
-        setState(() {
-          _markers.clear();
-          _markers['user'] = marker;
-        });
-      } else {}
-    }
-  }
-
-  Future<bool> checkPermission() async {
-    PermissionStatus permission =
-        await LocationPermissions().checkPermissionStatus();
-    switch (permission) {
-      case PermissionStatus.granted:
-        return true;
-        break;
-      default:
-        PermissionStatus permission =
-            await LocationPermissions().requestPermissions();
-        if (permission == PermissionStatus.granted) {
-          return true;
-        } else {
-          return false;
-        }
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<CinemasBloc>(context);
-    bloc.dispatch(FetchCinemas());
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Cinemas nearby"),
@@ -84,20 +50,23 @@ class CinemasPageState extends State<CinemasPage> {
         children: <Widget>[
           GoogleMap(
             onMapCreated: (GoogleMapController controller) {
-              bloc.dispatch(FetchCinemas());
+              controller.setMapStyle(_mapStyle);
               _controller.complete(controller);
             },
+            myLocationButtonEnabled: false,
             initialCameraPosition: _initialCamera,
             markers: _markers.values.toSet(),
           ),
           BlocListener<CinemasBloc, CinemasState>(
             listener: (context, state) {
+              if (state is ShowUser) {
+                _addUserMarker(state.position);
+              }
               if (state is CinemasLoaded) {
-                print(state.cinemas);
-                _showSnackBar(context, 'Here are some cinemas near you');
+                _addCinemasToMap(state.cinemas);
               }
               if (state is CinemasError) {
-                _showSnackBar(context, 'Something went wrong with the server.');
+                _showSnackBar(context, state.errorMessage);
               }
             },
             child: BlocBuilder<CinemasBloc, CinemasState>(
@@ -108,13 +77,71 @@ class CinemasPageState extends State<CinemasPage> {
                     child: CircularProgressIndicator(),
                   );
                 }
-                return Text('Something went wrong');
+                return Text('');
               },
             ),
           ),
         ],
       ),
     );
+  }
+
+  _getUserLocation() async {
+    Position position = await LocationService().getLocation();
+    if (position != null) {
+      bloc.dispatch(FetchCinemas(position));
+    } else {
+      bloc.dispatch(CannotFetchLocation());
+    }
+  }
+
+  _addUserMarker(Position position) async {
+    _currentCameraPosition = CameraPosition(
+        target: LatLng(position.latitude, position.longitude), zoom: 13);
+    final GoogleMapController controller = await _controller.future;
+    if (Platform.isAndroid) {
+      controller.animateCamera(
+          CameraUpdate.newCameraPosition(_currentCameraPosition));
+    } else if (Platform.isIOS) {
+      controller
+          .moveCamera(CameraUpdate.newCameraPosition(_currentCameraPosition));
+    }
+    final marker = Marker(
+      markerId: MarkerId('user'),
+      infoWindow: InfoWindow(title: 'Me'),
+      zIndex: 1.0,
+      icon: await ImageUtils().getIcon(1.0, 'images/marker.png'),
+      position: LatLng(position.latitude, position.longitude),
+    );
+    setState(() {
+      if (_markers.containsKey('user')) {
+        _markers.remove('user');
+      }
+      _markers['user'] = marker;
+    });
+  }
+
+  _addCinemasToMap(List<Cinema> cinemas) {
+    List<Marker> newMarkers = [];
+    for (var cinema in cinemas) {
+      Marker m = Marker(
+        markerId: MarkerId(cinema.id),
+        infoWindow: InfoWindow(title: cinema.name),
+        icon:
+            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
+        position:
+            LatLng(cinema.geometry.location.lat, cinema.geometry.location.lng),
+      );
+      newMarkers.add(m);
+    }
+    setState(() {
+      for (var m in newMarkers) {
+        if (_markers.containsKey(m.markerId.value)) {
+          _markers.remove(m.markerId.value);
+        }
+        _markers[m.markerId.value] = m;
+      }
+    });
   }
 
   _showSnackBar(BuildContext context, String message) {

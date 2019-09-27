@@ -72,12 +72,7 @@ class BuildListTile extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            FadeInImage.assetNetwork(
-              placeholder: 'images/placeholder.png',
-              image:
-                  BASE_IMAGE_URL + POSTER_SIZES[SIZE_LARGE] + movie.posterPath,
-              fit: BoxFit.cover,
-            ),
+            _buildPoster(movie.posterPath),
             Align(
               alignment: Alignment.topRight,
               child: GestureDetector(
@@ -96,5 +91,17 @@ class BuildListTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildPoster(String posterPath) {
+    if (posterPath == null) {
+       return Image.asset('images/placeholder.png');
+    } else {
+      return FadeInImage.assetNetwork(
+        placeholder: 'images/placeholder.png',
+        image: BASE_IMAGE_URL + POSTER_SIZES[SIZE_MEDIUM] + movie.posterPath,
+        fit: BoxFit.cover,
+      );
+    }
   }
 }
