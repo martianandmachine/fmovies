@@ -23,7 +23,7 @@ class MoviesDao extends DatabaseAccessor<AppDatabase> with _$MoviesDaoMixin {
 
   MoviesDao(this.db) : super(db);
 
-  Future<List<Movie>> getAllMovies() => select(movies).get();
+  Future<List<Movie>> getFavoriteMovies() => select(movies).get();
 
   Future insertMovie(Insertable<Movie> movie) => into(movies).insert(movie);
 }

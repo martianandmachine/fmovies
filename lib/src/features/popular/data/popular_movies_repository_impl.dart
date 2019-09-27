@@ -47,7 +47,7 @@ class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
   Future<Result> savePopularMovie(Movie movie) async {
     try {
       _moviesDao.insertMovie(movie);
-      return Result(success: true);
+      return Result(success: movie);
     } catch (error) {
       print('Inserting error - ' + error.toString());
       return Result(error: DbInsertError());
@@ -55,9 +55,9 @@ class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
   }
 
   @override
-  Future<Result<List<Movie>>> getPopularMoviesFromDb() async {
+  Future<Result<List<Movie>>> getFavoriteMovies() async {
     try {
-      List<Movie> movies = await _moviesDao.getAllMovies();
+      List<Movie> movies = await _moviesDao.getFavoriteMovies();
       return Result(success: movies);
     } catch (error) {
       print('Geting movies error - ' + error.toString());
