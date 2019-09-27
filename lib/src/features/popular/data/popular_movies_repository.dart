@@ -7,8 +7,4 @@ import 'models/movie.dart';
 abstract class PopularMoviesRepository {
 
   Future<Result<PopularMoviesResponse>> getPopularMovies();
-
-  Future<Result> saveMovieToFavorites(Movie movie);
-
-  Future<Result<List<Movie>>> getFavoriteMovies();
 }
