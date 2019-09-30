@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:fmovies/src/core/utils/result.dart';
-import 'package:fmovies/src/features/popular/data/models/movie.dart';
-import 'package:fmovies/src/features/popular/data/models/popular_movies_response.dart';
+import 'package:fmovies/src/features/favorites/data/favorite_movies_repository.dart';
 import 'package:fmovies/src/features/popular/data/popular_movies_repository.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_event.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_state.dart';
@@ -9,11 +8,13 @@ import 'package:get_it/get_it.dart';
 
 class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
   PopularMoviesRepository _popularMoviesRepository;
+  FavoriteMoviesRepository _favoriteMoviesRepository;
 
   bool hasReachedEndOfResults = false;
 
   PopularMoviesBloc() {
     _popularMoviesRepository = GetIt.instance.get<PopularMoviesRepository>();
+    _favoriteMoviesRepository = GetIt.instance.get<FavoriteMoviesRepository>();
   }
 
   @override
@@ -41,12 +42,13 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
     }
 
     if (event is SavePopularMovie) {
-        final result = await _popularMoviesRepository.saveMovieToFavorites(event.movie);
-        if (result.success != null) {
-          print(event.movie.title + ' inserted');
-        } else {
-          print('error');
-        }
+      final result =
+          await _favoriteMoviesRepository.saveMovieToFavorites(event.movie);
+      if (result.success != null) {
+        print(event.movie.title + ' inserted');
+      } else {
+        print('error');
+      }
     }
   }
 }

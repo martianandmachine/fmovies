@@ -8,6 +8,8 @@ import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/core/utils/network_info.dart';
 import 'package:fmovies/src/features/cinemas/data/cinemas_repository.dart';
 import 'package:fmovies/src/features/cinemas/data/cinemas_repository_impl.dart';
+import 'package:fmovies/src/features/favorites/data/favorite_movies_repository.dart';
+import 'package:fmovies/src/features/favorites/data/favorite_movies_repository_impl.dart';
 import 'package:fmovies/src/features/popular/data/popular_movies_repository.dart';
 import 'package:fmovies/src/features/popular/data/popular_movies_repository_impl.dart';
 import 'package:get_it/get_it.dart';
@@ -29,6 +31,10 @@ void main() {
 
   getIt.registerFactory<CinemasRepository>(
     () => CinemasRepositoryImpl(),
+  );
+
+  getIt.registerFactory<FavoriteMoviesRepository>(
+      () => FavoriteMoviesRepositoryImpl(),
   );
 
   runApp(App());
