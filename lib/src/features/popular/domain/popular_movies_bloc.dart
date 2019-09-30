@@ -13,6 +13,8 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
 
   bool hasReachedEndOfResults = false;
 
+  List<Movie> movies = List<Movie>();
+
   PopularMoviesBloc() {
     _popularMoviesRepository = GetIt.instance.get<PopularMoviesRepository>();
     _favoriteMoviesRepository = GetIt.instance.get<FavoriteMoviesRepository>();
@@ -30,7 +32,10 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
         int totalPages = results.success.totalPages;
 
         if (nextPage == totalPages) hasReachedEndOfResults = true;
-        yield PopularMoviesLoaded(results.success.results);
+
+        movies.addAll(results.success.results);
+
+        yield PopularMoviesLoaded(movies);
       } else {
         if (results.error is NoInternetError) {
           yield PopularMoviesNoInternet();
@@ -59,8 +64,6 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
 
           yield PopularMoviesLoaded(updatedList, favoriteMovie: movieToSave);
         }
-      } else {
-        print('error');
       }
     }
   }

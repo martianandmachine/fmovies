@@ -13,8 +13,6 @@ class PopularMoviesPage extends StatelessWidget {
 
     bloc.dispatch(FetchPopularMovies());
 
-    List<Movie> movies = List<Movie>();
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Popular movies"),
@@ -43,10 +41,9 @@ class PopularMoviesPage extends StatelessWidget {
               );
             }
             if (state is PopularMoviesLoaded) {
-              movies.addAll(state.movies);
-              return PopularMoviesList(movies);
+              return PopularMoviesList(state.movies);
             }
-            if (state is PopularMoviesNoInternet && movies.isEmpty) {
+            if (state is PopularMoviesNoInternet) {
               return Center(
                 child: RaisedButton.icon(
                   onPressed: () => bloc.dispatch(FetchPopularMovies()),
