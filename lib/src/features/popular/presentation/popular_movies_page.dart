@@ -27,6 +27,13 @@ class PopularMoviesPage extends StatelessWidget {
           if (state is PopularMoviesServerError) {
             _showSnackBar(context, 'Something went wrong with the server.');
           }
+          if (state is PopularMoviesLoaded) {
+            if (state.favoriteMovie != null) {
+              if (state.favoriteMovie.isFavorite) {
+                _showSnackBar(context, state.favoriteMovie.title + ' added to favorites.');
+              } else _showSnackBar(context, state.favoriteMovie.title + ' removed from favorites.');
+            }
+          }
         },
         child: BlocBuilder<PopularMoviesBloc, PopularMoviesState>(
           builder: (context, state) {
