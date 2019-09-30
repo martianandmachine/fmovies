@@ -77,11 +77,7 @@ class BuildPopularListTile extends StatelessWidget {
                 onTap: () => bloc.dispatch(SavePopularMovie(movie)),
                 child: Padding(
                   padding: const EdgeInsets.only(right: 5.0, top: 5.0),
-                  child: Icon(
-                    Icons.favorite_border,
-                    color: Colors.white,
-                    size: 25.0,
-                  ),
+                  child: _buildIcon(movie.isFavorite),
                 ),
               ),
             ),
@@ -99,6 +95,22 @@ class BuildPopularListTile extends StatelessWidget {
         placeholder: 'images/placeholder.png',
         image: BASE_IMAGE_URL + POSTER_SIZES[SIZE_MEDIUM] + movie.posterPath,
         fit: BoxFit.cover,
+      );
+    }
+  }
+
+  Widget _buildIcon(bool isFavorite) {
+    if (isFavorite) {
+      return Icon(
+        Icons.favorite,
+        color: Colors.red,
+        size: 25.0,
+      );
+    } else {
+      return Icon(
+        Icons.favorite_border,
+        color: Colors.white,
+        size: 25.0,
       );
     }
   }
