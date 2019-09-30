@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_bloc.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_event.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_state.dart';
+import 'package:fmovies/src/features/favorites/presentation/favorite_movies_list.dart';
 
 class FavoriteMoviePage extends StatelessWidget {
   @override
@@ -29,9 +30,7 @@ class FavoriteMoviePage extends StatelessWidget {
                 print(movie.title)
               });
 
-              return Center(
-                child: Text('Success.'),
-              );
+              return FavoriteMoviesList(state.movies);
             }
             if (state is FavoriteMoviesEmpty) {
               return Center(

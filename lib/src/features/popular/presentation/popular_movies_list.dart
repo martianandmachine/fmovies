@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/core/utils/image_constants.dart';
-import 'package:fmovies/src/features/popular/data/models/movie.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_bloc.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_event.dart';
 
@@ -34,7 +33,7 @@ class PopularMoviesList extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          return BuildListTile(movies[position], bloc);
+          return BuildPopularListTile(movies[position], bloc);
         },
       ),
     );
@@ -57,12 +56,12 @@ class PopularMoviesList extends StatelessWidget {
   }
 }
 
-class BuildListTile extends StatelessWidget {
+class BuildPopularListTile extends StatelessWidget {
   final Movie movie;
-  
+
   final PopularMoviesBloc bloc;
 
-  BuildListTile(this.movie, this.bloc);
+  BuildPopularListTile(this.movie, this.bloc);
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +69,6 @@ class BuildListTile extends StatelessWidget {
       onTap: () => print(movie.title),
       child: Card(
         child: Stack(
-          fit: StackFit.expand,
           children: <Widget>[
             _buildPoster(movie.posterPath),
             Align(
@@ -95,7 +93,7 @@ class BuildListTile extends StatelessWidget {
 
   Widget _buildPoster(String posterPath) {
     if (posterPath == null) {
-       return Image.asset('images/placeholder.png');
+      return Image.asset('images/placeholder.png');
     } else {
       return FadeInImage.assetNetwork(
         placeholder: 'images/placeholder.png',
