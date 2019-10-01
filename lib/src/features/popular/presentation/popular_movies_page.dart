@@ -13,8 +13,6 @@ class PopularMoviesPage extends StatelessWidget {
 
     bloc.dispatch(FetchPopularMovies());
 
-    List<Movie> movies = List<Movie>();
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Popular movies"),
@@ -27,6 +25,13 @@ class PopularMoviesPage extends StatelessWidget {
           if (state is PopularMoviesServerError) {
             _showSnackBar(context, 'Something went wrong with the server.');
           }
+          if (state is PopularMoviesLoaded) {
+            if (state.favoriteMovie != null) {
+              if (state.favoriteMovie.isFavorite) {
+                _showSnackBar(context, state.favoriteMovie.title + ' added to favorites.');
+              } else _showSnackBar(context, state.favoriteMovie.title + ' removed from favorites.');
+            }
+          }
         },
         child: BlocBuilder<PopularMoviesBloc, PopularMoviesState>(
           builder: (context, state) {
@@ -36,10 +41,9 @@ class PopularMoviesPage extends StatelessWidget {
               );
             }
             if (state is PopularMoviesLoaded) {
-              movies.addAll(state.movies);
-              return PopularMoviesList(movies);
+              return PopularMoviesList(state.movies);
             }
-            if (state is PopularMoviesNoInternet && movies.isEmpty) {
+            if (state is PopularMoviesNoInternet) {
               return Center(
                 child: RaisedButton.icon(
                   onPressed: () => bloc.dispatch(FetchPopularMovies()),

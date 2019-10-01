@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -75,14 +76,7 @@ class BuildPopularListTile extends StatelessWidget {
               alignment: Alignment.topRight,
               child: GestureDetector(
                 onTap: () => bloc.dispatch(SavePopularMovie(movie)),
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 5.0, top: 5.0),
-                  child: Icon(
-                    Icons.favorite_border,
-                    color: Colors.white,
-                    size: 25.0,
-                  ),
-                ),
+                child: _buildIcon(movie.isFavorite),
               ),
             ),
           ],
@@ -101,5 +95,20 @@ class BuildPopularListTile extends StatelessWidget {
         fit: BoxFit.cover,
       );
     }
+  }
+
+  Widget _buildIcon(bool isFavorite) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 10.0, top: 10.0),
+      child: Container(
+        width: 23.0,
+        height: 23.0,
+        child: FlareActor("assets/Favorite.flr",
+          shouldClip: false,
+          color: Colors.white,
+          animation: isFavorite ? "Favorite" : "Unfavorite",
+        ),
+      ),
+    );
   }
 }

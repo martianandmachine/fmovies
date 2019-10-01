@@ -14,7 +14,13 @@ class FavoriteMoviesRepositoryImpl implements FavoriteMoviesRepository {
   @override
   Future<Result> saveMovieToFavorites(Movie movie) async {
     try {
-      _moviesDao.insertMovie(movie);
+      List<Movie> movies = await _moviesDao.getMovie(movie);
+
+      if (movies.isEmpty) {
+        _moviesDao.insertMovie(movie);
+      } else {
+       _moviesDao.deleteMovie(movie);
+      }
       return Result(success: movie);
     } catch (error) {
       print('Inserting error - ' + error.toString());

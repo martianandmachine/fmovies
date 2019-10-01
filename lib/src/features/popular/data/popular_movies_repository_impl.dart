@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fmovies/src/core/api/movies_api_service.dart';
+import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/core/utils/network_info.dart';
 import 'package:fmovies/src/core/utils/result.dart';
 import 'package:fmovies/src/features/popular/data/models/popular_movies_response.dart';
@@ -11,11 +12,14 @@ class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
   NetworkInfo _networkInfo;
   MoviesApiService _movieApiService;
 
+  MoviesDao _moviesDao;
+
   int pageNumber = 1;
 
   PopularMoviesRepositoryImpl() {
     _networkInfo = GetIt.instance.get<NetworkInfo>();
     _movieApiService = GetIt.instance.get<MoviesApiService>();
+    _moviesDao = GetIt.instance.get<MoviesDao>();
   }
 
   @override
@@ -30,6 +34,8 @@ class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
         var parsed = json.decode(response.data);
         var model = PopularMoviesResponse.fromJson(parsed);
 
+        await _checkIfMovieIsFavorite(model.results);
+
         return Result(success: model);
       } catch (error) {
         print(error.toString());
@@ -37,6 +43,14 @@ class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
       }
     } else {
       return Result(error: NoInternetError());
+    }
+  }
+
+  _checkIfMovieIsFavorite(List<Movie> movies) async {
+    for (Movie movie in movies) {
+      List<Movie> localMovie = await _moviesDao.getMovie(movie);
+
+      if (localMovie.isNotEmpty) movie.isFavorite = true;
     }
   }
 }

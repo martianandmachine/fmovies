@@ -9,7 +9,6 @@ class AppDatabase extends _$AppDatabase {
       : super(
           FlutterQueryExecutor.inDatabaseFolder(
             path: 'db.sqlite',
-            logStatements: true,
           ),
         );
 
@@ -26,4 +25,9 @@ class MoviesDao extends DatabaseAccessor<AppDatabase> with _$MoviesDaoMixin {
   Future<List<Movie>> getFavoriteMovies() => select(movies).get();
 
   Future insertMovie(Insertable<Movie> movie) => into(movies).insert(movie);
+
+  Future deleteMovie(Movie movie) => delete(movies).delete(movie);
+
+  Future<List<Movie>> getMovie(Movie movie) =>
+      (select(movies)..where((m) => m.id.equals(movie.id))).get();
 }

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/core/utils/result.dart';
 import 'package:fmovies/src/features/favorites/data/favorite_movies_repository.dart';
 import 'package:fmovies/src/features/popular/data/popular_movies_repository.dart';
@@ -29,7 +30,17 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
         int totalPages = results.success.totalPages;
 
         if (nextPage == totalPages) hasReachedEndOfResults = true;
-        yield PopularMoviesLoaded(results.success.results);
+
+        if (currentState is PopularMoviesLoaded) {
+          final List<Movie> movies =
+              (currentState as PopularMoviesLoaded).movies.toList();
+
+          movies.addAll(results.success.results);
+
+          yield PopularMoviesLoaded(movies);
+        } else {
+          yield PopularMoviesLoaded(results.success.results);
+        }
       } else {
         if (results.error is NoInternetError) {
           yield PopularMoviesNoInternet();
@@ -42,12 +53,22 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
     }
 
     if (event is SavePopularMovie) {
+      Movie movieToSave = event.movie;
+
+      movieToSave.isFavorite = !movieToSave.isFavorite;
+
       final result =
-          await _favoriteMoviesRepository.saveMovieToFavorites(event.movie);
+          await _favoriteMoviesRepository.saveMovieToFavorites(movieToSave);
+
       if (result.success != null) {
-        print(event.movie.title + ' inserted');
-      } else {
-        print('error');
+        if (currentState is PopularMoviesLoaded) {
+          final List<Movie> updatedList =
+              (currentState as PopularMoviesLoaded).movies.map((movie) {
+            return movie.id == movieToSave.id ? movieToSave : movie;
+          }).toList();
+
+          yield PopularMoviesLoaded(updatedList, favoriteMovie: movieToSave);
+        }
       }
     }
   }

@@ -10,7 +10,9 @@ class PopularMoviesLoading extends PopularMoviesState {}
 class PopularMoviesLoaded extends PopularMoviesState {
   final List<Movie> movies;
 
-  PopularMoviesLoaded(this.movies);
+  final Movie favoriteMovie;
+
+  PopularMoviesLoaded(this.movies, {this.favoriteMovie});
 }
 
 class PopularMoviesNoInternet extends PopularMoviesState {}

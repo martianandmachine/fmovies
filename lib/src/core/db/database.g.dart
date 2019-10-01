@@ -8,6 +8,7 @@ part of 'database.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps
 class Movie extends DataClass implements Insertable<Movie> {
+  final int id;
   final int voteCount;
   final String posterPath;
   final bool adult;
@@ -16,15 +17,18 @@ class Movie extends DataClass implements Insertable<Movie> {
   final String overview;
   final String releaseDate;
   final String backdropPath;
+  bool isFavorite;
   Movie(
-      {@required this.voteCount,
+      {@required this.id,
+      @required this.voteCount,
       @required this.posterPath,
       @required this.adult,
       @required this.originalTitle,
       @required this.title,
       @required this.overview,
       @required this.releaseDate,
-      @required this.backdropPath});
+      @required this.backdropPath,
+      @required this.isFavorite});
   factory Movie.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -32,6 +36,7 @@ class Movie extends DataClass implements Insertable<Movie> {
     final stringType = db.typeSystem.forDartType<String>();
     final boolType = db.typeSystem.forDartType<bool>();
     return Movie(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       voteCount:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}vote_count']),
       posterPath: stringType
@@ -47,11 +52,14 @@ class Movie extends DataClass implements Insertable<Movie> {
           .mapFromDatabaseResponse(data['${effectivePrefix}release_date']),
       backdropPath: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}backdrop_path']),
+      isFavorite: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_favorite']),
     );
   }
   factory Movie.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer = const ValueSerializer.defaults()}) {
     return Movie(
+      id: serializer.fromJson<int>(json['id']),
       voteCount: serializer.fromJson<int>(json['vote_count']),
       posterPath: serializer.fromJson<String>(json['poster_path']),
       adult: serializer.fromJson<bool>(json['adult']),
@@ -60,12 +68,14 @@ class Movie extends DataClass implements Insertable<Movie> {
       overview: serializer.fromJson<String>(json['overview']),
       releaseDate: serializer.fromJson<String>(json['release_date']),
       backdropPath: serializer.fromJson<String>(json['backdrop_path']),
+      isFavorite: false,
     );
   }
   @override
   Map<String, dynamic> toJson(
       {ValueSerializer serializer = const ValueSerializer.defaults()}) {
     return {
+      'id': serializer.toJson<int>(id),
       'vote_count': serializer.toJson<int>(voteCount),
       'poster_path': serializer.toJson<String>(posterPath),
       'adult': serializer.toJson<bool>(adult),
@@ -74,12 +84,14 @@ class Movie extends DataClass implements Insertable<Movie> {
       'overview': serializer.toJson<String>(overview),
       'release_date': serializer.toJson<String>(releaseDate),
       'backdrop_path': serializer.toJson<String>(backdropPath),
+      'isFavorite': serializer.toJson<bool>(isFavorite),
     };
   }
 
   @override
   T createCompanion<T extends UpdateCompanion<Movie>>(bool nullToAbsent) {
     return MoviesCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       voteCount: voteCount == null && nullToAbsent
           ? const Value.absent()
           : Value(voteCount),
@@ -102,19 +114,25 @@ class Movie extends DataClass implements Insertable<Movie> {
       backdropPath: backdropPath == null && nullToAbsent
           ? const Value.absent()
           : Value(backdropPath),
+      isFavorite: isFavorite == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isFavorite),
     ) as T;
   }
 
   Movie copyWith(
-          {int voteCount,
+          {int id,
+          int voteCount,
           String posterPath,
           bool adult,
           String originalTitle,
           String title,
           String overview,
           String releaseDate,
-          String backdropPath}) =>
+          String backdropPath,
+          bool isFavorite}) =>
       Movie(
+        id: id ?? this.id,
         voteCount: voteCount ?? this.voteCount,
         posterPath: posterPath ?? this.posterPath,
         adult: adult ?? this.adult,
@@ -123,10 +141,12 @@ class Movie extends DataClass implements Insertable<Movie> {
         overview: overview ?? this.overview,
         releaseDate: releaseDate ?? this.releaseDate,
         backdropPath: backdropPath ?? this.backdropPath,
+        isFavorite: isFavorite ?? this.isFavorite,
       );
   @override
   String toString() {
     return (StringBuffer('Movie(')
+          ..write('id: $id, ')
           ..write('voteCount: $voteCount, ')
           ..write('posterPath: $posterPath, ')
           ..write('adult: $adult, ')
@@ -134,30 +154,36 @@ class Movie extends DataClass implements Insertable<Movie> {
           ..write('title: $title, ')
           ..write('overview: $overview, ')
           ..write('releaseDate: $releaseDate, ')
-          ..write('backdropPath: $backdropPath')
+          ..write('backdropPath: $backdropPath, ')
+          ..write('isFavorite: $isFavorite')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => $mrjf($mrjc(
-      voteCount.hashCode,
+      id.hashCode,
       $mrjc(
-          posterPath.hashCode,
+          voteCount.hashCode,
           $mrjc(
-              adult.hashCode,
+              posterPath.hashCode,
               $mrjc(
-                  originalTitle.hashCode,
+                  adult.hashCode,
                   $mrjc(
-                      title.hashCode,
+                      originalTitle.hashCode,
                       $mrjc(
-                          overview.hashCode,
-                          $mrjc(releaseDate.hashCode,
-                              backdropPath.hashCode))))))));
+                          title.hashCode,
+                          $mrjc(
+                              overview.hashCode,
+                              $mrjc(
+                                  releaseDate.hashCode,
+                                  $mrjc(backdropPath.hashCode,
+                                      isFavorite.hashCode))))))))));
   @override
   bool operator ==(other) =>
       identical(this, other) ||
       (other is Movie &&
+          other.id == id &&
           other.voteCount == voteCount &&
           other.posterPath == posterPath &&
           other.adult == adult &&
@@ -165,10 +191,12 @@ class Movie extends DataClass implements Insertable<Movie> {
           other.title == title &&
           other.overview == overview &&
           other.releaseDate == releaseDate &&
-          other.backdropPath == backdropPath);
+          other.backdropPath == backdropPath &&
+          other.isFavorite == isFavorite);
 }
 
 class MoviesCompanion extends UpdateCompanion<Movie> {
+  final Value<int> id;
   final Value<int> voteCount;
   final Value<String> posterPath;
   final Value<bool> adult;
@@ -177,7 +205,9 @@ class MoviesCompanion extends UpdateCompanion<Movie> {
   final Value<String> overview;
   final Value<String> releaseDate;
   final Value<String> backdropPath;
+  final Value<bool> isFavorite;
   const MoviesCompanion({
+    this.id = const Value.absent(),
     this.voteCount = const Value.absent(),
     this.posterPath = const Value.absent(),
     this.adult = const Value.absent(),
@@ -186,17 +216,21 @@ class MoviesCompanion extends UpdateCompanion<Movie> {
     this.overview = const Value.absent(),
     this.releaseDate = const Value.absent(),
     this.backdropPath = const Value.absent(),
+    this.isFavorite = const Value.absent(),
   });
   MoviesCompanion copyWith(
-      {Value<int> voteCount,
+      {Value<int> id,
+      Value<int> voteCount,
       Value<String> posterPath,
       Value<bool> adult,
       Value<String> originalTitle,
       Value<String> title,
       Value<String> overview,
       Value<String> releaseDate,
-      Value<String> backdropPath}) {
+      Value<String> backdropPath,
+      Value<bool> isFavorite}) {
     return MoviesCompanion(
+      id: id ?? this.id,
       voteCount: voteCount ?? this.voteCount,
       posterPath: posterPath ?? this.posterPath,
       adult: adult ?? this.adult,
@@ -205,6 +239,7 @@ class MoviesCompanion extends UpdateCompanion<Movie> {
       overview: overview ?? this.overview,
       releaseDate: releaseDate ?? this.releaseDate,
       backdropPath: backdropPath ?? this.backdropPath,
+      isFavorite: isFavorite ?? this.isFavorite,
     );
   }
 }
@@ -213,6 +248,15 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
   final GeneratedDatabase _db;
   final String _alias;
   $MoviesTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  }
+
   final VerificationMeta _voteCountMeta = const VerificationMeta('voteCount');
   GeneratedIntColumn _voteCount;
   @override
@@ -315,8 +359,18 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
     );
   }
 
+  final VerificationMeta _isFavoriteMeta = const VerificationMeta('isFavorite');
+  GeneratedBoolColumn _isFavorite;
+  @override
+  GeneratedBoolColumn get isFavorite => _isFavorite ??= _constructIsFavorite();
+  GeneratedBoolColumn _constructIsFavorite() {
+    return GeneratedBoolColumn('is_favorite', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
+        id,
         voteCount,
         posterPath,
         adult,
@@ -324,7 +378,8 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
         title,
         overview,
         releaseDate,
-        backdropPath
+        backdropPath,
+        isFavorite
       ];
   @override
   $MoviesTable get asDslTable => this;
@@ -336,6 +391,11 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
   VerificationContext validateIntegrity(MoviesCompanion d,
       {bool isInserting = false}) {
     final context = VerificationContext();
+    if (d.id.present) {
+      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    } else if (id.isRequired && isInserting) {
+      context.missing(_idMeta);
+    }
     if (d.voteCount.present) {
       context.handle(_voteCountMeta,
           voteCount.isAcceptableValue(d.voteCount.value, _voteCountMeta));
@@ -388,11 +448,17 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
     } else if (backdropPath.isRequired && isInserting) {
       context.missing(_backdropPathMeta);
     }
+    if (d.isFavorite.present) {
+      context.handle(_isFavoriteMeta,
+          isFavorite.isAcceptableValue(d.isFavorite.value, _isFavoriteMeta));
+    } else if (isFavorite.isRequired && isInserting) {
+      context.missing(_isFavoriteMeta);
+    }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   Movie map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -402,6 +468,9 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
   @override
   Map<String, Variable> entityToSql(MoviesCompanion d) {
     final map = <String, Variable>{};
+    if (d.id.present) {
+      map['id'] = Variable<int, IntType>(d.id.value);
+    }
     if (d.voteCount.present) {
       map['vote_count'] = Variable<int, IntType>(d.voteCount.value);
     }
@@ -426,6 +495,9 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
     }
     if (d.backdropPath.present) {
       map['backdrop_path'] = Variable<String, StringType>(d.backdropPath.value);
+    }
+    if (d.isFavorite.present) {
+      map['is_favorite'] = Variable<bool, BoolType>(d.isFavorite.value);
     }
     return map;
   }
