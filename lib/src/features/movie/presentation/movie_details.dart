@@ -88,12 +88,22 @@ class MovieDetails extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 40,
+                      top: 24,
                       left: 16,
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: 25.0,
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () => Navigator.pop(context),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.all(10.0),
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                              size: 25.0,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],
