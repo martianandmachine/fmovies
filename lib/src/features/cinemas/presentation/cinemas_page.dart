@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/utils/image_utils.dart';
 import 'package:fmovies/src/core/utils/location_service.dart';
+import 'package:fmovies/src/core/widgets/snackbar.dart';
 import 'package:fmovies/src/features/cinemas/data/model/cinema.dart';
 import 'package:fmovies/src/features/cinemas/domain/cinemas_bloc.dart';
 import 'package:fmovies/src/features/cinemas/domain/cinemas_event.dart';
@@ -66,7 +67,7 @@ class CinemasPageState extends State<CinemasPage> {
                 _addCinemasToMap(state.cinemas);
               }
               if (state is CinemasError) {
-                _showSnackBar(context, state.errorMessage);
+                ShowSnackBar(context, state.errorMessage);
               }
             },
             child: BlocBuilder<CinemasBloc, CinemasState>(
@@ -142,13 +143,5 @@ class CinemasPageState extends State<CinemasPage> {
         _markers[m.markerId.value] = m;
       }
     });
-  }
-
-  _showSnackBar(BuildContext context, String message) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
-    );
   }
 }
