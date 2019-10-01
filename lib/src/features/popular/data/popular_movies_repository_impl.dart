@@ -11,6 +11,7 @@ import 'package:get_it/get_it.dart';
 class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
   NetworkInfo _networkInfo;
   MoviesApiService _movieApiService;
+
   MoviesDao _moviesDao;
 
   int pageNumber = 1;
@@ -33,6 +34,8 @@ class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
         var parsed = json.decode(response.data);
         var model = PopularMoviesResponse.fromJson(parsed);
 
+        await _checkIfMovieIsFavorite(model.results);
+
         return Result(success: model);
       } catch (error) {
         print(error.toString());
@@ -43,25 +46,11 @@ class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
     }
   }
 
-  @override
-  Future<Result> saveMovieToFavorites(Movie movie) async {
-    try {
-      _moviesDao.insertMovie(movie);
-      return Result(success: movie);
-    } catch (error) {
-      print('Inserting error - ' + error.toString());
-      return Result(error: DbInsertError());
-    }
-  }
+  _checkIfMovieIsFavorite(List<Movie> movies) async {
+    for (Movie movie in movies) {
+      List<Movie> localMovie = await _moviesDao.getMovie(movie);
 
-  @override
-  Future<Result<List<Movie>>> getFavoriteMovies() async {
-    try {
-      List<Movie> movies = await _moviesDao.getFavoriteMovies();
-      return Result(success: movies);
-    } catch (error) {
-      print('Geting movies error - ' + error.toString());
-      return Result(error: DbDataError());
+      if (localMovie.isNotEmpty) movie.isFavorite = true;
     }
   }
 }

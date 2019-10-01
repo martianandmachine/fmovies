@@ -1,6 +1,9 @@
 import 'package:moor_flutter/moor_flutter.dart';
 
 class Movies extends Table {
+
+  IntColumn get id => integer().autoIncrement()();
+
   @JsonKey('vote_count')
   IntColumn get voteCount => integer()();
 
@@ -21,4 +24,6 @@ class Movies extends Table {
 
   @JsonKey('backdrop_path')
   TextColumn get backdropPath => text()();
+
+  BoolColumn get isFavorite => boolean().withDefault(Constant(false))();
 }

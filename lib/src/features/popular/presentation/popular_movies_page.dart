@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/db/database.dart';
-import 'package:fmovies/src/features/popular/data/models/movie.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_bloc.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_event.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_state.dart';
@@ -13,8 +12,6 @@ class PopularMoviesPage extends StatelessWidget {
     final bloc = BlocProvider.of<PopularMoviesBloc>(context);
 
     bloc.dispatch(FetchPopularMovies());
-
-    List<Movie> movies = List<Movie>();
 
     return Scaffold(
       appBar: AppBar(
@@ -28,6 +25,13 @@ class PopularMoviesPage extends StatelessWidget {
           if (state is PopularMoviesServerError) {
             _showSnackBar(context, 'Something went wrong with the server.');
           }
+          if (state is PopularMoviesLoaded) {
+            if (state.favoriteMovie != null) {
+              if (state.favoriteMovie.isFavorite) {
+                _showSnackBar(context, state.favoriteMovie.title + ' added to favorites.');
+              } else _showSnackBar(context, state.favoriteMovie.title + ' removed from favorites.');
+            }
+          }
         },
         child: BlocBuilder<PopularMoviesBloc, PopularMoviesState>(
           builder: (context, state) {
@@ -37,10 +41,9 @@ class PopularMoviesPage extends StatelessWidget {
               );
             }
             if (state is PopularMoviesLoaded) {
-              movies.addAll(state.movies);
-              return PopularMoviesList(movies);
+              return PopularMoviesList(state.movies);
             }
-            if (state is PopularMoviesNoInternet && movies.isEmpty) {
+            if (state is PopularMoviesNoInternet) {
               return Center(
                 child: RaisedButton.icon(
                   onPressed: () => bloc.dispatch(FetchPopularMovies()),

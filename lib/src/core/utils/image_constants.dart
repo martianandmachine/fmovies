@@ -13,3 +13,10 @@ var POSTER_SIZES = {
   'largest': 'w780',
   'original': 'original'
 };
+
+var BACKDROP_SIZES = {
+  '$SIZE_SMALL' :'w300',
+  '$SIZE_MEDIUM' :'w780',
+  '$SIZE_LARGE' :'w1280',
+  'original' :'original'
+};

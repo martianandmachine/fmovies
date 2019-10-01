@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +36,7 @@ class PopularMoviesList extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          return BuildListTile(movies[position], bloc);
+          return BuildPopularListTile(movies[position], bloc);
         },
       ),
     );
@@ -58,12 +59,12 @@ class PopularMoviesList extends StatelessWidget {
   }
 }
 
-class BuildListTile extends StatelessWidget {
+class BuildPopularListTile extends StatelessWidget {
   final Movie movie;
 
   final PopularMoviesBloc bloc;
 
-  BuildListTile(this.movie, this.bloc);
+  BuildPopularListTile(this.movie, this.bloc);
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +82,6 @@ class BuildListTile extends StatelessWidget {
       ),
       child: Card(
         child: Stack(
-          fit: StackFit.expand,
           children: <Widget>[
             Hero(
                 tag: 'poster_${movie.posterPath}',
@@ -90,14 +90,7 @@ class BuildListTile extends StatelessWidget {
               alignment: Alignment.topRight,
               child: GestureDetector(
                 onTap: () => bloc.dispatch(SavePopularMovie(movie)),
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 5.0, top: 5.0),
-                  child: Icon(
-                    Icons.favorite_border,
-                    color: Colors.white,
-                    size: 25.0,
-                  ),
-                ),
+                child: _buildIcon(movie.isFavorite),
               ),
             ),
           ],
@@ -108,7 +101,7 @@ class BuildListTile extends StatelessWidget {
 
   Widget _buildPoster(String posterPath) {
     if (posterPath == null) {
-       return Image.asset('images/placeholder.png');
+      return Image.asset('images/placeholder.png');
     } else {
       return FadeInImage.assetNetwork(
         placeholder: 'images/placeholder.png',
@@ -116,5 +109,21 @@ class BuildListTile extends StatelessWidget {
         fit: BoxFit.cover,
       );
     }
+  }
+
+  Widget _buildIcon(bool isFavorite) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 10.0, top: 10.0),
+      child: Container(
+        width: 23.0,
+        height: 23.0,
+        child: FlareActor(
+          "assets/Favorite.flr",
+          shouldClip: false,
+          color: Colors.white,
+          animation: isFavorite ? "Favorite" : "Unfavorite",
+        ),
+      ),
+    );
   }
 }
