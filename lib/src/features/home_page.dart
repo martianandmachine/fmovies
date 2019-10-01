@@ -5,7 +5,7 @@ import 'package:fmovies/src/features/favorites/presentation/favorite_movies_page
 import 'package:fmovies/src/features/popular/domain/popular_movies_bloc.dart';
 import 'package:fmovies/src/features/popular/presentation/popular_movies_page.dart';
 import 'package:fmovies/src/features/cinemas/domain/cinemas_bloc.dart';
-import 'package:fmovies/src/features/cinemas/presentation/cinemas.dart';
+import 'package:fmovies/src/features/cinemas/presentation/cinemas_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
