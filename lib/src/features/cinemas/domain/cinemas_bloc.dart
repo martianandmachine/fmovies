@@ -18,26 +18,34 @@ class CinemasBloc extends Bloc<CinemasEvent, CinemasState> {
   @override
   Stream<CinemasState> mapEventToState(CinemasEvent event) async* {
     if (event is CannotFetchLocation) {
-      yield CinemasError('Error fetching user location..');
+      yield* _mapCannotFetchLocationToState(event);
+    } else if (event is FetchCinemas) {
+      yield* _mapFetchCinemasToState(event);
     }
-    if (event is FetchCinemas) {
-      FetchCinemas cinemas = event;
-      yield ShowUser(cinemas.position);
-      final results = await _cinemasRepository.getNearbyCinemas(
-          cinemas.position.latitude, cinemas.position.longitude);
-      if (results.success != null) {
-        if (results.success.errorMessage != null) {
-          yield CinemasError(results.success.errorMessage);
-        } else {
-          yield CinemasLoaded(results.success.results);
-        }
+  }
+
+  Stream<CinemasState> _mapCannotFetchLocationToState(
+      CannotFetchLocation event) async* {
+    yield CinemasError('Error fetching user location..');
+  }
+
+  Stream<CinemasState> _mapFetchCinemasToState(FetchCinemas event) async* {
+    FetchCinemas cinemas = event;
+    yield ShowUser(cinemas.position);
+    final results = await _cinemasRepository.getNearbyCinemas(
+        cinemas.position.latitude, cinemas.position.longitude);
+    if (results.success != null) {
+      if (results.success.errorMessage != null) {
+        yield CinemasError(results.success.errorMessage);
       } else {
-        if (results.error is NoInternetError) {
-          yield CinemasError('No internet connection.');
-        }
-        if (results.error is ServerError) {
-          yield CinemasError('Something went wrong with server.');
-        }
+        yield CinemasLoaded(results.success.results);
+      }
+    } else {
+      if (results.error is NoInternetError) {
+        yield CinemasError('No internet connection.');
+      }
+      if (results.error is ServerError) {
+        yield CinemasError('Something went wrong with server.');
       }
     }
   }
