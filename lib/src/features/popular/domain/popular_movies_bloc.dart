@@ -13,8 +13,6 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
 
   bool hasReachedEndOfResults = false;
 
-  List<Movie> movies = List<Movie>();
-
   PopularMoviesBloc() {
     _popularMoviesRepository = GetIt.instance.get<PopularMoviesRepository>();
     _favoriteMoviesRepository = GetIt.instance.get<FavoriteMoviesRepository>();
@@ -33,9 +31,16 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
 
         if (nextPage == totalPages) hasReachedEndOfResults = true;
 
-        movies.addAll(results.success.results);
+        if (currentState is PopularMoviesLoaded) {
+          final List<Movie> movies =
+              (currentState as PopularMoviesLoaded).movies.toList();
 
-        yield PopularMoviesLoaded(movies);
+          movies.addAll(results.success.results);
+
+          yield PopularMoviesLoaded(movies);
+        } else {
+          yield PopularMoviesLoaded(results.success.results);
+        }
       } else {
         if (results.error is NoInternetError) {
           yield PopularMoviesNoInternet();
