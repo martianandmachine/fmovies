@@ -14,8 +14,6 @@ class MovieDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MovieDetailsBloc bloc = BlocProvider.of<MovieDetailsBloc>(context);
-    print(movie);
     return Scaffold(
       body: BlocListener<MovieDetailsBloc, MovieDetailsState>(
         listener: (context, state) {},
@@ -87,24 +85,8 @@ class MovieDetails extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Positioned(
-                      top: 24,
-                      left: 16,
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () => Navigator.pop(context),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.all(10.0),
-                            child: Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
-                              size: 25.0,
-                            ),
-                          ),
-                        ),
-                      ),
+                    AppBar(
+                      backgroundColor: Colors.transparent,
                     ),
                   ],
                 ),
