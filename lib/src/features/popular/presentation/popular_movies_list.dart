@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/core/utils/image_constants.dart';
+import 'package:fmovies/src/features/movie/domain/movie_details_bloc.dart';
+import 'package:fmovies/src/features/movie/presentation/movie_details.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_bloc.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_event.dart';
 
@@ -67,11 +69,23 @@ class BuildPopularListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => print(movie.title),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return BlocProvider(
+              builder: (context) => MovieDetailsBloc(),
+              child: MovieDetails(movie: movie),
+            );
+          },
+        ),
+      ),
       child: Card(
         child: Stack(
           children: <Widget>[
-            _buildPoster(movie.posterPath),
+            Hero(
+                tag: 'poster_${movie.posterPath}',
+                child: _buildPoster(movie.posterPath)),
             Align(
               alignment: Alignment.topRight,
               child: GestureDetector(
@@ -103,7 +117,8 @@ class BuildPopularListTile extends StatelessWidget {
       child: Container(
         width: 23.0,
         height: 23.0,
-        child: FlareActor("assets/Favorite.flr",
+        child: FlareActor(
+          "assets/Favorite.flr",
           shouldClip: false,
           color: Colors.white,
           animation: isFavorite ? "Favorite" : "Unfavorite",
