@@ -39,6 +39,8 @@ dev_dependencies:
   json_serializable: ^2.0.0
   build_runner: ^1.0.0
   moor_generator: ^1.7.1
+  mockito: ^4.1.1
+  test: ^1.5.1+1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
