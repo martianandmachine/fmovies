@@ -68,15 +68,14 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
     final result =
     await favoriteMoviesRepository.saveMovieToFavorites(movieToSave);
 
+    List<Movie> updatedList;
     if (result.success != null) {
       if (currentState is PopularMoviesLoaded) {
-        final List<Movie> updatedList =
-        (currentState as PopularMoviesLoaded).movies.map((movie) {
+        updatedList = (currentState as PopularMoviesLoaded).movies.map((movie) {
           return movie.id == movieToSave.id ? movieToSave : movie;
         }).toList();
-
-        yield PopularMoviesLoaded(updatedList, favoriteMovie: movieToSave);
       }
-    }
+      yield PopularMoviesLoaded(updatedList, favoriteMovie: movieToSave);
+    } else yield currentState;
   }
 }

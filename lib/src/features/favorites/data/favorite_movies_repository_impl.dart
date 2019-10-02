@@ -12,7 +12,7 @@ class FavoriteMoviesRepositoryImpl implements FavoriteMoviesRepository {
   }
 
   @override
-  Future<Result> saveMovieToFavorites(Movie movie) async {
+  Future<Result<Movie>> saveMovieToFavorites(Movie movie) async {
     try {
       List<Movie> movies = await _moviesDao.getMovie(movie);
 
