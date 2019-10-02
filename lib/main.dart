@@ -12,11 +12,17 @@ import 'package:fmovies/src/features/favorites/data/favorite_movies_repository.d
 import 'package:fmovies/src/features/favorites/data/favorite_movies_repository_impl.dart';
 import 'package:fmovies/src/features/popular/data/popular_movies_repository.dart';
 import 'package:fmovies/src/features/popular/data/popular_movies_repository_impl.dart';
+import 'package:fmovies/src/features/popular/domain/popular_movies_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 GetIt getIt = GetIt.instance;
 
 void main() {
+  getIt.registerFactory(() => PopularMoviesBloc(
+    popularMoviesRepository: getIt(),
+    favoriteMoviesRepository: getIt(),
+  ));
+
   getIt.registerLazySingleton<MoviesDao>(() => AppDatabase().moviesDao);
   getIt.registerLazySingleton<CinemasApiService>(() => CinemasApiServiceFactory());
 

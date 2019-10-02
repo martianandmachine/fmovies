@@ -5,18 +5,17 @@ import 'package:fmovies/src/features/favorites/data/favorite_movies_repository.d
 import 'package:fmovies/src/features/popular/data/popular_movies_repository.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_event.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_state.dart';
-import 'package:get_it/get_it.dart';
 
 class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
-  PopularMoviesRepository _popularMoviesRepository;
-  FavoriteMoviesRepository _favoriteMoviesRepository;
+  final PopularMoviesRepository popularMoviesRepository;
+  final FavoriteMoviesRepository favoriteMoviesRepository;
 
   bool hasReachedEndOfResults = false;
 
-  PopularMoviesBloc() {
-    _popularMoviesRepository = GetIt.instance.get<PopularMoviesRepository>();
-    _favoriteMoviesRepository = GetIt.instance.get<FavoriteMoviesRepository>();
-  }
+  PopularMoviesBloc({
+    this.popularMoviesRepository,
+    this.favoriteMoviesRepository,
+  });
 
   @override
   PopularMoviesState get initialState => PopularMoviesLoading();
@@ -32,7 +31,7 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
 
   Stream<PopularMoviesState> _mapFetchPopularMoviesToState(
       FetchPopularMovies event) async* {
-    final results = await _popularMoviesRepository.getPopularMovies();
+    final results = await popularMoviesRepository.getPopularMovies();
     if (results.success != null) {
       int nextPage = results.success.page + 1;
       int totalPages = results.success.totalPages;
@@ -41,7 +40,7 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
 
       if (currentState is PopularMoviesLoaded) {
         final List<Movie> movies =
-            (currentState as PopularMoviesLoaded).movies.toList();
+        (currentState as PopularMoviesLoaded).movies.toList();
 
         movies.addAll(results.success.results);
 
@@ -67,12 +66,12 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
     movieToSave.isFavorite = !movieToSave.isFavorite;
 
     final result =
-        await _favoriteMoviesRepository.saveMovieToFavorites(movieToSave);
+    await favoriteMoviesRepository.saveMovieToFavorites(movieToSave);
 
     if (result.success != null) {
       if (currentState is PopularMoviesLoaded) {
         final List<Movie> updatedList =
-            (currentState as PopularMoviesLoaded).movies.map((movie) {
+        (currentState as PopularMoviesLoaded).movies.map((movie) {
           return movie.id == movieToSave.id ? movieToSave : movie;
         }).toList();
 

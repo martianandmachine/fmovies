@@ -7,6 +7,8 @@ import 'package:fmovies/src/features/popular/presentation/popular_movies_page.da
 import 'package:fmovies/src/features/cinemas/domain/cinemas_bloc.dart';
 import 'package:fmovies/src/features/cinemas/presentation/cinemas_page.dart';
 
+import '../../main.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -17,7 +19,7 @@ class _HomePageState extends State<HomePage> {
 
   final widgetOptions = [
     BlocProvider<PopularMoviesBloc>(
-      builder: (context) => PopularMoviesBloc(),
+      builder: (context) => getIt<PopularMoviesBloc>(),
       child: PopularMoviesPage(),
     ),
     BlocProvider<FavoriteMoviesBloc>(
