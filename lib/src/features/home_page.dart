@@ -22,11 +22,11 @@ class _HomePageState extends State<HomePage> {
       child: PopularMoviesPage(),
     ),
     BlocProvider<FavoriteMoviesBloc>(
-      builder: (context) => FavoriteMoviesBloc(),
+      builder: (context) => getIt<FavoriteMoviesBloc>(),
       child: FavoriteMoviePage(),
     ),
     BlocProvider<CinemasBloc>(
-      builder: (context) => CinemasBloc(),
+      builder: (context) => getIt<CinemasBloc>(),
       child: CinemasPage(),
     ),
   ];

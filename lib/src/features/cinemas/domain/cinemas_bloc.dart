@@ -1,16 +1,14 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fmovies/src/core/utils/result.dart';
 import 'package:fmovies/src/features/cinemas/data/cinemas_repository.dart';
 import 'package:fmovies/src/features/cinemas/domain/cinemas_event.dart';
 import 'package:fmovies/src/features/cinemas/domain/cinemas_state.dart';
-import 'package:get_it/get_it.dart';
 
 class CinemasBloc extends Bloc<CinemasEvent, CinemasState> {
-  CinemasRepository _cinemasRepository;
+  final CinemasRepository cinemasRepository;
 
-  CinemasBloc() {
-    _cinemasRepository = GetIt.instance.get<CinemasRepository>();
-  }
+  CinemasBloc({@required this.cinemasRepository});
 
   @override
   CinemasState get initialState => CinemasLoading();
@@ -32,7 +30,7 @@ class CinemasBloc extends Bloc<CinemasEvent, CinemasState> {
   Stream<CinemasState> _mapFetchCinemasToState(FetchCinemas event) async* {
     FetchCinemas cinemas = event;
     yield ShowUser(cinemas.position);
-    final results = await _cinemasRepository.getNearbyCinemas(
+    final results = await cinemasRepository.getNearbyCinemas(
         cinemas.position.latitude, cinemas.position.longitude);
     if (results.success != null) {
       if (results.success.errorMessage != null) {

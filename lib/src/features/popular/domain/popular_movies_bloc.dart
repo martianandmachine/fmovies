@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/core/utils/result.dart';
 import 'package:fmovies/src/features/favorites/data/favorite_movies_repository.dart';
@@ -13,8 +14,8 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
   bool hasReachedEndOfResults = false;
 
   PopularMoviesBloc({
-    this.popularMoviesRepository,
-    this.favoriteMoviesRepository,
+    @required this.popularMoviesRepository,
+    @required this.favoriteMoviesRepository,
   });
 
   @override
@@ -40,7 +41,7 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
 
       if (currentState is PopularMoviesLoaded) {
         final List<Movie> movies =
-        (currentState as PopularMoviesLoaded).movies.toList();
+            (currentState as PopularMoviesLoaded).movies.toList();
 
         movies.addAll(results.success.results);
 
@@ -66,7 +67,7 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
     movieToSave.isFavorite = !movieToSave.isFavorite;
 
     final result =
-    await favoriteMoviesRepository.saveMovieToFavorites(movieToSave);
+        await favoriteMoviesRepository.saveMovieToFavorites(movieToSave);
 
     List<Movie> updatedList;
     if (result.success != null) {
@@ -76,6 +77,7 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
         }).toList();
       }
       yield PopularMoviesLoaded(updatedList, favoriteMovie: movieToSave);
-    } else yield currentState;
+    } else
+      yield currentState;
   }
 }
