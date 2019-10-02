@@ -99,13 +99,8 @@ class CinemasPageState extends State<CinemasPage> {
     _currentCameraPosition = CameraPosition(
         target: LatLng(position.latitude, position.longitude), zoom: 13);
     final GoogleMapController controller = await _controller.future;
-    if (Platform.isAndroid) {
-      controller.animateCamera(
-          CameraUpdate.newCameraPosition(_currentCameraPosition));
-    } else if (Platform.isIOS) {
-      controller
-          .moveCamera(CameraUpdate.newCameraPosition(_currentCameraPosition));
-    }
+    controller
+        .moveCamera(CameraUpdate.newCameraPosition(_currentCameraPosition));
     final marker = Marker(
       markerId: MarkerId('user'),
       infoWindow: InfoWindow(title: 'Me'),
