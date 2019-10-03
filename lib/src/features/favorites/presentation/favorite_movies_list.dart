@@ -61,7 +61,11 @@ class BuildFavoriteListTile extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  _buildImage(POSTER_SIZES[SIZE_MEDIUM] + movie.posterPath),
+                  Hero(
+                    tag: 'poster_${movie.posterPath}',
+                    child: _buildImage(
+                        POSTER_SIZES[SIZE_MEDIUM] + movie.posterPath),
+                  ),
                   Column(
                     children: <Widget>[
                       ConstrainedBox(
