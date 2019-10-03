@@ -33,4 +33,14 @@ class FavoriteMoviesRepositoryImpl implements FavoriteMoviesRepository {
       return Result(error: DbDataError());
     }
   }
+
+  @override
+  Future<Result<Movie>> deleteMovieFromFavorites(Movie movie) async {
+    try {
+      moviesDao.deleteMovie(movie);
+      return Result(success: movie);
+    } catch (error) {
+      return Result(error: DbDeleteError());
+    }
+  }
 }

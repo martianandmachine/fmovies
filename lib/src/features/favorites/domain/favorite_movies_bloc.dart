@@ -1,11 +1,12 @@
 import 'package:flutter/foundation.dart';
+import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/features/favorites/data/favorite_movies_repository.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_event.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_state.dart';
 import 'package:bloc/bloc.dart';
 
-class FavoriteMoviesBloc extends Bloc<FavoriteMoviesEvent, FavoriteMoviesState> {
-
+class FavoriteMoviesBloc
+    extends Bloc<FavoriteMoviesEvent, FavoriteMoviesState> {
   final FavoriteMoviesRepository favoriteMoviesRepository;
 
   FavoriteMoviesBloc({@required this.favoriteMoviesRepository});
@@ -14,15 +15,40 @@ class FavoriteMoviesBloc extends Bloc<FavoriteMoviesEvent, FavoriteMoviesState> 
   FavoriteMoviesState get initialState => FavoriteMoviesLoading();
 
   @override
-  Stream<FavoriteMoviesState> mapEventToState(FavoriteMoviesEvent event) async* {
+  Stream<FavoriteMoviesState> mapEventToState(
+      FavoriteMoviesEvent event) async* {
     if (event is GetFavoriteMovies) {
-      final results = await favoriteMoviesRepository.getFavoriteMovies();
+      yield* _mapGetFavoriteMoviesToState(event);
+    } else if (event is DeleteFavoriteMovie) {
+      yield* _mapDeleteFavoriteMovieToState(event);
+    }
+  }
 
-      if (results.success != null) {
-        if (results.success.length == 0) {
-          yield FavoriteMoviesEmpty();
-        } else yield FavoriteMoviesLoaded(results.success);
-      }
+  Stream<FavoriteMoviesState> _mapGetFavoriteMoviesToState(
+      GetFavoriteMovies event) async* {
+    final results = await favoriteMoviesRepository.getFavoriteMovies();
+
+    if (results.success != null) {
+      if (results.success.length == 0) {
+        yield FavoriteMoviesEmpty();
+      } else
+        yield FavoriteMoviesLoaded(results.success);
+    }
+  }
+
+  Stream<FavoriteMoviesState> _mapDeleteFavoriteMovieToState(
+      DeleteFavoriteMovie event) async* {
+    final result =
+        await favoriteMoviesRepository.deleteMovieFromFavorites(event.movie);
+
+    if (result != null) {
+      final List<Movie> movies =
+          List.from((currentState as FavoriteMoviesLoaded).movies)
+            ..removeWhere((movie) => movie.id == event.movie.id);
+
+      yield FavoriteMoviesLoaded(movies);
+    } else {
+      yield currentState;
     }
   }
 }

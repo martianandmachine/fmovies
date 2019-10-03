@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/core/utils/image_constants.dart';
 import 'package:fmovies/src/core/widgets/blurred_image.dart';
+import 'package:fmovies/src/features/favorites/domain/favorite_movies_bloc.dart';
+import 'package:fmovies/src/features/favorites/domain/favorite_movies_event.dart';
 import 'package:fmovies/src/features/movie/domain/movie_details_bloc.dart';
 import 'package:fmovies/src/features/movie/presentation/movie_details.dart';
 
@@ -31,6 +33,8 @@ class BuildFavoriteListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<FavoriteMoviesBloc>(context);
+
     double width = MediaQuery.of(context).size.width;
     double height = width * 0.5;
 
@@ -46,6 +50,7 @@ class BuildFavoriteListTile extends StatelessWidget {
           },
         ),
       ),
+      onLongPress: () => bloc.dispatch(DeleteFavoriteMovie(movie: movie)),
       child: Container(
         height: height,
         width: width,
