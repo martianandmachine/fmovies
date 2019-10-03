@@ -1,11 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/db/database.dart';
-import 'package:fmovies/src/core/ui/blurred_image.dart';
 import 'package:fmovies/src/core/utils/image_constants.dart';
+import 'package:fmovies/src/core/widgets/blurred_image.dart';
 import 'package:fmovies/src/features/movie/domain/movie_details_bloc.dart';
 import 'package:fmovies/src/features/movie/presentation/movie_details.dart';
 

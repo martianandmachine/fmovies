@@ -1,16 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:fmovies/src/features/favorites/data/favorite_movies_repository.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_event.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_state.dart';
 import 'package:bloc/bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class FavoriteMoviesBloc extends Bloc<FavoriteMoviesEvent, FavoriteMoviesState> {
 
-  FavoriteMoviesRepository _favoriteMoviesRepository;
+  final FavoriteMoviesRepository favoriteMoviesRepository;
 
-  FavoriteMoviesBloc() {
-    _favoriteMoviesRepository = GetIt.instance.get<FavoriteMoviesRepository>();
-  }
+  FavoriteMoviesBloc({@required this.favoriteMoviesRepository});
 
   @override
   FavoriteMoviesState get initialState => FavoriteMoviesLoading();
@@ -18,7 +16,7 @@ class FavoriteMoviesBloc extends Bloc<FavoriteMoviesEvent, FavoriteMoviesState> 
   @override
   Stream<FavoriteMoviesState> mapEventToState(FavoriteMoviesEvent event) async* {
     if (event is GetFavoriteMovies) {
-      final results = await _favoriteMoviesRepository.getFavoriteMovies();
+      final results = await favoriteMoviesRepository.getFavoriteMovies();
 
       if (results.success != null) {
         if (results.success.length == 0) {

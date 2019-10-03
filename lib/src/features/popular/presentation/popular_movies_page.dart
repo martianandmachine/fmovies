@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fmovies/src/core/db/database.dart';
+import 'package:fmovies/src/core/widgets/snackbar.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_bloc.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_event.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_state.dart';
@@ -20,16 +20,16 @@ class PopularMoviesPage extends StatelessWidget {
       body: BlocListener<PopularMoviesBloc, PopularMoviesState>(
         listener: (context, state) {
           if (state is PopularMoviesNoInternet) {
-            _showSnackBar(context, 'Check yout internet connection.');
+            ShowSnackBar(context, 'Check yout internet connection.');
           }
           if (state is PopularMoviesServerError) {
-            _showSnackBar(context, 'Something went wrong with the server.');
+            ShowSnackBar(context, 'Something went wrong with the server.');
           }
           if (state is PopularMoviesLoaded) {
             if (state.favoriteMovie != null) {
               if (state.favoriteMovie.isFavorite) {
-                _showSnackBar(context, state.favoriteMovie.title + ' added to favorites.');
-              } else _showSnackBar(context, state.favoriteMovie.title + ' removed from favorites.');
+                ShowSnackBar(context, state.favoriteMovie.title + ' added to favorites.');
+              } else ShowSnackBar(context, state.favoriteMovie.title + ' removed from favorites.');
             }
           }
         },
@@ -57,14 +57,6 @@ class PopularMoviesPage extends StatelessWidget {
             );
           },
         ),
-      ),
-    );
-  }
-
-  _showSnackBar(BuildContext context, String message) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
       ),
     );
   }

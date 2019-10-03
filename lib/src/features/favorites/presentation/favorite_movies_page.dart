@@ -26,10 +26,6 @@ class FavoriteMoviePage extends StatelessWidget {
               );
             }
             if (state is FavoriteMoviesLoaded) {
-              state.movies.forEach((movie) => {
-                print(movie.title)
-              });
-
               return FavoriteMoviesList(state.movies);
             }
             if (state is FavoriteMoviesEmpty) {
@@ -42,14 +38,6 @@ class FavoriteMoviePage extends StatelessWidget {
             );
           },
         ),
-      ),
-    );
-  }
-
-  _showSnackBar(BuildContext context, String message) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
       ),
     );
   }
