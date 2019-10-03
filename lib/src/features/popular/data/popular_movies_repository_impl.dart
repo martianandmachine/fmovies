@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:fmovies/src/core/api/movies_api_service.dart';
 import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/core/utils/network_info.dart';
@@ -22,7 +23,8 @@ class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
     bool isConnected = await networkInfo.isConnected();
     if (isConnected) {
       try {
-        final response = await movieApiService.getPopularMovies(pageNumber);
+        final Response response =
+            await movieApiService.getPopularMovies(pageNumber);
 
         pageNumber++;
 
@@ -33,7 +35,6 @@ class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
 
         return Result(success: model);
       } catch (error) {
-        print(error.toString());
         return Result(error: ServerError());
       }
     } else {

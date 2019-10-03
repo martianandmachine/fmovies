@@ -3,7 +3,7 @@ import 'package:fmovies/src/core/api/cinemas_api_service.dart';
 
 class CinemasApiServiceFactory implements CinemasApiService {
   @override
-  buildClient() {
+  Dio buildClient() {
     BaseOptions baseOptions = BaseOptions(
       baseUrl: "https://maps.googleapis.com",
     );
@@ -12,7 +12,7 @@ class CinemasApiServiceFactory implements CinemasApiService {
   }
 
   @override
-  getNearbyCinemas(double latitude, double longitude) {
+  Future<Response> getNearbyCinemas(double latitude, double longitude) {
     Dio client = buildClient();
     return client.request(
       "/maps/api/place/nearbysearch/json",

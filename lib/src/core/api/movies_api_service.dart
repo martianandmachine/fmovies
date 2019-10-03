@@ -1,5 +1,7 @@
-abstract class MoviesApiService {
-  buildClient();
+import 'package:dio/dio.dart';
 
-  getPopularMovies(int page);
+abstract class MoviesApiService {
+  Dio buildClient();
+
+  Future<Response> getPopularMovies(int page);
 }

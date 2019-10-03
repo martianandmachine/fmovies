@@ -1,5 +1,7 @@
-abstract class CinemasApiService {
-  buildClient();
+import 'package:dio/dio.dart';
 
-  getNearbyCinemas(double latitude, double longitude);
+abstract class CinemasApiService {
+  Dio buildClient();
+
+  Future<Response> getNearbyCinemas(double latitude, double longitude);
 }
