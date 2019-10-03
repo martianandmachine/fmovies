@@ -9,6 +9,9 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
 
   @override
   Stream<MovieDetailsState> mapEventToState(MovieDetailsEvent event) {
+    if (event is FetchMovieDetails) {
+
+    }
     return null;
   }
 

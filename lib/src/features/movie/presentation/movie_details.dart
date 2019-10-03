@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/core/utils/image_constants.dart';
 import 'package:fmovies/src/features/movie/domain/movie_details_bloc.dart';
+import 'package:fmovies/src/features/movie/domain/movie_details_event.dart';
 import 'package:fmovies/src/features/movie/domain/movie_details_state.dart';
 
 class MovieDetails extends StatelessWidget {
@@ -17,6 +18,10 @@ class MovieDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<MovieDetailsBloc>(context);
+
+    bloc.dispatch(FetchMovieDetails());
+
     return Scaffold(
       body: BlocListener<MovieDetailsBloc, MovieDetailsState>(
         listener: (context, state) {},
