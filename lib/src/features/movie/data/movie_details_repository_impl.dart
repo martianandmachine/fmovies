@@ -5,25 +5,22 @@ import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/core/utils/network_info.dart';
 import 'package:fmovies/src/core/utils/result.dart';
 import 'package:fmovies/src/features/movie/data/movie_details_repository.dart';
-import 'package:get_it/get_it.dart';
 
 class MovieDetailsRepositoryImpl implements MovieDetailsRepository {
-  NetworkInfo _networkInfo;
-  MoviesApiService _movieApiService;
+  NetworkInfo networkInfo;
+  MoviesApiService movieApiService;
 
-  MovieDetailsRepositoryImpl(){
-    _networkInfo = GetIt.instance.get<NetworkInfo>();
-    _movieApiService = GetIt.instance.get<MoviesApiService>();
-  }
+  MovieDetailsRepositoryImpl({this.networkInfo, this.movieApiService});
 
   @override
   Future<Result<Movie>> getMovieDetails(int movieId) async {
-    bool isConnected = await _networkInfo.isConnected();
+    print('get movie $movieId');
+    bool isConnected = await networkInfo.isConnected();
     if (isConnected) {
       try {
-        final response = await _movieApiService.getPopularMovies(movieId);
-
+        final response = await movieApiService.getMovieDetails(movieId);
         var parsed = json.decode(response.data);
+
         var model = Movie.fromJson(parsed);
 
         return Result(success: model);
@@ -35,5 +32,4 @@ class MovieDetailsRepositoryImpl implements MovieDetailsRepository {
       return Result(error: NoInternetError());
     }
   }
-
 }

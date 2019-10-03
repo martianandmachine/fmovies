@@ -20,7 +20,7 @@ class MovieDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<MovieDetailsBloc>(context);
 
-    bloc.dispatch(FetchMovieDetails());
+    bloc.dispatch(FetchMovieDetails(movie));
 
     return Scaffold(
       body: BlocListener<MovieDetailsBloc, MovieDetailsState>(
