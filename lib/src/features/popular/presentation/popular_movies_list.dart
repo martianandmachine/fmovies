@@ -75,7 +75,7 @@ class BuildPopularListTile extends StatelessWidget {
         MaterialPageRoute(
           builder: (BuildContext context) {
             return BlocProvider(
-              builder: (context) => MovieDetailsBloc(movieDetailsRepository: getIt()),
+              builder: (context) => getIt<MovieDetailsBloc>(),
               child: MovieDetails(movie: movie),
             );
           },
