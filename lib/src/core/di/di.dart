@@ -10,6 +10,9 @@ import 'package:fmovies/src/features/cinemas/domain/cinemas_bloc.dart';
 import 'package:fmovies/src/features/favorites/data/favorite_movies_repository.dart';
 import 'package:fmovies/src/features/favorites/data/favorite_movies_repository_impl.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_bloc.dart';
+import 'package:fmovies/src/features/movie/data/movie_details_repository.dart';
+import 'package:fmovies/src/features/movie/data/movie_details_repository_impl.dart';
+import 'package:fmovies/src/features/movie/domain/movie_details_bloc.dart';
 import 'package:fmovies/src/features/popular/data/popular_movies_repository.dart';
 import 'package:fmovies/src/features/popular/data/popular_movies_repository_impl.dart';
 import 'package:fmovies/src/features/popular/domain/popular_movies_bloc.dart';
@@ -28,6 +31,9 @@ Future<void> init() async {
 
   getIt.registerFactory(() => CinemasBloc(cinemasRepository: getIt()));
 
+  getIt.registerFactory(
+          () => MovieDetailsBloc(movieDetailsRepository: getIt()));
+
   getIt.registerLazySingleton<MoviesDao>(() => AppDatabase().moviesDao);
   getIt.registerLazySingleton<CinemasApiService>(
       () => CinemasApiServiceFactory());
@@ -42,6 +48,13 @@ Future<void> init() async {
       movieApiService: getIt(),
       networkInfo: getIt(),
       moviesDao: getIt(),
+    ),
+  );
+
+  getIt.registerFactory<MovieDetailsRepository>(
+        () => MovieDetailsRepositoryImpl(
+          networkInfo: getIt(),
+          movieApiService: getIt(),
     ),
   );
 

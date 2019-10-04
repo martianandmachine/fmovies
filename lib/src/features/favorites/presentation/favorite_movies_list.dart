@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/db/database.dart';
+import 'package:fmovies/src/core/di/di.dart';
 import 'package:fmovies/src/core/utils/image_constants.dart';
 import 'package:fmovies/src/core/widgets/blurred_image.dart';
 import 'package:fmovies/src/features/movie/domain/movie_details_bloc.dart';
@@ -40,7 +41,7 @@ class BuildFavoriteListTile extends StatelessWidget {
         MaterialPageRoute(
           builder: (BuildContext context) {
             return BlocProvider(
-              builder: (context) => MovieDetailsBloc(),
+              builder: (context) => getIt<MovieDetailsBloc>(),
               child: MovieDetails(movie: movie),
             );
           },
@@ -60,7 +61,11 @@ class BuildFavoriteListTile extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  _buildImage(POSTER_SIZES[SIZE_MEDIUM] + movie.posterPath),
+                  Hero(
+                    tag: 'poster_${movie.posterPath}',
+                    child: _buildImage(
+                        POSTER_SIZES[SIZE_MEDIUM] + movie.posterPath),
+                  ),
                   Column(
                     children: <Widget>[
                       ConstrainedBox(
