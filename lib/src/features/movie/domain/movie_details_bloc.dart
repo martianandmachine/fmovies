@@ -16,11 +16,10 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
   @override
   Stream<MovieDetailsState> mapEventToState(MovieDetailsEvent event) async* {
     if (event is FetchMovieDetails) {
-      print('Fetch movie ${event.movie.title}');
       final results =
           await movieDetailsRepository.getMovieDetails(event.movie.id);
       if (results.success != null) {
-        print(results.success.title);
+        yield ShowExtraDetails(results.success);
       } else {
         if (results.error is NoInternetError) {}
         if (results.error is ServerError) {}

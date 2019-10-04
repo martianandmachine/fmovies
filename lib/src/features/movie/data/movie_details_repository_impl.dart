@@ -14,7 +14,6 @@ class MovieDetailsRepositoryImpl implements MovieDetailsRepository {
 
   @override
   Future<Result<Movie>> getMovieDetails(int movieId) async {
-    print('get movie $movieId');
     bool isConnected = await networkInfo.isConnected();
     if (isConnected) {
       try {
