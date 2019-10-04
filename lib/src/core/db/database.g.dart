@@ -38,15 +38,15 @@ class Movie extends DataClass implements Insertable<Movie> {
       @required this.releaseDate,
       @required this.backdropPath,
       @required this.isFavorite,
-      @required this.budget,
-      @required this.homepage,
-      @required this.originalLanguage,
-      @required this.popularity,
-      @required this.revenue,
-      @required this.runtime,
-      @required this.status,
-      @required this.tagline,
-      @required this.voteAverage});
+      this.budget,
+      this.homepage,
+      this.originalLanguage,
+      this.popularity,
+      this.revenue,
+      this.runtime,
+      this.status,
+      this.tagline,
+      this.voteAverage});
   factory Movie.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -550,7 +550,7 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
     return GeneratedIntColumn(
       'budget',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -562,7 +562,7 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
     return GeneratedTextColumn(
       'homepage',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -576,7 +576,7 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
     return GeneratedTextColumn(
       'original_language',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -588,7 +588,7 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
     return GeneratedRealColumn(
       'popularity',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -600,7 +600,7 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
     return GeneratedIntColumn(
       'revenue',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -612,7 +612,7 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
     return GeneratedIntColumn(
       'runtime',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -624,7 +624,7 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
     return GeneratedTextColumn(
       'status',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -636,7 +636,7 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
     return GeneratedTextColumn(
       'tagline',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -650,7 +650,7 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
     return GeneratedRealColumn(
       'vote_average',
       $tableName,
-      false,
+      true,
     );
   }
 

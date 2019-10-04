@@ -26,25 +26,25 @@ class Movies extends Table {
 
   BoolColumn get isFavorite => boolean().withDefault(Constant(false))();
 
-  IntColumn get budget => integer()();
+  IntColumn get budget => integer().nullable()();
 
-  TextColumn get homepage => text()();
+  TextColumn get homepage => text().nullable()();
 
   @JsonKey('original_language')
-  TextColumn get originalLanguage => text()();
+  TextColumn get originalLanguage => text().nullable()();
 
-  RealColumn get popularity => real()();
+  RealColumn get popularity => real().nullable()();
 
-  IntColumn get revenue => integer()();
+  IntColumn get revenue => integer().nullable()();
 
-  IntColumn get runtime => integer()();
+  IntColumn get runtime => integer().nullable()();
 
-  TextColumn get status => text()();
+  TextColumn get status => text().nullable()();
 
-  TextColumn get tagline => text()();
+  TextColumn get tagline => text().nullable()();
 
   @JsonKey('vote_average')
-  RealColumn get voteAverage => real()();
+  RealColumn get voteAverage => real().nullable()();
 
   List<Genre> genres;
 
