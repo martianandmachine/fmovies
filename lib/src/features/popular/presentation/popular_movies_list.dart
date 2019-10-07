@@ -14,7 +14,9 @@ class PopularMoviesList extends StatelessWidget {
 
   final List<Movie> movies;
 
-  PopularMoviesList(this.movies);
+  final Movie favoriteMovie;
+
+  PopularMoviesList(this.movies, this.favoriteMovie);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class PopularMoviesList extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          return BuildPopularListTile(movies[position], bloc);
+          return BuildPopularListTile(movies[position], bloc, favoriteMovie);
         },
       ),
     );
@@ -64,7 +66,9 @@ class BuildPopularListTile extends StatelessWidget {
 
   final PopularMoviesBloc bloc;
 
-  BuildPopularListTile(this.movie, this.bloc);
+  final Movie favoriteMovie;
+
+  BuildPopularListTile(this.movie, this.bloc, this.favoriteMovie);
 
   @override
   Widget build(BuildContext context) {
@@ -118,10 +122,11 @@ class BuildPopularListTile extends StatelessWidget {
         width: 23.0,
         height: 23.0,
         child: FlareActor(
-          "assets/Favorite.flr",
+          'assets/Favorite.flr',
           shouldClip: false,
+          snapToEnd: favoriteMovie == null ? true : false,
           color: Colors.white,
-          animation: isFavorite ? "Favorite" : "Unfavorite",
+          animation: isFavorite ? 'Favorite' : 'Unfavorite',
         ),
       ),
     );

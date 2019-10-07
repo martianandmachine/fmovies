@@ -41,7 +41,7 @@ class PopularMoviesPage extends StatelessWidget {
               );
             }
             if (state is PopularMoviesLoaded) {
-              return PopularMoviesList(state.movies);
+              return PopularMoviesList(state.movies, state.favoriteMovie);
             }
             if (state is PopularMoviesNoInternet) {
               return Center(
