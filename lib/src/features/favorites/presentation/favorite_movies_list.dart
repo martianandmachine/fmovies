@@ -14,6 +14,8 @@ class FavoriteMoviesList extends StatelessWidget {
   final List<Movie> movies;
   final Movie deletedMovie;
 
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey();
+
   FavoriteMoviesList(this.movies, this.deletedMovie);
 
   @override
@@ -23,10 +25,11 @@ class FavoriteMoviesList extends StatelessWidget {
       print('movie is not null -' + deletedMovie.title);
     } else print('movie is null');
 
-    return ListView.builder(
-      itemCount: movies.length,
-      itemBuilder: (context, position) {
-        return BuildFavoriteListTile(movies[position]);
+    return AnimatedList(
+      key: _listKey,
+      initialItemCount: movies.length,
+      itemBuilder: (context, position, animation) {
+        return BuildFavoriteListTile(movies[position], deletedMovie, animation);
       },
     );
   }
@@ -34,8 +37,10 @@ class FavoriteMoviesList extends StatelessWidget {
 
 class BuildFavoriteListTile extends StatelessWidget {
   final Movie movie;
-
-  BuildFavoriteListTile(this.movie);
+  final Movie deletedMovie;
+  final Animation animation;
+  
+  BuildFavoriteListTile(this.movie, this.deletedMovie, this.animation);
 
   @override
   Widget build(BuildContext context) {
@@ -57,74 +62,77 @@ class BuildFavoriteListTile extends StatelessWidget {
         ),
       ),
       onLongPress: () => bloc.dispatch(DeleteFavoriteMovie(movie: movie)),
-      child: Container(
-        height: height,
-        width: width,
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            BlurredImage(BASE_IMAGE_URL +
-                BACKDROP_SIZES[SIZE_MEDIUM] +
-                movie.backdropPath),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  _buildImage(POSTER_SIZES[SIZE_MEDIUM] + movie.posterPath),
-                  Column(
-                    children: <Widget>[
-                      ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: 170.0,
-                          minWidth: 170.0,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            movie.title,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              shadows: <Shadow>[
-                                Shadow(
-                                  offset: Offset(2.0, 2.0),
-                                  blurRadius: 4.0,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                ),
-                              ],
+      child: SizeTransition(
+        sizeFactor: animation,
+        child: Container(
+          height: height,
+          width: width,
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              BlurredImage(BASE_IMAGE_URL +
+                  BACKDROP_SIZES[SIZE_MEDIUM] +
+                  movie.backdropPath),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    _buildImage(POSTER_SIZES[SIZE_MEDIUM] + movie.posterPath),
+                    Column(
+                      children: <Widget>[
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: 170.0,
+                            minWidth: 170.0,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              movie.title,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                shadows: <Shadow>[
+                                  Shadow(
+                                    offset: Offset(2.0, 2.0),
+                                    blurRadius: 4.0,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            movie.releaseDate,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              shadows: <Shadow>[
-                                Shadow(
-                                  offset: Offset(2.0, 2.0),
-                                  blurRadius: 4.0,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                ),
-                              ],
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              movie.releaseDate,
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                shadows: <Shadow>[
+                                  Shadow(
+                                    offset: Offset(2.0, 2.0),
+                                    blurRadius: 4.0,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
