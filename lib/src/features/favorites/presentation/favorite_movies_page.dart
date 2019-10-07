@@ -26,7 +26,7 @@ class FavoriteMoviePage extends StatelessWidget {
               );
             }
             if (state is FavoriteMoviesLoaded) {
-              return FavoriteMoviesList(state.movies);
+              return FavoriteMoviesList(state.movies, state.deletedMovie);
             }
             if (state is FavoriteMoviesEmpty) {
               return Center(

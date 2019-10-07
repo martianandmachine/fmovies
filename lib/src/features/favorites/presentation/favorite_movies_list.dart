@@ -12,11 +12,17 @@ import 'package:fmovies/src/features/movie/presentation/movie_details.dart';
 
 class FavoriteMoviesList extends StatelessWidget {
   final List<Movie> movies;
+  final Movie deletedMovie;
 
-  FavoriteMoviesList(this.movies);
+  FavoriteMoviesList(this.movies, this.deletedMovie);
 
   @override
   Widget build(BuildContext context) {
+
+    if (deletedMovie != null) {
+      print('movie is not null -' + deletedMovie.title);
+    } else print('movie is null');
+
     return ListView.builder(
       itemCount: movies.length,
       itemBuilder: (context, position) {
