@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/core/utils/image_constants.dart';
 import 'package:fmovies/src/core/widgets/blurred_image.dart';
+import 'package:fmovies/src/core/widgets/snackbar.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_bloc.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_event.dart';
 import 'package:fmovies/src/features/movie/domain/movie_details_bloc.dart';
@@ -12,11 +13,10 @@ import 'package:fmovies/src/features/movie/presentation/movie_details.dart';
 
 class FavoriteMoviesList extends StatelessWidget {
   final List<Movie> movies;
-  final Movie deletedMovie;
 
   final GlobalKey<AnimatedListState> _listKey = GlobalKey();
 
-  FavoriteMoviesList(this.movies, this.deletedMovie);
+  FavoriteMoviesList(this.movies);
 
   @override
   Widget build(BuildContext context) {
@@ -153,6 +153,7 @@ class BuildFavoriteListTile extends StatelessWidget {
       animation.addStatusListener((listener) {
         if (listener == AnimationStatus.dismissed) {
           bloc.dispatch(DeleteFavoriteMovie(movie: movie));
+          ShowSnackBar(context, movie.title + ' deleted from favorites.');
         }
       });
 

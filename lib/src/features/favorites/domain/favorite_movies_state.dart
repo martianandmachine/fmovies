@@ -8,9 +8,8 @@ class FavoriteMoviesLoading extends FavoriteMoviesState {}
 
 class FavoriteMoviesLoaded extends FavoriteMoviesState {
   final List<Movie> movies;
-  final Movie deletedMovie;
 
-  FavoriteMoviesLoaded(this.movies, {this.deletedMovie});
+  FavoriteMoviesLoaded(this.movies);
 }
 
 class FavoriteMoviesEmpty extends FavoriteMoviesState {}
