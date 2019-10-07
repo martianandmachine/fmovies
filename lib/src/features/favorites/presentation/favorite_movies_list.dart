@@ -20,16 +20,12 @@ class FavoriteMoviesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    if (deletedMovie != null) {
-      print('movie is not null -' + deletedMovie.title);
-    } else print('movie is null');
-
     return AnimatedList(
       key: _listKey,
       initialItemCount: movies.length,
       itemBuilder: (context, position, animation) {
-        return BuildFavoriteListTile(movies[position], deletedMovie, animation);
+        return BuildFavoriteListTile(
+            movies[position], animation, position, movies, _listKey);
       },
     );
   }
@@ -37,15 +33,17 @@ class FavoriteMoviesList extends StatelessWidget {
 
 class BuildFavoriteListTile extends StatelessWidget {
   final Movie movie;
-  final Movie deletedMovie;
   final Animation animation;
-  
-  BuildFavoriteListTile(this.movie, this.deletedMovie, this.animation);
+  final int position;
+  final List<Movie> movies;
+  final GlobalKey<AnimatedListState> listKey;
+
+  BuildFavoriteListTile(
+      this.movie, this.animation, this.position, this.movies, this.listKey);
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<FavoriteMoviesBloc>(context);
-
     double width = MediaQuery.of(context).size.width;
     double height = width * 0.5;
 
@@ -61,7 +59,7 @@ class BuildFavoriteListTile extends StatelessWidget {
           },
         ),
       ),
-      onLongPress: () => bloc.dispatch(DeleteFavoriteMovie(movie: movie)),
+      onLongPress: () => _deleteMovie(bloc),
       child: SizeTransition(
         sizeFactor: animation,
         child: Container(
@@ -147,5 +145,21 @@ class BuildFavoriteListTile extends StatelessWidget {
         image: BASE_IMAGE_URL + path,
       );
     }
+  }
+
+  _deleteMovie(FavoriteMoviesBloc bloc) {
+    Movie removedItem = movies.removeAt(position);
+    AnimatedListRemovedItemBuilder builder = (context, animation) {
+      animation.addStatusListener((listener) {
+        if (listener == AnimationStatus.dismissed) {
+          bloc.dispatch(DeleteFavoriteMovie(movie: movie));
+        }
+      });
+
+      return BuildFavoriteListTile(
+          removedItem, animation, position, movies, listKey);
+    };
+
+    listKey.currentState.removeItem(position, builder);
   }
 }

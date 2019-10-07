@@ -43,10 +43,10 @@ class FavoriteMoviesBloc
 
     if (result != null) {
       final List<Movie> movies =
-          List.from((currentState as FavoriteMoviesLoaded).movies);
-            //..removeWhere((movie) => movie.id == event.movie.id);
+          List.from((currentState as FavoriteMoviesLoaded).movies)
+            ..removeWhere((movie) => movie.id == event.movie.id);
 
-      yield FavoriteMoviesLoaded(movies, deletedMovie: event.movie);
+      // yield FavoriteMoviesLoaded(movies, deletedMovie: event.movie);
     } else {
       yield currentState;
     }
