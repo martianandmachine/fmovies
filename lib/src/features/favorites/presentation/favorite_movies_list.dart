@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/db/database.dart';
@@ -78,15 +79,13 @@ class BuildFavoriteListTile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     _buildImage(POSTER_SIZES[SIZE_MEDIUM] + movie.posterPath),
-                    Column(
-                      children: <Widget>[
-                        ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: 170.0,
-                            minWidth: 170.0,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
+                    Container(
+                      margin: EdgeInsets.only(left: 20.0),
+                      width: 170.0,
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(top: 16.0),
                             child: Text(
                               movie.title,
                               textAlign: TextAlign.center,
@@ -104,28 +103,36 @@ class BuildFavoriteListTile extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              movie.releaseDate,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(2.0, 2.0),
-                                    blurRadius: 4.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                ],
+                          Expanded(
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () => print('heart tapped'),
+                                child: _buildIcon(),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                movie.releaseDate,
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(2.0, 2.0),
+                                      blurRadius: 4.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -141,9 +148,17 @@ class BuildFavoriteListTile extends StatelessWidget {
     if (path == null) {
       return Image.asset('images/placeholder.png');
     } else {
-      return FadeInImage.assetNetwork(
-        placeholder: 'images/placeholder.png',
-        image: BASE_IMAGE_URL + path,
+      return Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: ClipRRect(
+          borderRadius: new BorderRadius.circular(8.0),
+          child: FadeInImage.assetNetwork(
+            placeholder: 'images/placeholder.png',
+            image: BASE_IMAGE_URL + path,
+          ),
+        ),
       );
     }
   }
@@ -163,5 +178,22 @@ class BuildFavoriteListTile extends StatelessWidget {
     };
 
     listKey.currentState.removeItem(position, builder);
+  }
+
+  Widget _buildIcon() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 10.0, top: 10.0),
+      child: Container(
+        width: 23.0,
+        height: 23.0,
+        child: FlareActor(
+          'assets/Favorite.flr',
+          shouldClip: false,
+          snapToEnd: true,
+          color: Colors.white,
+          animation: 'Favorite',
+        ),
+      ),
+    );
   }
 }
