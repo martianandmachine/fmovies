@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fmovies/src/core/widgets/snackbar.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_bloc.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_event.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_state.dart';
 import 'package:fmovies/src/features/favorites/presentation/favorite_movies_list.dart';
+import 'package:fmovies/src/features/popular/domain/popular_movies_state.dart';
 
 class FavoriteMoviePage extends StatelessWidget {
   @override

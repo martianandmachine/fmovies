@@ -21,3 +21,5 @@ class ServerError extends Error {}
 class DbInsertError extends Error {}
 
 class DbDataError extends Error {}
+
+class DbDeleteError extends Error {}
