@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/db/database.dart';
+import 'package:fmovies/src/core/di/di.dart';
 import 'package:fmovies/src/core/utils/image_constants.dart';
 import 'package:fmovies/src/features/movie/domain/movie_details_bloc.dart';
 import 'package:fmovies/src/features/movie/presentation/movie_details.dart';
@@ -78,7 +79,7 @@ class BuildPopularListTile extends StatelessWidget {
         MaterialPageRoute(
           builder: (BuildContext context) {
             return BlocProvider(
-              builder: (context) => MovieDetailsBloc(),
+              builder: (context) => getIt<MovieDetailsBloc>(),
               child: MovieDetails(movie: movie),
             );
           },

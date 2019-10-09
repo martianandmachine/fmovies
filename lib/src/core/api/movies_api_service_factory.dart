@@ -27,4 +27,20 @@ class MoviesApiServiceFactory implements MoviesApiService {
       ),
     );
   }
+
+  @override
+  getMovieDetails(int movieId) {
+    Dio client = buildClient();
+    return client.request(
+      "/3/movie/$movieId",
+      queryParameters: {
+        "api_key": "c1d17945fca15cf2153ab77f065ff55c",
+        "append_to_response": "credits,videos,images",
+      },
+      options: Options(
+        method: "GET",
+        responseType: ResponseType.plain,
+      ),
+    );
+  }
 }

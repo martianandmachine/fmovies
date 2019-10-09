@@ -9,6 +9,7 @@ class AppDatabase extends _$AppDatabase {
       : super(
           FlutterQueryExecutor.inDatabaseFolder(
             path: 'db.sqlite',
+            logStatements: true
           ),
         );
 

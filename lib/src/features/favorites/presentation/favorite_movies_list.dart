@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/db/database.dart';
+import 'package:fmovies/src/core/di/di.dart';
 import 'package:fmovies/src/core/utils/image_constants.dart';
 import 'package:fmovies/src/core/widgets/blurred_image.dart';
 import 'package:fmovies/src/core/widgets/snackbar.dart';
@@ -53,7 +54,7 @@ class BuildFavoriteListTile extends StatelessWidget {
         MaterialPageRoute(
           builder: (BuildContext context) {
             return BlocProvider(
-              builder: (context) => MovieDetailsBloc(),
+              builder: (context) => getIt<MovieDetailsBloc>(),
               child: MovieDetails(movie: movie),
             );
           },
