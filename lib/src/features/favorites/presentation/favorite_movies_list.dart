@@ -61,7 +61,6 @@ class BuildFavoriteListTile extends StatelessWidget {
           },
         ),
       ),
-      onLongPress: () => _deleteMovie(bloc),
       child: SizeTransition(
         sizeFactor: animation,
         child: Container(
@@ -109,7 +108,7 @@ class BuildFavoriteListTile extends StatelessWidget {
                                 ),
                               ),
                               GestureDetector(
-                                onTap: () => print('heart tapped'),
+                                onTap: () => _showDialog(context, bloc),
                                 child: _buildIcon(),
                               ),
                             ],
@@ -118,7 +117,7 @@ class BuildFavoriteListTile extends StatelessWidget {
                             child: Align(
                               alignment: Alignment.center,
                               child: Text(
-                                "Vote average: " + movie.voteAverage.toString(),
+                                'Rating: ${movie.voteAverage.toString()}',
                                 style: TextStyle(
                                   fontSize: 16.0,
                                   color: Colors.white,
@@ -172,7 +171,6 @@ class BuildFavoriteListTile extends StatelessWidget {
       animation.addStatusListener((listener) {
         if (listener == AnimationStatus.dismissed) {
           bloc.dispatch(DeleteFavoriteMovie(movie: movie));
-          ShowSnackBar(context, movie.title + ' deleted from favorites.');
         }
       });
 
@@ -198,5 +196,30 @@ class BuildFavoriteListTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future _showDialog(BuildContext context, FavoriteMoviesBloc bloc) async {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Deleting confirmation'),
+            content: Text('${movie.title} will be deleted from favorites.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Delete'),
+                onPressed: () {
+                  _deleteMovie(bloc);
+                  Navigator.of(context).pop();
+                }
+              ),
+              FlatButton(
+                child: Text('Cancel'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+        });
   }
 }
