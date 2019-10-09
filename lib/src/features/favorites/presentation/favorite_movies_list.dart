@@ -84,38 +84,41 @@ class BuildFavoriteListTile extends StatelessWidget {
                       width: 170.0,
                       child: Column(
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: Text(
-                              movie.title,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(2.0, 2.0),
-                                    blurRadius: 4.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Flexible(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 16.0),
+                                  child: Text(
+                                    movie.title,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                          offset: Offset(2.0, 2.0),
+                                          blurRadius: 4.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Center(
-                              child: GestureDetector(
+                              GestureDetector(
                                 onTap: () => print('heart tapped'),
                                 child: _buildIcon(),
                               ),
-                            ),
+                            ],
                           ),
                           Expanded(
                             child: Align(
                               alignment: Alignment.center,
                               child: Text(
-                                movie.releaseDate,
+                                "Vote average: " + movie.voteAverage.toString(),
                                 style: TextStyle(
                                   fontSize: 16.0,
                                   color: Colors.white,
@@ -182,7 +185,7 @@ class BuildFavoriteListTile extends StatelessWidget {
 
   Widget _buildIcon() {
     return Padding(
-      padding: const EdgeInsets.only(right: 10.0, top: 10.0),
+      padding: const EdgeInsets.only(left: 16.0, top: 16.0),
       child: Container(
         width: 23.0,
         height: 23.0,
