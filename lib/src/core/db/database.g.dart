@@ -113,7 +113,7 @@ class Movie extends DataClass implements Insertable<Movie> {
       runtime: serializer.fromJson<int>(json['runtime']),
       status: serializer.fromJson<String>(json['status']),
       tagline: serializer.fromJson<String>(json['tagline']),
-      voteAverage: serializer.fromJson<double>(json['vote_average']),
+      voteAverage: serializer.fromJson<double>(json['vote_average'].toDouble()),
     );
   }
   @override
