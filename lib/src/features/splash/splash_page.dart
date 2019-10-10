@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:fmovies/src/features/home_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fmovies/src/core/di/di.dart';
+import 'package:fmovies/src/features/home/domain/tab_bloc.dart';
+import 'package:fmovies/src/features/home/presentation/home_page.dart';
 
 const int _SPLASH_DURATION = 3;
 
@@ -23,8 +26,12 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   onDoneLoading() async {
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => HomePage()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
+      return BlocProvider<TabBloc>(
+        builder: (context) => getIt<TabBloc>(),
+        child: HomePage(),
+      );
+    }));
   }
 
   @override

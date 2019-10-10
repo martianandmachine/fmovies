@@ -10,6 +10,7 @@ import 'package:fmovies/src/features/cinemas/domain/cinemas_bloc.dart';
 import 'package:fmovies/src/features/favorites/data/favorite_movies_repository.dart';
 import 'package:fmovies/src/features/favorites/data/favorite_movies_repository_impl.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_bloc.dart';
+import 'package:fmovies/src/features/home/domain/tab_bloc.dart';
 import 'package:fmovies/src/features/movie/data/movie_details_repository.dart';
 import 'package:fmovies/src/features/movie/data/movie_details_repository_impl.dart';
 import 'package:fmovies/src/features/movie/domain/movie_details_bloc.dart';
@@ -33,6 +34,8 @@ Future<void> init() async {
 
   getIt.registerFactory(
           () => MovieDetailsBloc(movieDetailsRepository: getIt()));
+
+  getIt.registerFactory(() => TabBloc());
 
   getIt.registerLazySingleton<MoviesDao>(() => AppDatabase().moviesDao);
   getIt.registerLazySingleton<CinemasApiService>(
