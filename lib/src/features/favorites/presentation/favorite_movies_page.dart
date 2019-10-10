@@ -16,7 +16,7 @@ class FavoriteMoviePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Popular movies"),
+        title: Text('Favorite movies'),
       ),
       body: BlocListener<FavoriteMoviesBloc, FavoriteMoviesState>(
         listener: (context, state) {},
