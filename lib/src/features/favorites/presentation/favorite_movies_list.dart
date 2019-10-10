@@ -84,35 +84,26 @@ class BuildFavoriteListTile extends StatelessWidget {
                       width: 170.0,
                       child: Column(
                         children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Flexible(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 16.0),
-                                  child: Text(
-                                    movie.title,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      shadows: <Shadow>[
-                                        Shadow(
-                                          offset: Offset(2.0, 2.0),
-                                          blurRadius: 4.0,
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                        ),
-                                      ],
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 16.0),
+                              child: Text(
+                                movie.title,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(2.0, 2.0),
+                                      blurRadius: 4.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
                                     ),
-                                  ),
+                                  ],
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () => _showDialog(context, bloc),
-                                child: _buildIcon(),
-                              ),
-                            ],
+                            ),
                           ),
                           Expanded(
                             child: Align(
@@ -135,6 +126,13 @@ class BuildFavoriteListTile extends StatelessWidget {
                             ),
                           ),
                         ],
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: GestureDetector(
+                        onTap: () => _showDialog(context, bloc),
+                        child: _buildIcon(),
                       ),
                     ),
                   ],
