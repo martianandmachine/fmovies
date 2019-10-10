@@ -21,16 +21,24 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<TabBloc>(context);
-    return BlocBuilder<TabBloc, AppTab>(
-      builder: (context, activeTab) {
+    return BlocBuilder<TabBloc, AppTabState>(
+      builder: (context, state) {
+        if (state is ChangeTabState) {
+          return Scaffold(
+            body: Center(
+              child: _tabContent(state.activeTab),
+            ),
+            bottomNavigationBar: BlocProvider.value(
+              value: bloc,
+              child: TabSelector(
+                activeTab: state.activeTab,
+                onTabSelected: (tab) => bloc.dispatch(UpdateTab(tab)),
+              ),
+            ),
+          );
+        }
         return Scaffold(
-          body: Center(
-            child: _tabContent(activeTab),
-          ),
-          bottomNavigationBar: TabSelector(
-            activeTab: activeTab,
-            onTabSelected: (tab) => bloc.dispatch(UpdateTab(tab)),
-          ),
+          body: Text('Something went wrong with navigation.'),
         );
       },
     );

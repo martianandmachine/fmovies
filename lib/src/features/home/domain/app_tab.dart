@@ -1,5 +1,16 @@
 import 'package:flutter/material.dart';
 
+class AppTabState {
+  AppTabState();
+}
+
+class ChangeTabState extends AppTabState {
+  final AppTab activeTab;
+  final bool triggerAnimation;
+
+  ChangeTabState(this.activeTab, {this.triggerAnimation});
+}
+
 enum AppTab { popular, favorites, cinemas }
 
 class AppTabHelper {

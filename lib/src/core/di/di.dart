@@ -22,21 +22,6 @@ import 'package:get_it/get_it.dart';
 final GetIt getIt = GetIt.instance;
 
 Future<void> init() async {
-  getIt.registerFactory(() => PopularMoviesBloc(
-        popularMoviesRepository: getIt(),
-        favoriteMoviesRepository: getIt(),
-      ));
-
-  getIt.registerFactory(
-      () => FavoriteMoviesBloc(favoriteMoviesRepository: getIt()));
-
-  getIt.registerFactory(() => CinemasBloc(cinemasRepository: getIt()));
-
-  getIt.registerFactory(
-          () => MovieDetailsBloc(movieDetailsRepository: getIt()));
-
-  getIt.registerFactory(() => TabBloc());
-
   getIt.registerLazySingleton<MoviesDao>(() => AppDatabase().moviesDao);
   getIt.registerLazySingleton<CinemasApiService>(
       () => CinemasApiServiceFactory());
@@ -55,9 +40,9 @@ Future<void> init() async {
   );
 
   getIt.registerFactory<MovieDetailsRepository>(
-        () => MovieDetailsRepositoryImpl(
-          networkInfo: getIt(),
-          movieApiService: getIt(),
+    () => MovieDetailsRepositoryImpl(
+      networkInfo: getIt(),
+      movieApiService: getIt(),
     ),
   );
 
@@ -73,4 +58,20 @@ Future<void> init() async {
       moviesDao: getIt(),
     ),
   );
+
+  getIt.registerFactory<PopularMoviesBloc>(() => PopularMoviesBloc(
+        popularMoviesRepository: getIt(),
+        favoriteMoviesRepository: getIt(),
+      ));
+
+  getIt.registerFactory<FavoriteMoviesBloc>(
+      () => FavoriteMoviesBloc(favoriteMoviesRepository: getIt()));
+
+  getIt.registerFactory<CinemasBloc>(
+      () => CinemasBloc(cinemasRepository: getIt()));
+
+  getIt.registerFactory<MovieDetailsBloc>(
+      () => MovieDetailsBloc(movieDetailsRepository: getIt()));
+
+  getIt.registerFactory<TabBloc>(() => TabBloc());
 }

@@ -9,3 +9,9 @@ class UpdateTab extends TabEvent {
 
   UpdateTab(this.tab);
 }
+
+class MovieSavedToFavorites extends TabEvent {
+  final bool isMovieFavorite;
+
+  MovieSavedToFavorites(this.isMovieFavorite);
+}
