@@ -15,7 +15,7 @@ class PopularMoviesPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Popular movies"),
+        title: Text('Popular movies'),
       ),
       body: BlocListener<PopularMoviesBloc, PopularMoviesState>(
         listener: (context, state) {
