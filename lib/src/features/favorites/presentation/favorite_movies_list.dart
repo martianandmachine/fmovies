@@ -1,13 +1,14 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/core/di/di.dart';
 import 'package:fmovies/src/core/utils/image_constants.dart';
 import 'package:fmovies/src/core/widgets/blurred_image.dart';
-import 'package:fmovies/src/core/widgets/snackbar.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_bloc.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_event.dart';
 import 'package:fmovies/src/features/movie/domain/movie_details_bloc.dart';
@@ -203,21 +204,47 @@ class BuildFavoriteListTile extends StatelessWidget {
         context: context,
         barrierDismissible: false,
         builder: (context) {
+          if (Platform.isIOS) {
+            return CupertinoAlertDialog(
+              title: Text('Deleting confirmation'),
+              content: Text('${movie.title} will be deleted from favorites.'),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                FlatButton(
+                    child: Text(
+                      'Delete',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                    onPressed: () {
+                      _deleteMovie(bloc);
+                      Navigator.of(context).pop();
+                    }),
+              ],
+            );
+          }
           return AlertDialog(
             title: Text('Deleting confirmation'),
             content: Text('${movie.title} will be deleted from favorites.'),
             actions: <Widget>[
               FlatButton(
-                child: Text('Delete'),
-                onPressed: () {
-                  _deleteMovie(bloc);
-                  Navigator.of(context).pop();
-                }
-              ),
-              FlatButton(
-                child: Text('Cancel'),
+                child: Text(
+                  'Cancel'.toUpperCase(),
+                  style: TextStyle(color: Colors.black54),
+                ),
                 onPressed: () => Navigator.of(context).pop(),
               ),
+              FlatButton(
+                  child: Text('Delete'.toUpperCase()),
+                  onPressed: () {
+                    _deleteMovie(bloc);
+                    Navigator.of(context).pop();
+                  }),
             ],
           );
         });
