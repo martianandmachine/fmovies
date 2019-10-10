@@ -1,12 +1,14 @@
+import 'dart:io';
 import 'dart:ui';
 
+import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/core/di/di.dart';
 import 'package:fmovies/src/core/utils/image_constants.dart';
 import 'package:fmovies/src/core/widgets/blurred_image.dart';
-import 'package:fmovies/src/core/widgets/snackbar.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_bloc.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_event.dart';
 import 'package:fmovies/src/features/movie/domain/movie_details_bloc.dart';
@@ -60,7 +62,6 @@ class BuildFavoriteListTile extends StatelessWidget {
           },
         ),
       ),
-      onLongPress: () => _deleteMovie(bloc),
       child: SizeTransition(
         sizeFactor: animation,
         child: Container(
@@ -78,54 +79,61 @@ class BuildFavoriteListTile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     _buildImage(POSTER_SIZES[SIZE_MEDIUM] + movie.posterPath),
-                    Column(
-                      children: <Widget>[
-                        ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: 170.0,
-                            minWidth: 170.0,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              movie.title,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(2.0, 2.0),
-                                    blurRadius: 4.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                ],
+                    Container(
+                      margin: EdgeInsets.only(left: 20.0),
+                      width: 170.0,
+                      child: Column(
+                        children: <Widget>[
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 16.0),
+                              child: Text(
+                                movie.title,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(2.0, 2.0),
+                                      blurRadius: 4.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              movie.releaseDate,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(2.0, 2.0),
-                                    blurRadius: 4.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                ],
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Rating: ${movie.voteAverage.toString()}',
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(2.0, 2.0),
+                                      blurRadius: 4.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: GestureDetector(
+                        onTap: () => _showDialog(context, bloc),
+                        child: _buildIcon(),
+                      ),
                     ),
                   ],
                 ),
@@ -141,9 +149,17 @@ class BuildFavoriteListTile extends StatelessWidget {
     if (path == null) {
       return Image.asset('images/placeholder.png');
     } else {
-      return FadeInImage.assetNetwork(
-        placeholder: 'images/placeholder.png',
-        image: BASE_IMAGE_URL + path,
+      return Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: ClipRRect(
+          borderRadius: new BorderRadius.circular(8.0),
+          child: FadeInImage.assetNetwork(
+            placeholder: 'images/placeholder.png',
+            image: BASE_IMAGE_URL + path,
+          ),
+        ),
       );
     }
   }
@@ -154,7 +170,6 @@ class BuildFavoriteListTile extends StatelessWidget {
       animation.addStatusListener((listener) {
         if (listener == AnimationStatus.dismissed) {
           bloc.dispatch(DeleteFavoriteMovie(movie: movie));
-          ShowSnackBar(context, movie.title + ' deleted from favorites.');
         }
       });
 
@@ -163,5 +178,73 @@ class BuildFavoriteListTile extends StatelessWidget {
     };
 
     listKey.currentState.removeItem(position, builder);
+  }
+
+  Widget _buildIcon() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16.0, top: 16.0),
+      child: Container(
+        width: 23.0,
+        height: 23.0,
+        child: FlareActor(
+          'assets/Favorite.flr',
+          shouldClip: false,
+          snapToEnd: true,
+          color: Colors.white,
+          animation: 'Favorite',
+        ),
+      ),
+    );
+  }
+
+  Future _showDialog(BuildContext context, FavoriteMoviesBloc bloc) async {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          if (Platform.isIOS) {
+            return CupertinoAlertDialog(
+              title: Text('Deleting confirmation'),
+              content: Text('${movie.title} will be deleted from favorites.'),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                FlatButton(
+                    child: Text(
+                      'Delete',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                    onPressed: () {
+                      _deleteMovie(bloc);
+                      Navigator.of(context).pop();
+                    }),
+              ],
+            );
+          }
+          return AlertDialog(
+            title: Text('Deleting confirmation'),
+            content: Text('${movie.title} will be deleted from favorites.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  'Cancel'.toUpperCase(),
+                  style: TextStyle(color: Colors.black54),
+                ),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              FlatButton(
+                  child: Text('Delete'.toUpperCase()),
+                  onPressed: () {
+                    _deleteMovie(bloc);
+                    Navigator.of(context).pop();
+                  }),
+            ],
+          );
+        });
   }
 }
