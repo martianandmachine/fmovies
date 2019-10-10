@@ -86,19 +86,26 @@ class BuildPopularListTile extends StatelessWidget {
         ),
       ),
       child: Card(
-        child: Stack(
-          children: <Widget>[
-            Hero(
-                tag: 'poster_${movie.posterPath}',
-                child: _buildPoster(movie.posterPath)),
-            Align(
-              alignment: Alignment.topRight,
-              child: GestureDetector(
-                onTap: () => bloc.dispatch(SavePopularMovie(movie)),
-                child: _buildIcon(movie.isFavorite),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: ClipRRect(
+          borderRadius: new BorderRadius.circular(8.0),
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              Hero(
+                  tag: 'poster_${movie.posterPath}',
+                  child: _buildPoster(movie.posterPath)),
+              Align(
+                alignment: Alignment.topRight,
+                child: GestureDetector(
+                  onTap: () => bloc.dispatch(SavePopularMovie(movie)),
+                  child: _buildIcon(movie.isFavorite),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
