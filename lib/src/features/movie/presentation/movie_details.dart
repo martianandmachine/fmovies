@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -35,102 +36,98 @@ class MovieDetails extends StatelessWidget {
               if (state is ShowExtraDetails) {
                 extraDetails = state.movie;
               }
-              return Stack(
-                children: <Widget>[
-                  Container(
-                    height: MediaQuery.of(context).size.height,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(BASE_IMAGE_URL +
-                              POSTER_SIZES[SIZE_LARGE] +
-                              movie.backdropPath),
-                          fit: BoxFit.fitHeight),
+              return NestedScrollView(
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
+                  return <Widget>[
+                    SliverAppBar(
+                      floating: false,
+                      pinned: true,
+                      expandedHeight: 250,
+                      flexibleSpace: FlexibleSpaceBar(
+                        background: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 250,
+                          child: Image.network(
+                            BASE_IMAGE_URL +
+                                POSTER_SIZES[SIZE_LARGE] +
+                                movie.backdropPath,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        titlePadding: const EdgeInsets.fromLTRB(64, 16, 64, 16),
+                        centerTitle: true,
+                        title: MovieDetailsTextWidgets()
+                            .buildSectionTitle(movie.title),
+                      ),
                     ),
-                    child: new BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 50.0, sigmaY: 50.0),
-                      child: new Container(
-                        decoration: new BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                  ];
+                },
+                body: Stack(
+                  overflow: Overflow.clip,
+                  children: <Widget>[
+                    Container(
+                      height: MediaQuery.of(context).size.height,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(BASE_IMAGE_URL +
+                                POSTER_SIZES[SIZE_LARGE] +
+                                movie.backdropPath),
+                            fit: BoxFit.fitHeight),
+                      ),
+                      child: new BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 50.0, sigmaY: 50.0),
+                        child: new Container(
+                          decoration: new BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SingleChildScrollView(
-                    child: Stack(
+                    Column(
                       children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 250,
-                              child: Image.network(
-                                BASE_IMAGE_URL +
-                                    POSTER_SIZES[SIZE_LARGE] +
-                                    movie.backdropPath,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                  150.0, 16.0, 16.0, 16.0),
-                              child: MovieDetailsTextWidgets()
-                                  .buildTitle(movie.title),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: MovieDetailsTextWidgets()
-                                  .buildSectionTitle('Description:'),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: MovieDetailsTextWidgets()
-                                  .buildText(movie.overview),
-                            ),
-                            if (state is ShowExtraDetails)
-                              _buildExtraDetails(extraDetails)
-                          ],
-                        ),
-                        if (state is ShowExtraDetails)
-                          Container(
-                            height: 250,
-                            child: Center(
-                              child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: MovieDetailsTextWidgets()
-                                      .buildTagline(extraDetails.tagline)),
-                            ),
-                          ),
-                        Positioned(
-                          top: 170,
-                          left: 16,
-                          child: Card(
-                            elevation: 10,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: new BorderRadius.circular(8.0),
-                              child: Hero(
-                                tag: 'poster_${movie.posterPath}',
-                                child: Image.network(
-                                  BASE_IMAGE_URL +
-                                      POSTER_SIZES[SIZE_MEDIUM] +
-                                      movie.posterPath,
-                                  width: 100,
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Card(
+                                elevation: 10,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: new BorderRadius.circular(8.0),
+                                  child: Hero(
+                                    tag: 'poster_${movie.posterPath}',
+                                    child: Image.network(
+                                      BASE_IMAGE_URL +
+                                          POSTER_SIZES[SIZE_MEDIUM] +
+                                          movie.posterPath,
+                                      width: 100,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
+                              if (state is ShowExtraDetails)
+                                _buildExtraDetails(extraDetails),
+                            ],
                           ),
                         ),
-                        AppBar(
-                          backgroundColor: Colors.transparent,
+                        if (state is ShowExtraDetails && extraDetails.tagline.length > 0)
+                          MovieDetailsTextWidgets()
+                              .buildTagline(extraDetails.tagline),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: MovieDetailsTextWidgets()
+                              .buildText(movie.overview),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
+//
             }
             return Text('');
           },
@@ -141,9 +138,11 @@ class MovieDetails extends StatelessWidget {
 
   Widget _buildExtraDetails(Movie extraDetails) {
     return Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+        child: Wrap(
+          direction: Axis.vertical,
+          spacing: 8.0,
+          runSpacing: 4.0,
           children: <Widget>[
             MovieDetailsTextWidgets()
                 .buildText('Status: ${extraDetails.status}'),
@@ -155,8 +154,6 @@ class MovieDetails extends StatelessWidget {
                 .buildText('Budget: ${extraDetails.budget}\$'),
             MovieDetailsTextWidgets()
                 .buildText('Revenue: ${extraDetails.revenue}\$'),
-            MovieDetailsTextWidgets()
-                .buildText('Homepage: ${extraDetails.homepage}'),
           ],
         ));
   }
