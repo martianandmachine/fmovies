@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
       builder: (context, activeTab) {
         return Scaffold(
           body: Center(
-            child: _tabChooser(activeTab),
+            child: _tabContent(activeTab),
           ),
           bottomNavigationBar: TabSelector(
             activeTab: activeTab,
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _tabChooser(AppTab activeTab) {
+  _tabContent(AppTab activeTab) {
     switch (activeTab) {
       case AppTab.popular:
         return BlocProvider<PopularMoviesBloc>(
