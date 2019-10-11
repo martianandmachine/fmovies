@@ -28,12 +28,9 @@ class _HomePageState extends State<HomePage> {
             body: Center(
               child: _tabContent(state.activeTab),
             ),
-            bottomNavigationBar: BlocProvider.value(
-              value: bloc,
-              child: TabSelector(
-                activeTab: state.activeTab,
-                onTabSelected: (tab) => bloc.dispatch(UpdateTab(tab)),
-              ),
+            bottomNavigationBar: TabSelector(
+              activeTab: state.activeTab,
+              onTabSelected: (tab) => bloc.dispatch(UpdateTab(tab)),
             ),
           );
         }

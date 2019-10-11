@@ -20,15 +20,12 @@ class TabSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TabBloc, AppTabState>(
       builder: (context, state) {
-        if (state is ChangeTabState) {
-          print('state here -  ' + state.triggerAnimation.toString());
-        }
         return BottomNavigationBar(
           currentIndex: AppTab.values.indexOf(activeTab),
           onTap: (index) => onTabSelected(AppTab.values[index]),
           items: AppTab.values.map((tab) {
             return BottomNavigationBarItem(
-              icon: AppTabHelper.getIcon(tab),
+              icon: _buildIcon(tab, state),
               title: Text(
                 AppTabHelper.getTitle(tab),
               ),
@@ -37,5 +34,13 @@ class TabSelector extends StatelessWidget {
         );
       },
     );
+  }
+
+  _buildIcon(AppTab tab, AppTabState state) {
+    if (tab == AppTab.favorites &&
+        (state as ChangeTabState).triggerAnimation != null) {
+      print('tab is favorites and we should trigger animation');
+    }
+    return AppTabHelper.getIcon(tab);
   }
 }
