@@ -9,3 +9,9 @@ class FetchMovieDetails extends MovieDetailsEvent {
 
   FetchMovieDetails(this.movie);
 }
+
+class FetchMovieCredits extends MovieDetailsEvent {
+  final Movie movie;
+
+  FetchMovieCredits(this.movie);
+}
