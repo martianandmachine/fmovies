@@ -41,6 +41,25 @@ class MovieDetailsTextWidgets {
     );
   }
 
+  Widget buildCastName(String name, String character) {
+    return Text(
+      name + '\n[$character]',
+      maxLines: 2,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 12,
+        color: Colors.white,
+        shadows: [
+          Shadow(
+            color: Colors.black,
+            blurRadius: 1.0,
+            offset: Offset(0.0, 1.0),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget buildTagline(String text) {
     return TyperAnimatedTextKit(
       text: [text],
@@ -57,24 +76,7 @@ class MovieDetailsTextWidgets {
           ),
         ],
       ),
-//          textAlign: TextAlign.start,
-//          alignment: AlignmentDirectional.topStart,
     );
-
-//    return Text(
-//      text,
-//      style: TextStyle(
-//        fontSize: 24,
-//        color: Colors.white,
-//        shadows: [
-//          Shadow(
-//            color: Colors.black,
-//            blurRadius: 2.0,
-//            offset: Offset(0.0, 2.0),
-//          ),
-//        ],
-//      ),
-//    );
   }
 
   Widget buildTitle(String text) {

@@ -174,12 +174,27 @@ class MovieDetails extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: new BorderRadius.circular(4.0),
-              child: Image.network(
-                BASE_IMAGE_URL +
-                    'w138_and_h175_face/' +
-                    cast[index].profilePath,
-                width: 150,
-                fit: BoxFit.cover,
+              child: Stack(
+                children: <Widget>[
+                  Image.network(
+                    BASE_IMAGE_URL +
+                         CAST_SIZE +
+                        cast[index].profilePath,
+                    width: 160,
+                    fit: BoxFit.cover,
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    width: 160,
+                    child: Container(
+                      color: Color.fromRGBO(0, 0, 0, 0.2),
+                      alignment: Alignment.bottomCenter,
+                      padding: EdgeInsets.all(4),
+                      child: MovieDetailsTextWidgets().buildCastName(
+                          cast[index].name, cast[index].character),
+                    ),
+                  ),
+                ],
               ),
             ),
           );
