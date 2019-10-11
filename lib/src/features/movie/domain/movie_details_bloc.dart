@@ -25,5 +25,15 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
         if (results.error is ServerError) {}
       }
     }
+    if (event is FetchMovieCredits) {
+      final results =
+      await movieDetailsRepository.getMovieCredits(event.movie.id);
+      if (results.success != null) {
+        yield ShowCredits(results.success);
+      } else {
+        if (results.error is NoInternetError) {}
+        if (results.error is ServerError) {}
+      }
+    }
   }
 }
