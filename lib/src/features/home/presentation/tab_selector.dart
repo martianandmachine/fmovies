@@ -1,7 +1,6 @@
-import 'package:flare_flutter/flare_actor.dart';
-import 'package:flare_flutter/flare_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fmovies/src/core/widgets/rotating_transition.dart';
 import 'package:fmovies/src/features/home/domain/app_tab.dart';
 import 'package:fmovies/src/features/home/domain/tab_bloc.dart';
 
@@ -27,20 +26,32 @@ class _TabSelectorState extends State<TabSelector>
   @override
   void initState() {
     super.initState();
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 1));
+    _animationController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 1000));
 
-    final curvedAnimation = CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeIn,
-      reverseCurve: Curves.easeOut,
-    );
-
-    animation = Tween<double>(begin: 0, end: 2 * 3.14).animate(curvedAnimation)
+    animation = TweenSequence(
+      <TweenSequenceItem<double>>[
+        TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 1.0, end: 1.3),
+          weight: 25.0,
+        ),
+        TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 1.3, end: 1.6),
+          weight: 25.0,
+        ),
+        TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 1.6, end: 1.3),
+          weight: 25.0,
+        ),
+        TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 1.3, end: 1.0),
+          weight: 25.0,
+        ),
+      ],
+    ).chain(CurveTween(curve: Curves.bounceInOut)).animate(_animationController)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           _animationController.reset();
-        } else if (status == AnimationStatus.dismissed) {
         }
       });
   }
@@ -74,36 +85,14 @@ class _TabSelectorState extends State<TabSelector>
   _buildIcon(AppTab tab, AppTabState state) {
     if (tab == AppTab.favorites) {
       if ((state as ChangeTabState).triggerAnimation != null) {
-        print('trigger animation');
         _animationController.forward();
 
         return RotatingTransition(
-          angle: animation,
-          child: AppTabHelper.getIcon(tab),
+          animation: animation,
+          animationController: _animationController,
         );
       }
     }
     return AppTabHelper.getIcon(tab);
-  }
-}
-
-class RotatingTransition extends StatelessWidget {
-  final Widget child;
-  final Animation<double> angle;
-
-  const RotatingTransition({this.angle, this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: angle,
-      child: child,
-      builder: (context, child) {
-        return Transform.rotate(
-          angle: angle.value,
-          child: child,
-        );
-      },
-    );
   }
 }
