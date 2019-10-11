@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/core/utils/image_constants.dart';
 import 'package:fmovies/src/core/widgets/snackbar.dart';
+import 'package:fmovies/src/features/movie/data/cast.dart';
 import 'package:fmovies/src/features/movie/domain/movie_details_bloc.dart';
 import 'package:fmovies/src/features/movie/domain/movie_details_event.dart';
 import 'package:fmovies/src/features/movie/domain/movie_details_state.dart';
@@ -22,7 +23,10 @@ class MovieDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<MovieDetailsBloc>(context);
     Movie extraDetails;
+    List<Cast> cast;
+
     bloc.dispatch(FetchMovieDetails(movie));
+    bloc.dispatch(FetchMovieCredits(movie));
     return Scaffold(
       body: BlocListener<MovieDetailsBloc, MovieDetailsState>(
         listener: (context, state) {
@@ -32,104 +36,103 @@ class MovieDetails extends StatelessWidget {
         },
         child: BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
           builder: (context, state) {
-            if (state is ShowMovieDetails || state is ShowExtraDetails) {
-              if (state is ShowExtraDetails) {
-                extraDetails = state.movie;
-              }
-              return NestedScrollView(
-                headerSliverBuilder:
-                    (BuildContext context, bool innerBoxIsScrolled) {
-                  return <Widget>[
-                    SliverAppBar(
-                      floating: false,
-                      pinned: true,
-                      expandedHeight: 250,
-                      flexibleSpace: FlexibleSpaceBar(
-                        background: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 250,
-                          child: Image.network(
-                            BASE_IMAGE_URL +
-                                POSTER_SIZES[SIZE_LARGE] +
-                                movie.backdropPath,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        titlePadding: const EdgeInsets.fromLTRB(64, 16, 64, 16),
-                        centerTitle: true,
-                        title: MovieDetailsTextWidgets()
-                            .buildSectionTitle(movie.title),
-                      ),
-                    ),
-                  ];
-                },
-                body: Stack(
-                  overflow: Overflow.clip,
-                  children: <Widget>[
-                    Container(
-                      height: MediaQuery.of(context).size.height,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(BASE_IMAGE_URL +
-                                POSTER_SIZES[SIZE_LARGE] +
-                                movie.backdropPath),
-                            fit: BoxFit.fitHeight),
-                      ),
-                      child: new BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 50.0, sigmaY: 50.0),
-                        child: new Container(
-                          decoration: new BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
-                          ),
+            if (state is ShowExtraDetails) {
+              extraDetails = state.movie;
+              cast = state.cast;
+            }
+            return NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                  SliverAppBar(
+                    floating: false,
+                    pinned: true,
+                    expandedHeight: 250,
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 250,
+                        child: Image.network(
+                          BASE_IMAGE_URL +
+                              POSTER_SIZES[SIZE_LARGE] +
+                              movie.backdropPath,
+                          fit: BoxFit.cover,
                         ),
                       ),
+                      titlePadding: const EdgeInsets.fromLTRB(64, 16, 64, 16),
+                      centerTitle: true,
+                      title: MovieDetailsTextWidgets()
+                          .buildSectionTitle(movie.title),
                     ),
-                    Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.all(16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Card(
-                                elevation: 10,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: new BorderRadius.circular(8.0),
-                                  child: Hero(
-                                    tag: 'poster_${movie.posterPath}',
-                                    child: Image.network(
-                                      BASE_IMAGE_URL +
-                                          POSTER_SIZES[SIZE_MEDIUM] +
-                                          movie.posterPath,
-                                      width: 100,
-                                    ),
+                  ),
+                ];
+              },
+              body: Stack(
+                overflow: Overflow.clip,
+                children: <Widget>[
+                  Container(
+                    height: MediaQuery.of(context).size.height,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(BASE_IMAGE_URL +
+                              POSTER_SIZES[SIZE_LARGE] +
+                              movie.backdropPath),
+                          fit: BoxFit.fitHeight),
+                    ),
+                    child: new BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 50.0, sigmaY: 50.0),
+                      child: new Container(
+                        decoration: new BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Card(
+                              elevation: 10,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: new BorderRadius.circular(8.0),
+                                child: Hero(
+                                  tag: 'poster_${movie.posterPath}',
+                                  child: Image.network(
+                                    BASE_IMAGE_URL +
+                                        POSTER_SIZES[SIZE_MEDIUM] +
+                                        movie.posterPath,
+                                    width: 100,
                                   ),
                                 ),
                               ),
-                              if (state is ShowExtraDetails)
-                                _buildExtraDetails(extraDetails),
-                            ],
-                          ),
+                            ),
+                            if (state is ShowExtraDetails)
+                              _buildExtraDetails(extraDetails),
+                          ],
                         ),
-                        if (state is ShowExtraDetails && extraDetails.tagline.length > 0)
-                          MovieDetailsTextWidgets()
-                              .buildTagline(extraDetails.tagline),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: MovieDetailsTextWidgets()
-                              .buildText(movie.overview),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-//
-            }
-            return Text('');
+                      ),
+                      if (state is ShowExtraDetails &&
+                          extraDetails.tagline.length > 0)
+                        MovieDetailsTextWidgets()
+                            .buildTagline(extraDetails.tagline),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child:
+                            MovieDetailsTextWidgets().buildText(movie.overview),
+                      ),
+                      if (state is ShowExtraDetails) _buildMovieCast(cast),
+                    ],
+                  ),
+                ],
+              ),
+            );
           },
         ),
       ),
@@ -156,5 +159,32 @@ class MovieDetails extends StatelessWidget {
                 .buildText('Revenue: ${extraDetails.revenue}\$'),
           ],
         ));
+  }
+
+  Widget _buildMovieCast(List<Cast> cast) {
+    return Container(
+      height: 200.0,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: cast.length,
+        itemBuilder: (context, index) {
+          return Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4.0),
+            ),
+            child: ClipRRect(
+              borderRadius: new BorderRadius.circular(4.0),
+              child: Image.network(
+                BASE_IMAGE_URL +
+                    'w138_and_h175_face/' +
+                    cast[index].profilePath,
+                width: 150,
+                fit: BoxFit.cover,
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }

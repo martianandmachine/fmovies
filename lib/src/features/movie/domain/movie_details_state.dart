@@ -9,17 +9,12 @@ class ShowMovieDetails extends MovieDetailsState {}
 
 class ShowExtraDetails extends MovieDetailsState {
   final Movie movie;
-
-  ShowExtraDetails(this.movie);
-}
-
-class ShowCredits extends MovieDetailsState {
   final List<Cast> cast;
 
-  ShowCredits(this.cast);
+  ShowExtraDetails(this.movie, this.cast);
 }
 
-class MovieDetailsError extends MovieDetailsState{
+class MovieDetailsError extends MovieDetailsState {
   final String errorMessage;
 
   MovieDetailsError(this.errorMessage);
