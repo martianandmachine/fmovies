@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class RotatingTransition extends StatelessWidget {
+class AnimatedFavoriteIcon extends StatelessWidget {
   final Widget child;
   final Animation<double> animation;
   final AnimationController animationController;
 
-  const RotatingTransition(
+  const AnimatedFavoriteIcon(
       {this.animation, this.child, this.animationController});
 
   @override

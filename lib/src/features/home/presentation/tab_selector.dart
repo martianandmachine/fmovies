@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fmovies/src/core/widgets/rotating_transition.dart';
+import 'package:fmovies/src/core/widgets/animated_favorite_icon.dart';
 import 'package:fmovies/src/features/home/domain/app_tab.dart';
 import 'package:fmovies/src/features/home/domain/tab_bloc.dart';
 
@@ -87,7 +87,7 @@ class _TabSelectorState extends State<TabSelector>
       if ((state as ChangeTabState).triggerAnimation != null) {
         _animationController.forward();
 
-        return RotatingTransition(
+        return AnimatedFavoriteIcon(
           animation: animation,
           animationController: _animationController,
         );
