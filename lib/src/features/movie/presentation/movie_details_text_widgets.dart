@@ -12,7 +12,7 @@ class MovieDetailsTextWidgets {
         color: Colors.white,
         shadows: [
           Shadow(
-            color: Colors.black,
+            color: Colors.cyanAccent,
             blurRadius: 2.0,
             offset: Offset(1.0, 1.0),
           ),
@@ -70,7 +70,7 @@ class MovieDetailsTextWidgets {
         color: Colors.white,
         shadows: [
           Shadow(
-            color: Colors.black,
+            color: Colors.cyanAccent,
             blurRadius: 2.0,
             offset: Offset(0.0, 2.0),
           ),
