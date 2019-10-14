@@ -27,7 +27,7 @@ class _TabSelectorState extends State<TabSelector>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1000));
+        vsync: this, duration: Duration(milliseconds: 800));
 
     animation = TweenSequence(
       <TweenSequenceItem<double>>[

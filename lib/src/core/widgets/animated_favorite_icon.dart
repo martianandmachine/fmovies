@@ -26,8 +26,33 @@ class AnimatedFavoriteIcon extends StatelessWidget {
   }
 
   Color colorAnimation() {
-    return ColorTween(begin: Colors.black54, end: Colors.red)
-        .animate(animationController)
-        .value;
+    return TweenSequence(
+      <TweenSequenceItem<Color>>[
+        TweenSequenceItem<Color>(
+          tween: ColorTween(begin: Colors.black54, end: Color(0xFF9E635F)),
+          weight: 16.0,
+        ),
+        TweenSequenceItem<Color>(
+          tween: ColorTween(begin: Color(0xFF9E635F), end: Color(0xFFC9534A)),
+          weight: 15.0,
+        ),
+        TweenSequenceItem<Color>(
+          tween: ColorTween(begin: Color(0xFFC9534A), end: Colors.red),
+          weight: 16.0,
+        ),
+        TweenSequenceItem<Color>(
+          tween: ColorTween(begin: Colors.red, end: Color(0xFFC9534A)),
+          weight: 17.0,
+        ),
+        TweenSequenceItem<Color>(
+          tween: ColorTween(begin: Color(0xFFC9534A), end: Color(0xFF9E635F)),
+          weight: 18.0,
+        ),
+        TweenSequenceItem<Color>(
+          tween: ColorTween(begin: Color(0xFF9E635F), end: Colors.black54),
+          weight: 18.0,
+        ),
+      ],
+    ).animate(animationController).value;
   }
 }
