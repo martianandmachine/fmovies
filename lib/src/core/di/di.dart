@@ -10,6 +10,7 @@ import 'package:fmovies/src/features/cinemas/domain/cinemas_bloc.dart';
 import 'package:fmovies/src/features/favorites/data/favorite_movies_repository.dart';
 import 'package:fmovies/src/features/favorites/data/favorite_movies_repository_impl.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_bloc.dart';
+import 'package:fmovies/src/features/home/domain/tab_bloc.dart';
 import 'package:fmovies/src/features/movie/data/movie_details_repository.dart';
 import 'package:fmovies/src/features/movie/data/movie_details_repository_impl.dart';
 import 'package:fmovies/src/features/movie/domain/movie_details_bloc.dart';
@@ -21,19 +22,6 @@ import 'package:get_it/get_it.dart';
 final GetIt getIt = GetIt.instance;
 
 Future<void> init() async {
-  getIt.registerFactory(() => PopularMoviesBloc(
-        popularMoviesRepository: getIt(),
-        favoriteMoviesRepository: getIt(),
-      ));
-
-  getIt.registerFactory(
-      () => FavoriteMoviesBloc(favoriteMoviesRepository: getIt()));
-
-  getIt.registerFactory(() => CinemasBloc(cinemasRepository: getIt()));
-
-  getIt.registerFactory(
-          () => MovieDetailsBloc(movieDetailsRepository: getIt()));
-
   getIt.registerLazySingleton<MoviesDao>(() => AppDatabase().moviesDao);
   getIt.registerLazySingleton<CinemasApiService>(
       () => CinemasApiServiceFactory());
@@ -52,9 +40,9 @@ Future<void> init() async {
   );
 
   getIt.registerFactory<MovieDetailsRepository>(
-        () => MovieDetailsRepositoryImpl(
-          networkInfo: getIt(),
-          movieApiService: getIt(),
+    () => MovieDetailsRepositoryImpl(
+      networkInfo: getIt(),
+      movieApiService: getIt(),
     ),
   );
 
@@ -70,4 +58,20 @@ Future<void> init() async {
       moviesDao: getIt(),
     ),
   );
+
+  getIt.registerFactory<PopularMoviesBloc>(() => PopularMoviesBloc(
+        popularMoviesRepository: getIt(),
+        favoriteMoviesRepository: getIt(),
+      ));
+
+  getIt.registerFactory<FavoriteMoviesBloc>(
+      () => FavoriteMoviesBloc(favoriteMoviesRepository: getIt()));
+
+  getIt.registerFactory<CinemasBloc>(
+      () => CinemasBloc(cinemasRepository: getIt()));
+
+  getIt.registerFactory<MovieDetailsBloc>(
+      () => MovieDetailsBloc(movieDetailsRepository: getIt()));
+
+  getIt.registerFactory<TabBloc>(() => TabBloc());
 }
