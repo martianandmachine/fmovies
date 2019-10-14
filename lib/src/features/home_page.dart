@@ -38,6 +38,14 @@ class _HomePageState extends State<HomePage> {
         child: widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        unselectedFontSize: 11,
+        selectedFontSize: 13,
+        unselectedIconTheme: IconThemeData(
+          size: 20
+        ),
+        selectedIconTheme: IconThemeData(
+            size: 30,
+        ),
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.movie),
