@@ -4,6 +4,8 @@ const SIZE_SMALL = 'small';
 const SIZE_MEDIUM = 'medium';
 const SIZE_LARGE = 'large';
 
+const CAST_SIZE = 'w138_and_h175_face/';
+
 var POSTER_SIZES = {
   'smallest': 'w92',
   '$SIZE_SMALL': 'w154',

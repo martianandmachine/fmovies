@@ -4,6 +4,8 @@ import 'package:fmovies/src/core/api/movies_api_service.dart';
 import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/core/utils/network_info.dart';
 import 'package:fmovies/src/core/utils/result.dart';
+import 'package:fmovies/src/features/movie/data/cast.dart';
+import 'package:fmovies/src/features/movie/data/credits.dart';
 import 'package:fmovies/src/features/movie/data/movie_details_repository.dart';
 
 class MovieDetailsRepositoryImpl implements MovieDetailsRepository {
@@ -31,4 +33,26 @@ class MovieDetailsRepositoryImpl implements MovieDetailsRepository {
       return Result(error: NoInternetError());
     }
   }
+
+  @override
+  Future<Result<List<Cast>>> getMovieCredits(int movieId) async {
+    bool isConnected = await networkInfo.isConnected();
+    if (isConnected) {
+      try {
+        final response = await movieApiService.getMovieCredits(movieId);
+        var parsed = json.decode(response.data);
+
+        var model = Credits.fromJson(parsed).cast;
+
+        return Result(success: model);
+      } catch (error) {
+        print(error.toString());
+        return Result(error: ServerError());
+      }
+    } else {
+      return Result(error: NoInternetError());
+    }
+  }
+
+
 }

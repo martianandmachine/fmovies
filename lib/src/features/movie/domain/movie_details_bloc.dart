@@ -16,13 +16,18 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
   @override
   Stream<MovieDetailsState> mapEventToState(MovieDetailsEvent event) async* {
     if (event is FetchMovieDetails) {
-      final results =
+      final details =
           await movieDetailsRepository.getMovieDetails(event.movie.id);
-      if (results.success != null) {
-        yield ShowExtraDetails(results.success);
+      final credits =
+          await movieDetailsRepository.getMovieCredits(event.movie.id);
+      if (details.success != null && credits.success != null) {
+        var filteredCast = credits.success.where((c) => c.profilePath != null).toList();
+        yield ShowExtraDetails(details.success, filteredCast);
       } else {
-        if (results.error is NoInternetError) {}
-        if (results.error is ServerError) {}
+        if (details.error is NoInternetError) {}
+        if (details.error is ServerError) {}
+        if (credits.error is NoInternetError) {}
+        if (credits.error is ServerError) {}
       }
     }
   }

@@ -29,27 +29,27 @@ class AnimatedFavoriteIcon extends StatelessWidget {
     return TweenSequence(
       <TweenSequenceItem<Color>>[
         TweenSequenceItem<Color>(
-          tween: ColorTween(begin: Colors.black54, end: Color(0xFF9E635F)),
+          tween: ColorTween(begin: Color(0xFFC1C1C1), end: Color(0xFFD29793)),
           weight: 16.0,
         ),
         TweenSequenceItem<Color>(
-          tween: ColorTween(begin: Color(0xFF9E635F), end: Color(0xFFC9534A)),
+          tween: ColorTween(begin: Color(0xFFD29793), end: Color(0xFFE36D64)),
           weight: 15.0,
         ),
         TweenSequenceItem<Color>(
-          tween: ColorTween(begin: Color(0xFFC9534A), end: Colors.red),
+          tween: ColorTween(begin: Color(0xFFE36D64), end: Colors.red),
           weight: 16.0,
         ),
         TweenSequenceItem<Color>(
-          tween: ColorTween(begin: Colors.red, end: Color(0xFFC9534A)),
+          tween: ColorTween(begin: Colors.red, end: Color(0xFFE36D64)),
           weight: 17.0,
         ),
         TweenSequenceItem<Color>(
-          tween: ColorTween(begin: Color(0xFFC9534A), end: Color(0xFF9E635F)),
+          tween: ColorTween(begin: Color(0xFFE36D64), end: Color(0xFFD29793)),
           weight: 18.0,
         ),
         TweenSequenceItem<Color>(
-          tween: ColorTween(begin: Color(0xFF9E635F), end: Colors.black54),
+          tween: ColorTween(begin: Color(0xFFD29793), end: Color(0xFFC1C1C1)),
           weight: 18.0,
         ),
       ],

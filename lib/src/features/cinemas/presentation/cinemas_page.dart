@@ -124,7 +124,7 @@ class CinemasPageState extends State<CinemasPage> {
         markerId: MarkerId(cinema.id),
         infoWindow: InfoWindow(title: cinema.name),
         icon:
-            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
+            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
         position:
             LatLng(cinema.geometry.location.lat, cinema.geometry.location.lng),
       );
