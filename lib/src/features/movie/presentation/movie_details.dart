@@ -122,10 +122,12 @@ class MovieDetails extends StatelessWidget {
                           extraDetails.tagline.length > 0)
                         MovieDetailsTextWidgets()
                             .buildTagline(extraDetails.tagline),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child:
-                            MovieDetailsTextWidgets().buildText(movie.overview),
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child:
+                              MovieDetailsTextWidgets().buildText(movie.overview),
+                        ),
                       ),
                       if (state is ShowExtraDetails) _buildMovieCast(cast),
                     ],
