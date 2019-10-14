@@ -74,19 +74,21 @@ class BuildFavoriteListTile extends StatelessWidget {
                   BACKDROP_SIZES[SIZE_MEDIUM] +
                   movie.backdropPath),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     _buildImage(POSTER_SIZES[SIZE_MEDIUM] + movie.posterPath),
                     Container(
-                      margin: EdgeInsets.only(left: 20.0),
-                      width: 170.0,
+                      width: 150.0,
                       child: Column(
                         children: <Widget>[
                           Flexible(
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 16.0),
+                              padding: const EdgeInsets.only(
+                                top: 16.0,
+                                left: 8.0,
+                              ),
                               child: Text(
                                 movie.title,
                                 textAlign: TextAlign.center,
