@@ -111,7 +111,8 @@ class BuildFavoriteListTile extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Expanded(
+                          Padding(
+                            padding: EdgeInsets.only(top: 24.0),
                             child: Align(
                               alignment: Alignment.center,
                               child: Text(
