@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AnimatedFavoriteIcon extends StatefulWidget {
   final AnimationController animationController;
 
-  AnimatedFavoriteIcon(this.animationController);
+  AnimatedFavoriteIcon({@required this.animationController});
 
   @override
   _AnimatedFavoriteIconState createState() => _AnimatedFavoriteIconState();

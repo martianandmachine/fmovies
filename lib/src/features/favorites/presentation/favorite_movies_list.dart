@@ -19,7 +19,7 @@ class FavoriteMoviesList extends StatelessWidget {
 
   final GlobalKey<AnimatedListState> _listKey = GlobalKey();
 
-  FavoriteMoviesList(this.movies);
+  FavoriteMoviesList({@required this.movies});
 
   @override
   Widget build(BuildContext context) {
