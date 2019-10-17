@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
       builder: (context, state) {
         final activeTab = (state as ChangeTabState).activeTab;
 
-        if (activeTab == null) return Container();
+        if (activeTab == null) throw Exception('Active tab is null');
 
         return Scaffold(
           body: Center(
