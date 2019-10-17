@@ -1,21 +1,64 @@
 import 'package:flutter/material.dart';
 
-class AnimatedFavoriteIcon extends StatelessWidget {
-  final Widget child;
-  final Animation<double> animation;
-  final AnimationController animationController;
+class AnimatedFavoriteIcon extends StatefulWidget {
+  @override
+  _AnimatedFavoriteIconState createState() => _AnimatedFavoriteIconState();
+}
 
-  const AnimatedFavoriteIcon(
-      {this.animation, this.child, this.animationController});
+class _AnimatedFavoriteIconState extends State<AnimatedFavoriteIcon>
+    with SingleTickerProviderStateMixin {
+  Animation<double> _animation;
+  AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 800));
+
+    _animation = TweenSequence(
+      <TweenSequenceItem<double>>[
+        TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 1.0, end: 1.3),
+          weight: 25.0,
+        ),
+        TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 1.3, end: 1.6),
+          weight: 25.0,
+        ),
+        TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 1.6, end: 1.3),
+          weight: 25.0,
+        ),
+        TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 1.3, end: 1.0),
+          weight: 25.0,
+        ),
+      ],
+    ).chain(CurveTween(curve: Curves.bounceInOut)).animate(_animationController)
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _animationController.reset();
+        }
+      });
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    _animationController.forward();
+
     return AnimatedBuilder(
-      animation: animation,
-      child: child,
+      animation: _animation,
       builder: (context, child) {
         return Transform.scale(
-          scale: animation.value,
+          scale: _animation.value,
           child: Icon(
             Icons.favorite,
             color: colorAnimation(),
@@ -53,6 +96,6 @@ class AnimatedFavoriteIcon extends StatelessWidget {
           weight: 18.0,
         ),
       ],
-    ).animate(animationController).value;
+    ).animate(_animationController).value;
   }
 }
