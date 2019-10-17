@@ -23,19 +23,18 @@ class _HomePageState extends State<HomePage> {
     final bloc = BlocProvider.of<TabBloc>(context);
     return BlocBuilder<TabBloc, AppTabState>(
       builder: (context, state) {
-        if (state is ChangeTabState) {
-          return Scaffold(
-            body: Center(
-              child: _tabContent(state.activeTab),
-            ),
-            bottomNavigationBar: TabSelector(
-              activeTab: state.activeTab,
-              onTabSelected: (tab) => bloc.dispatch(UpdateTab(tab)),
-            ),
-          );
-        }
+        final activeTab = (state as ChangeTabState).activeTab;
+
+        if (activeTab == null) return Container();
+
         return Scaffold(
-          body: Text('Something went wrong with navigation.'),
+          body: Center(
+            child: _tabContent(activeTab),
+          ),
+          bottomNavigationBar: TabSelector(
+            activeTab: activeTab,
+            onTabSelected: (tab) => bloc.dispatch(UpdateTab(tab)),
+          ),
         );
       },
     );
@@ -48,19 +47,16 @@ class _HomePageState extends State<HomePage> {
           builder: (context) => getIt<PopularMoviesBloc>(),
           child: PopularMoviesPage(),
         );
-        break;
       case AppTab.favorites:
         return BlocProvider<FavoriteMoviesBloc>(
           builder: (context) => getIt<FavoriteMoviesBloc>(),
           child: FavoriteMoviePage(),
         );
-        break;
       case AppTab.cinemas:
         return BlocProvider<CinemasBloc>(
           builder: (context) => getIt<CinemasBloc>(),
           child: CinemasPage(),
         );
-        break;
     }
   }
 }
