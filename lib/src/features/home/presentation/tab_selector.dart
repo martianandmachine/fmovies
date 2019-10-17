@@ -4,7 +4,7 @@ import 'package:fmovies/src/core/widgets/animated_favorite_icon.dart';
 import 'package:fmovies/src/features/home/domain/app_tab.dart';
 import 'package:fmovies/src/features/home/domain/tab_bloc.dart';
 
-class TabSelector extends StatelessWidget {
+class TabSelector extends StatefulWidget {
   final AppTab activeTab;
   final Function(AppTab) onTabSelected;
 
@@ -14,31 +14,52 @@ class TabSelector extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<TabBloc, AppTabState>(
-      builder: (context, state) {
-        return BottomNavigationBar(
-          currentIndex: AppTab.values.indexOf(activeTab),
-          onTap: (index) => onTabSelected(AppTab.values[index]),
-          items: AppTab.values.map((tab) {
-            return BottomNavigationBarItem(
-              icon: _buildIcon(tab, state),
-              title: Text(
-                AppTabHelper.getTitle(tab),
-              ),
-            );
-          }).toList(),
-        );
-      },
-    );
+  _TabSelectorState createState() => _TabSelectorState();
+}
+
+class _TabSelectorState extends State<TabSelector>
+    with SingleTickerProviderStateMixin {
+  AnimationController _animationController;
+
+  @override
+  void initState() {
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 800));
+    super.initState();
   }
 
-  _buildIcon(AppTab tab, AppTabState state) {
-    if (tab == AppTab.favorites) {
-      if ((state as ChangeTabState).triggerAnimation != null) {
-        return AnimatedFavoriteIcon();
-      }
-    }
-    return AppTabHelper.getIcon(tab);
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<TabBloc, AppTabState>(
+      listener: (context, state) {
+        if ((state as ChangeTabState).triggerAnimation != null) {
+          _animationController.forward();
+        }
+      },
+      child: BlocBuilder<TabBloc, AppTabState>(
+        builder: (context, state) {
+          return BottomNavigationBar(
+            currentIndex: AppTab.values.indexOf(widget.activeTab),
+            onTap: (index) => widget.onTabSelected(AppTab.values[index]),
+            items: AppTab.values.map((tab) {
+              return BottomNavigationBarItem(
+                icon: tab == AppTab.favorites
+                    ? AnimatedFavoriteIcon(_animationController)
+                    : AppTabHelper.getIcon(tab),
+                title: Text(
+                  AppTabHelper.getTitle(tab),
+                ),
+              );
+            }).toList(),
+          );
+        },
+      ),
+    );
   }
 }

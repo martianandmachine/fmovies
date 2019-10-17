@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 
 class AnimatedFavoriteIcon extends StatefulWidget {
+  final AnimationController animationController;
+
+  AnimatedFavoriteIcon(this.animationController);
+
   @override
   _AnimatedFavoriteIconState createState() => _AnimatedFavoriteIconState();
 }
 
-class _AnimatedFavoriteIconState extends State<AnimatedFavoriteIcon>
-    with SingleTickerProviderStateMixin {
+class _AnimatedFavoriteIconState extends State<AnimatedFavoriteIcon> {
   Animation<double> _animation;
-  AnimationController _animationController;
 
   @override
   void initState() {
     super.initState();
-
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 800));
 
     _animation = TweenSequence(
       <TweenSequenceItem<double>>[
@@ -36,24 +35,16 @@ class _AnimatedFavoriteIconState extends State<AnimatedFavoriteIcon>
           weight: 25.0,
         ),
       ],
-    ).chain(CurveTween(curve: Curves.bounceInOut)).animate(_animationController)
+    ).chain(CurveTween(curve: Curves.bounceInOut)).animate(widget.animationController)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          _animationController.reset();
+          widget.animationController.reset();
         }
       });
   }
 
   @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    _animationController.forward();
-
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
@@ -96,6 +87,6 @@ class _AnimatedFavoriteIconState extends State<AnimatedFavoriteIcon>
           weight: 18.0,
         ),
       ],
-    ).animate(_animationController).value;
+    ).animate(widget.animationController).value;
   }
 }
