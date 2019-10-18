@@ -1,16 +1,82 @@
-# fmovies
+# fmovies - Flutter showcase app
 
-A new Flutter application.
+fmovies is a multiplatform app for browsing new movies and fetching 
+nearest cinema. It is completely written in Dart and Flutter framework. 
+This app is not released in production because it is just a showcase
+what you can do with Flutter.
 
-## Getting Started
+We started this project as a playground for learning Dart and Flutter
+framework. 
 
-This project is a starting point for a Flutter application.
+## Features
+- list of new movies - Now playing movies from TMDB API
+- favorites list - List of favorite movies from app database
+- map with nearby cinemas - Google map connected with Places API to fetch 
+nearest cinemas
+- movie details - Movie detail from TMDB API
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Building the project
+First of all you will need to setup your development environment. To 
+do that go to the official Flutter 
+[documentation][https://flutter.dev/docs/get-started/install] and follow
+ve.
+After `flutter doctor` says everything is fine follow next steps:
+1. Clone the project to your machine
+2. Open project with your IDE
+3. Run `flutter packages get`
+4. Add API key for Google Maps
+- Android: Specify your API key in the `AndroidManifest.xml`
+```
+manifest ...
+  <application ...
+    <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="YOUR KEY HERE"/>
+```
+- iOS: Specify your API key in the application delegate ios/Runner/AppDelegate.swift:
+```swift
+import UIKit
+import Flutter
+import GoogleMaps
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+@UIApplicationMain
+@objc class AppDelegate: FlutterAppDelegate {
+  override func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?
+  ) -> Bool {
+    GMSServices.provideAPIKey("YOUR KEY HERE")
+    GeneratedPluginRegistrant.register(with: self)
+    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
+}
+```           
+5. Add TMDB API key
+6. Add Places API key
+7. Run the app on your simulator/emulator or device.
+
+## Plugins
+
+- [google_maps_flutter][https://pub.dev/packages/google_maps_flutter] - 
+A Flutter plugin that provides a Google Maps widget.
+- [dio][https://pub.dev/packages/dio] - A powerful Http client for Dart, 
+which supports Interceptors, Global configuration, FormData, Request 
+Cancellation, File downloading, Timeout etc.
+- [get_it][https://pub.dev/packages/get_it] - Simple Service Locator for 
+Dart and Flutter projects with some additional goodies highly inspired 
+by Splat. 
+- [geolocator][https://pub.dev/packages/geolocator] - A Flutter 
+geolocation plugin which provides easy access to the platform specific 
+location services (FusedLocationProviderClient or if not available the 
+LocationManager on Android and CLLocationManager on iOS). 
+- [moor_flutter][https://pub.dev/packages/moor_flutter] - Moor is an 
+easy to use, reactive persistence library for Flutter apps. Define 
+your database tables in pure Dart and enjoy a fluent query API, 
+auto-updating streams and more!
+- [flare_flutter][https://pub.dev/packages/flare_flutter] - Flutter 
+runtime for Flare, depends on flare_dart.
+- [auto_size_text][https://pub.dev/packages/auto_size_text] - Flutter 
+widget that automatically resizes text to fit perfectly within its bounds.
+- [animated_text_kit][https://pub.dev/packages/animated_text_kit] - A 
+flutter package which contains a collection of some cool and awesome 
+text animations.
