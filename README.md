@@ -2,7 +2,7 @@
 
 fmovies is a multiplatform app for browsing new movies and fetching 
 nearest cinemas. It is completely written in Dart and Flutter framework
-using [BLoC][https://www.didierboelens.com/2018/08/reactive-programming---streams---bloc/]
+using [BLoC][https://www.didierboelens.com/2018/08/reactive-programming---streams---bloc] 
 pattern. 
 
 <img src="assets/screenshots/1.png" width="20%" /> 
@@ -59,9 +59,15 @@ import GoogleMaps
   }
 }
 ```           
-5. Add TMDB API key
-6. Add Places API key
-7. Run the app on your simulator/emulator or device.
+5. Create new file `secrets.json` in `/assets` directory and add TMDB 
+API key and Places API key
+```json
+{
+  "tmdb_key": "random_key",
+  "places_key": "random_key"
+}
+```
+6. Run the app on your simulator/emulator or device.
 
 ## Plugins
 
