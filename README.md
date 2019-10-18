@@ -2,7 +2,8 @@
 
 fmovies is a multiplatform app for browsing new movies and fetching 
 nearest cinemas. It is completely written in Dart and Flutter framework
-using [BLoC][https://www.didierboelens.com/2018/08/reactive-programming---streams---bloc] 
+using 
+[BLoC][https://www.didierboelens.com/2018/08/reactive-programming---streams---bloc] 
 pattern. 
 
 <img src="assets/screenshots/1.png" width="20%" /> 
