@@ -5,10 +5,10 @@ nearest cinemas. It is completely written in Dart and Flutter framework
 using [BLoC][https://www.didierboelens.com/2018/08/reactive-programming---streams---bloc/]
 pattern. 
 
-<img src="assets/screenshots/1.png" width="25%" /> 
-<img src="assets/screenshots/2.png" width="25%" /> 
-<img src="assets/screenshots/3.png" width="25%" />
-<img src="assets/screenshots/4.png" width="24%" />
+<img src="assets/screenshots/1.png" width="20%" /> 
+<img src="assets/screenshots/2.png" width="20%" /> 
+<img src="assets/screenshots/3.png" width="20%" />
+<img src="assets/screenshots/4.png" width="20%" />
 
 This app is not released in production because it is just a showcase
 what you can do with Flutter.We started this project as a playground for 
