@@ -39,7 +39,11 @@ class PopularMoviesList extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          return BuildPopularListTile(movies[position], bloc, favoriteMovie);
+          return BuildPopularListTile(
+            movie: movies[position],
+            bloc: bloc,
+            favoriteMovie: favoriteMovie,
+          );
         },
       ),
     );
@@ -69,7 +73,11 @@ class BuildPopularListTile extends StatelessWidget {
 
   final Movie favoriteMovie;
 
-  BuildPopularListTile(this.movie, this.bloc, this.favoriteMovie);
+  BuildPopularListTile({
+    @required this.movie,
+    @required this.bloc,
+    @required this.favoriteMovie,
+  });
 
   @override
   Widget build(BuildContext context) {

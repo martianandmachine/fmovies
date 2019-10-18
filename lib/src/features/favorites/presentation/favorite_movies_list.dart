@@ -28,7 +28,12 @@ class FavoriteMoviesList extends StatelessWidget {
       initialItemCount: movies.length,
       itemBuilder: (context, position, animation) {
         return BuildFavoriteListTile(
-            movies[position], animation, position, movies, _listKey);
+          movie: movies[position],
+          animation: animation,
+          position: position,
+          movies: movies,
+          listKey: _listKey,
+        );
       },
     );
   }
@@ -41,8 +46,13 @@ class BuildFavoriteListTile extends StatelessWidget {
   final List<Movie> movies;
   final GlobalKey<AnimatedListState> listKey;
 
-  BuildFavoriteListTile(
-      this.movie, this.animation, this.position, this.movies, this.listKey);
+  BuildFavoriteListTile({
+    @required this.movie,
+    @required this.animation,
+    @required this.position,
+    @required this.movies,
+    @required this.listKey,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +191,12 @@ class BuildFavoriteListTile extends StatelessWidget {
       });
 
       return BuildFavoriteListTile(
-          removedItem, animation, position, movies, listKey);
+        movie: removedItem,
+        animation: animation,
+        position: position,
+        movies: movies,
+        listKey: listKey,
+      );
     };
 
     listKey.currentState.removeItem(position, builder);
