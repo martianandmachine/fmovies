@@ -2,21 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:fmovies/src/core/api/movies_api_service.dart';
 
 class MoviesApiServiceFactory implements MoviesApiService {
-  @override
-  buildClient() {
-    BaseOptions baseOptions = BaseOptions(
-      baseUrl: "https://api.themoviedb.org",
-      queryParameters: {
-        "api_key": "c1d17945fca15cf2153ab77f065ff55c",
-      },
-    );
-    return Dio(baseOptions);
-  }
+
+  final Dio moviesClient;
+
+  MoviesApiServiceFactory({this.moviesClient});
 
   @override
   getPopularMovies(int page) {
-    Dio client = buildClient();
-    return client.request(
+    return moviesClient.request(
       "/3/movie/now_playing",
       queryParameters: {
         "sort_by": "popularity.desc",
@@ -31,8 +24,7 @@ class MoviesApiServiceFactory implements MoviesApiService {
 
   @override
   getMovieDetails(int movieId) {
-    Dio client = buildClient();
-    return client.request(
+    return moviesClient.request(
       "/3/movie/$movieId",
       queryParameters: {
         "append_to_response": "credits,videos,images",
@@ -46,8 +38,7 @@ class MoviesApiServiceFactory implements MoviesApiService {
 
   @override
   getMovieCredits(int movieId) {
-    Dio client = buildClient();
-    return client.request(
+    return moviesClient.request(
       "/3/movie/$movieId/credits",
       options: Options(
         method: "GET",

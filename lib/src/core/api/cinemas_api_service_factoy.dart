@@ -2,22 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:fmovies/src/core/api/cinemas_api_service.dart';
 
 class CinemasApiServiceFactory implements CinemasApiService {
-  @override
-  Dio buildClient() {
-    BaseOptions baseOptions = BaseOptions(
-      baseUrl: "https://maps.googleapis.com",
-      queryParameters: {
-        "key": "AIzaSyCmRJiynYcCjxYRgbGJEY9eyM9VPYhI_XE",
-      },
-    );
 
-    return Dio(baseOptions);
-  }
+  final Dio cinemasClient;
+
+  CinemasApiServiceFactory({this.cinemasClient});
 
   @override
   Future<Response> getNearbyCinemas(double latitude, double longitude) {
-    Dio client = buildClient();
-    return client.request(
+    return cinemasClient.request(
       "/maps/api/place/nearbysearch/json",
       queryParameters: {
         "location": "$latitude,$longitude",
