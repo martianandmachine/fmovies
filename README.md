@@ -8,7 +8,7 @@ pattern.
 <img src="assets/screenshots/1.png" width="25%" /> 
 <img src="assets/screenshots/2.png" width="25%" /> 
 <img src="assets/screenshots/3.png" width="25%" />
-<img src="assets/screenshots/4.png" width="25%" />
+<img src="assets/screenshots/4.png" width="24%" />
 
 This app is not released in production because it is just a showcase
 what you can do with Flutter.We started this project as a playground for 
