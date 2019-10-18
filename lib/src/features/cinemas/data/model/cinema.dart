@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+
 part 'cinema.g.dart';
 
 @JsonSerializable()
@@ -17,6 +18,7 @@ class Cinema {
       this.reference, this.userRatingsTotal, this.vicinity);
 
   factory Cinema.fromJson(Map<String, dynamic> json) => _$CinemaFromJson(json);
+
   Map<String, dynamic> toJson() => _$CinemaToJson(this);
 }
 
@@ -26,7 +28,9 @@ class Geometry {
 
   Geometry(this.location);
 
-  factory Geometry.fromJson(Map<String, dynamic> json) => _$GeometryFromJson(json);
+  factory Geometry.fromJson(Map<String, dynamic> json) =>
+      _$GeometryFromJson(json);
+
   Map<String, dynamic> toJson() => _$GeometryToJson(this);
 }
 
@@ -40,6 +44,8 @@ class Location {
     this.lng,
   });
 
-  factory Location.fromJson(Map<String, dynamic> json) => _$LocationFromJson(json);
+  factory Location.fromJson(Map<String, dynamic> json) =>
+      _$LocationFromJson(json);
+
   Map<String, dynamic> toJson() => _$LocationToJson(this);
 }

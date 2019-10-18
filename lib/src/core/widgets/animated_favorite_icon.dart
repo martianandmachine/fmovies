@@ -35,12 +35,14 @@ class _AnimatedFavoriteIconState extends State<AnimatedFavoriteIcon> {
           weight: 25.0,
         ),
       ],
-    ).chain(CurveTween(curve: Curves.bounceInOut)).animate(widget.animationController)
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          widget.animationController.reset();
-        }
-      });
+    )
+        .chain(CurveTween(curve: Curves.bounceInOut))
+        .animate(widget.animationController)
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {
+              widget.animationController.reset();
+            }
+          });
   }
 
   @override

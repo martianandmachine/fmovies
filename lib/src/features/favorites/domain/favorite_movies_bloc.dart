@@ -1,9 +1,9 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/features/favorites/data/favorite_movies_repository.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_event.dart';
 import 'package:fmovies/src/features/favorites/domain/favorite_movies_state.dart';
-import 'package:bloc/bloc.dart';
 
 class FavoriteMoviesBloc
     extends Bloc<FavoriteMoviesEvent, FavoriteMoviesState> {
@@ -43,11 +43,13 @@ class FavoriteMoviesBloc
 
     if (result != null) {
       final List<Movie> movies =
-      List.from((currentState as FavoriteMoviesLoaded).movies)
-        ..removeWhere((movie) => movie.id == event.movie.id);
+          List.from((currentState as FavoriteMoviesLoaded).movies)
+            ..removeWhere((movie) => movie.id == event.movie.id);
 
-      if (movies.isEmpty) yield FavoriteMoviesEmpty();
-      else yield currentState;
+      if (movies.isEmpty)
+        yield FavoriteMoviesEmpty();
+      else
+        yield currentState;
     } else {
       yield currentState;
     }

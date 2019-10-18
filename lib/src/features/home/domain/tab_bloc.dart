@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:bloc/bloc.dart';
 import 'package:fmovies/src/features/home/domain/app_tab.dart';
 import 'package:fmovies/src/features/home/domain/tab_event.dart';
-import 'package:bloc/bloc.dart';
 
 class TabBloc extends Bloc<TabEvent, AppTabState> {
   @override

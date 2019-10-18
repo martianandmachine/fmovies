@@ -120,8 +120,7 @@ class CinemasPageState extends State<CinemasPage> {
       Marker m = Marker(
         markerId: MarkerId(cinema.id),
         infoWindow: InfoWindow(title: cinema.name),
-        icon:
-            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
         position:
             LatLng(cinema.geometry.location.lat, cinema.geometry.location.lng),
       );

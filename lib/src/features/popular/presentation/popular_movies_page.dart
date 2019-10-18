@@ -33,8 +33,11 @@ class PopularMoviesPage extends StatelessWidget {
             if (state.favoriteMovie != null) {
               if (state.favoriteMovie.isFavorite) {
                 tabBloc.dispatch(MovieSavedToFavorites(true));
-                ShowSnackBar(context, state.favoriteMovie.title + ' added to favorites.');
-              } else ShowSnackBar(context, state.favoriteMovie.title + ' removed from favorites.');
+                ShowSnackBar(context,
+                    state.favoriteMovie.title + ' added to favorites.');
+              } else
+                ShowSnackBar(context,
+                    state.favoriteMovie.title + ' removed from favorites.');
             }
           }
         },
@@ -51,7 +54,8 @@ class PopularMoviesPage extends StatelessWidget {
             if (state is PopularMoviesNoInternet) {
               return Center(
                 child: RaisedButton.icon(
-                  onPressed: () => popularMoviesBloc.dispatch(FetchPopularMovies()),
+                  onPressed: () =>
+                      popularMoviesBloc.dispatch(FetchPopularMovies()),
                   icon: Icon(Icons.refresh),
                   label: Text('Try again.'),
                 ),

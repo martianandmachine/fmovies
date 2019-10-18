@@ -50,7 +50,9 @@ class _TabSelectorState extends State<TabSelector>
             items: AppTab.values.map((tab) {
               return BottomNavigationBarItem(
                 icon: tab == AppTab.favorites
-                    ? AnimatedFavoriteIcon(animationController: _animationController,)
+                    ? AnimatedFavoriteIcon(
+                        animationController: _animationController,
+                      )
                     : AppTabHelper.getIcon(tab),
                 title: Text(
                   AppTabHelper.getTitle(tab),
