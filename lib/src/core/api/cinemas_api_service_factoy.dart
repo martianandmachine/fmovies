@@ -6,6 +6,9 @@ class CinemasApiServiceFactory implements CinemasApiService {
   Dio buildClient() {
     BaseOptions baseOptions = BaseOptions(
       baseUrl: "https://maps.googleapis.com",
+      queryParameters: {
+        "key": "AIzaSyCmRJiynYcCjxYRgbGJEY9eyM9VPYhI_XE",
+      },
     );
 
     return Dio(baseOptions);
@@ -20,7 +23,6 @@ class CinemasApiServiceFactory implements CinemasApiService {
         "location": "$latitude,$longitude",
         "radius": "10000",
         "type": "movie_theater",
-        "key": "AIzaSyCmRJiynYcCjxYRgbGJEY9eyM9VPYhI_XE",
       },
       options: Options(
         method: "GET",

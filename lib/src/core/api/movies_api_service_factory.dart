@@ -6,8 +6,10 @@ class MoviesApiServiceFactory implements MoviesApiService {
   buildClient() {
     BaseOptions baseOptions = BaseOptions(
       baseUrl: "https://api.themoviedb.org",
+      queryParameters: {
+        "api_key": "c1d17945fca15cf2153ab77f065ff55c",
+      },
     );
-
     return Dio(baseOptions);
   }
 
@@ -18,7 +20,6 @@ class MoviesApiServiceFactory implements MoviesApiService {
       "/3/movie/now_playing",
       queryParameters: {
         "sort_by": "popularity.desc",
-        "api_key": "c1d17945fca15cf2153ab77f065ff55c",
         "page": "$page",
       },
       options: Options(
@@ -34,7 +35,6 @@ class MoviesApiServiceFactory implements MoviesApiService {
     return client.request(
       "/3/movie/$movieId",
       queryParameters: {
-        "api_key": "c1d17945fca15cf2153ab77f065ff55c",
         "append_to_response": "credits,videos,images",
       },
       options: Options(
@@ -49,9 +49,6 @@ class MoviesApiServiceFactory implements MoviesApiService {
     Dio client = buildClient();
     return client.request(
       "/3/movie/$movieId/credits",
-      queryParameters: {
-        "api_key": "c1d17945fca15cf2153ab77f065ff55c",
-      },
       options: Options(
         method: "GET",
         responseType: ResponseType.plain,
