@@ -1,12 +1,18 @@
 # fmovies - Flutter showcase app
 
 fmovies is a multiplatform app for browsing new movies and fetching 
-nearest cinema. It is completely written in Dart and Flutter framework. 
-This app is not released in production because it is just a showcase
-what you can do with Flutter.
+nearest cinemas. It is completely written in Dart and Flutter framework
+using [BLoC][https://www.didierboelens.com/2018/08/reactive-programming---streams---bloc/]
+pattern. 
 
-We started this project as a playground for learning Dart and Flutter
-framework. 
+<img src="assets/screenshots/1.png" width="25%" /> 
+<img src="assets/screenshots/2.png" width="25%" /> 
+<img src="assets/screenshots/3.png" width="25%" />
+<img src="assets/screenshots/4.png" width="25%" />
+
+This app is not released in production because it is just a showcase
+what you can do with Flutter.We started this project as a playground for 
+learning Dart and Flutter framework. 
 
 ## Features
 - list of new movies - Now playing movies from TMDB API
@@ -59,6 +65,8 @@ import GoogleMaps
 
 ## Plugins
 
+- [flutter_bloc][https://pub.dev/packages/flutter_bloc] - A Flutter 
+package that helps implement the BLoC pattern.
 - [google_maps_flutter][https://pub.dev/packages/google_maps_flutter] - 
 A Flutter plugin that provides a Google Maps widget.
 - [dio][https://pub.dev/packages/dio] - A powerful Http client for Dart, 
@@ -77,6 +85,10 @@ your database tables in pure Dart and enjoy a fluent query API,
 auto-updating streams and more!
 - [flare_flutter][https://pub.dev/packages/flare_flutter] - Flutter 
 runtime for Flare, depends on flare_dart.
+- [location_permissions][https://pub.dev/packages/location_permissions] -
+The Location Permissions plugin for Flutter. This plugin provides a 
+cross-platform (iOS, Android) API to check and request permissions to 
+access location services.
 - [auto_size_text][https://pub.dev/packages/auto_size_text] - Flutter 
 widget that automatically resizes text to fit perfectly within its bounds.
 - [animated_text_kit][https://pub.dev/packages/animated_text_kit] - A 
