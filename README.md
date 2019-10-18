@@ -27,11 +27,13 @@ After `flutter doctor` says everything is fine follow next steps:
 3. Run `flutter packages get`
 4. Add API key for Google Maps
 - Android: Specify your API key in the `AndroidManifest.xml`
-```
-manifest ...
-  <application ...
+```xml
+<manifest>
+  <application>
     <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="YOUR KEY HERE"/>
+   </application>
+</manifest>
 ```
 - iOS: Specify your API key in the application delegate ios/Runner/AppDelegate.swift:
 ```swift
