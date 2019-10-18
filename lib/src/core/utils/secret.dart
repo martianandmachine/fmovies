@@ -9,7 +9,7 @@ class Secret {
   Secret({this.tmdbKey = "", this.placesKey = ""});
 
   factory Secret.fromJson(Map<String, dynamic> jsonMap) {
-    return new Secret(
+    return Secret(
       tmdbKey: jsonMap['tmdb_key'],
       placesKey: jsonMap['places_key'],
     );
