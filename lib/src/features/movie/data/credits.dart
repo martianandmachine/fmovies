@@ -10,6 +10,8 @@ class Credits {
 
   Credits(this.id, this.cast);
 
-  factory Credits.fromJson(Map<String, dynamic> json) => _$CreditsFromJson(json);
+  factory Credits.fromJson(Map<String, dynamic> json) =>
+      _$CreditsFromJson(json);
+
   Map<String, dynamic> toJson() => _$CreditsToJson(this);
 }

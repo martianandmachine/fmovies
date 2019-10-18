@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -125,8 +124,8 @@ class MovieDetails extends StatelessWidget {
                       Flexible(
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child:
-                              MovieDetailsTextWidgets().buildText(movie.overview),
+                          child: MovieDetailsTextWidgets()
+                              .buildText(movie.overview),
                         ),
                       ),
                       if (state is ShowExtraDetails) _buildMovieCast(cast),
@@ -179,9 +178,7 @@ class MovieDetails extends StatelessWidget {
               child: Stack(
                 children: <Widget>[
                   Image.network(
-                    BASE_IMAGE_URL +
-                         CAST_SIZE +
-                        cast[index].profilePath,
+                    BASE_IMAGE_URL + CAST_SIZE + cast[index].profilePath,
                     width: 160,
                     fit: BoxFit.cover,
                   ),

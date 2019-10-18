@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:fmovies/src/core/api/cinemas_api_service.dart';
 import 'package:fmovies/src/core/utils/network_info.dart';
 import 'package:fmovies/src/core/utils/result.dart';
-
 import 'package:fmovies/src/features/cinemas/data/model/cinema_response.dart';
 
 import 'cinemas_repository.dart';

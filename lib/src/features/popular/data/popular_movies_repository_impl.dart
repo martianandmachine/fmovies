@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fmovies/src/core/api/movies_api_service.dart';
 import 'package:fmovies/src/core/db/database.dart';
 import 'package:fmovies/src/core/utils/network_info.dart';
@@ -15,8 +16,11 @@ class PopularMoviesRepositoryImpl implements PopularMoviesRepository {
 
   int pageNumber = 1;
 
-  PopularMoviesRepositoryImpl(
-      {this.networkInfo, this.movieApiService, this.moviesDao});
+  PopularMoviesRepositoryImpl({
+    @required this.networkInfo,
+    @required this.movieApiService,
+    @required this.moviesDao,
+  });
 
   @override
   Future<Result<PopularMoviesResponse>> getPopularMovies() async {

@@ -53,6 +53,4 @@ class MovieDetailsRepositoryImpl implements MovieDetailsRepository {
       return Result(error: NoInternetError());
     }
   }
-
-
 }

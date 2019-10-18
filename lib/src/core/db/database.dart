@@ -7,9 +7,7 @@ part 'database.g.dart';
 class AppDatabase extends _$AppDatabase {
   AppDatabase()
       : super(
-          FlutterQueryExecutor.inDatabaseFolder(
-            path: 'db.sqlite'
-          ),
+          FlutterQueryExecutor.inDatabaseFolder(path: 'db.sqlite'),
         );
 
   @override

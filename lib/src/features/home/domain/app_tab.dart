@@ -22,6 +22,8 @@ class AppTabHelper {
         return Icon(Icons.favorite);
       case AppTab.cinemas:
         return Icon(Icons.place);
+      default:
+        throw Exception('Invalid tab icon');
     }
   }
 
@@ -33,6 +35,8 @@ class AppTabHelper {
         return 'Favorites';
       case AppTab.cinemas:
         return 'Cinemas';
+      default:
+        throw Exception('Invalid tab title');
     }
   }
 }

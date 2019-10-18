@@ -17,8 +17,8 @@ var POSTER_SIZES = {
 };
 
 var BACKDROP_SIZES = {
-  '$SIZE_SMALL' :'w300',
-  '$SIZE_MEDIUM' :'w780',
-  '$SIZE_LARGE' :'w1280',
-  'original' :'original'
+  '$SIZE_SMALL': 'w300',
+  '$SIZE_MEDIUM': 'w780',
+  '$SIZE_LARGE': 'w1280',
+  'original': 'original'
 };

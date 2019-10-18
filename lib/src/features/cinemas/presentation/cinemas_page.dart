@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,8 +19,6 @@ class CinemasPage extends StatefulWidget {
 }
 
 class CinemasPageState extends State<CinemasPage> {
-  CinemasBloc bloc;
-
   final Map<String, Marker> _markers = {};
   CameraPosition _currentCameraPosition;
   Completer<GoogleMapController> _controller = Completer();
@@ -33,8 +30,8 @@ class CinemasPageState extends State<CinemasPage> {
 
   @override
   void initState() {
-    bloc = BlocProvider.of<CinemasBloc>(context);
-    _getUserLocation();
+    CinemasBloc bloc = BlocProvider.of<CinemasBloc>(context);
+    _getUserLocation(bloc);
     rootBundle.loadString('assets/map_style.txt').then((string) {
       _mapStyle = string;
     });
@@ -87,7 +84,7 @@ class CinemasPageState extends State<CinemasPage> {
     );
   }
 
-  _getUserLocation() async {
+  _getUserLocation(CinemasBloc bloc) async {
     Position position = await LocationService().getLocation();
     if (position != null) {
       bloc.dispatch(FetchCinemas(position));
@@ -123,8 +120,7 @@ class CinemasPageState extends State<CinemasPage> {
       Marker m = Marker(
         markerId: MarkerId(cinema.id),
         infoWindow: InfoWindow(title: cinema.name),
-        icon:
-            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
         position:
             LatLng(cinema.geometry.location.lat, cinema.geometry.location.lng),
       );

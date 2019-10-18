@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:fmovies/main.dart';
 import 'package:fmovies/src/core/app.dart';
 
 void main() {

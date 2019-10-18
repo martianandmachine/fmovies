@@ -21,7 +21,8 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
       final credits =
           await movieDetailsRepository.getMovieCredits(event.movie.id);
       if (details.success != null && credits.success != null) {
-        var filteredCast = credits.success.where((c) => c.profilePath != null).toList();
+        var filteredCast =
+            credits.success.where((c) => c.profilePath != null).toList();
         yield ShowExtraDetails(details.success, filteredCast);
       } else {
         if (details.error is NoInternetError) {}

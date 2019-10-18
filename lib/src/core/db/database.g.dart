@@ -27,6 +27,7 @@ class Movie extends DataClass implements Insertable<Movie> {
   final String status;
   final String tagline;
   final double voteAverage;
+
   Movie(
       {@required this.id,
       @required this.voteCount,
@@ -47,6 +48,7 @@ class Movie extends DataClass implements Insertable<Movie> {
       this.status,
       this.tagline,
       this.voteAverage});
+
   factory Movie.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -92,6 +94,7 @@ class Movie extends DataClass implements Insertable<Movie> {
           .mapFromDatabaseResponse(data['${effectivePrefix}vote_average']),
     );
   }
+
   factory Movie.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer = const ValueSerializer.defaults()}) {
     return Movie(
@@ -116,6 +119,7 @@ class Movie extends DataClass implements Insertable<Movie> {
       voteAverage: serializer.fromJson<double>(json['vote_average'].toDouble()),
     );
   }
+
   @override
   Map<String, dynamic> toJson(
       {ValueSerializer serializer = const ValueSerializer.defaults()}) {
@@ -240,6 +244,7 @@ class Movie extends DataClass implements Insertable<Movie> {
         tagline: tagline ?? this.tagline,
         voteAverage: voteAverage ?? this.voteAverage,
       );
+
   @override
   String toString() {
     return (StringBuffer('Movie(')
@@ -308,6 +313,7 @@ class Movie extends DataClass implements Insertable<Movie> {
                                                                               .hashCode,
                                                                           voteAverage
                                                                               .hashCode)))))))))))))))))));
+
   @override
   bool operator ==(other) =>
       identical(this, other) ||
@@ -353,6 +359,7 @@ class MoviesCompanion extends UpdateCompanion<Movie> {
   final Value<String> status;
   final Value<String> tagline;
   final Value<double> voteAverage;
+
   const MoviesCompanion({
     this.id = const Value.absent(),
     this.voteCount = const Value.absent(),
@@ -374,6 +381,7 @@ class MoviesCompanion extends UpdateCompanion<Movie> {
     this.tagline = const Value.absent(),
     this.voteAverage = const Value.absent(),
   });
+
   MoviesCompanion copyWith(
       {Value<int> id,
       Value<int> voteCount,
@@ -421,11 +429,15 @@ class MoviesCompanion extends UpdateCompanion<Movie> {
 class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
   final GeneratedDatabase _db;
   final String _alias;
+
   $MoviesTable(this._db, [this._alias]);
+
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedIntColumn _id;
+
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
+
   GeneratedIntColumn _constructId() {
     return GeneratedIntColumn('id', $tableName, false,
         hasAutoIncrement: true, declaredAsPrimaryKey: true);
@@ -433,8 +445,10 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
 
   final VerificationMeta _voteCountMeta = const VerificationMeta('voteCount');
   GeneratedIntColumn _voteCount;
+
   @override
   GeneratedIntColumn get voteCount => _voteCount ??= _constructVoteCount();
+
   GeneratedIntColumn _constructVoteCount() {
     return GeneratedIntColumn(
       'vote_count',
@@ -445,8 +459,10 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
 
   final VerificationMeta _posterPathMeta = const VerificationMeta('posterPath');
   GeneratedTextColumn _posterPath;
+
   @override
   GeneratedTextColumn get posterPath => _posterPath ??= _constructPosterPath();
+
   GeneratedTextColumn _constructPosterPath() {
     return GeneratedTextColumn(
       'poster_path',
@@ -457,8 +473,10 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
 
   final VerificationMeta _adultMeta = const VerificationMeta('adult');
   GeneratedBoolColumn _adult;
+
   @override
   GeneratedBoolColumn get adult => _adult ??= _constructAdult();
+
   GeneratedBoolColumn _constructAdult() {
     return GeneratedBoolColumn(
       'adult',
@@ -470,9 +488,11 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
   final VerificationMeta _originalTitleMeta =
       const VerificationMeta('originalTitle');
   GeneratedTextColumn _originalTitle;
+
   @override
   GeneratedTextColumn get originalTitle =>
       _originalTitle ??= _constructOriginalTitle();
+
   GeneratedTextColumn _constructOriginalTitle() {
     return GeneratedTextColumn(
       'original_title',
@@ -483,8 +503,10 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
 
   final VerificationMeta _titleMeta = const VerificationMeta('title');
   GeneratedTextColumn _title;
+
   @override
   GeneratedTextColumn get title => _title ??= _constructTitle();
+
   GeneratedTextColumn _constructTitle() {
     return GeneratedTextColumn(
       'title',
@@ -495,8 +517,10 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
 
   final VerificationMeta _overviewMeta = const VerificationMeta('overview');
   GeneratedTextColumn _overview;
+
   @override
   GeneratedTextColumn get overview => _overview ??= _constructOverview();
+
   GeneratedTextColumn _constructOverview() {
     return GeneratedTextColumn(
       'overview',
@@ -508,9 +532,11 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
   final VerificationMeta _releaseDateMeta =
       const VerificationMeta('releaseDate');
   GeneratedTextColumn _releaseDate;
+
   @override
   GeneratedTextColumn get releaseDate =>
       _releaseDate ??= _constructReleaseDate();
+
   GeneratedTextColumn _constructReleaseDate() {
     return GeneratedTextColumn(
       'release_date',
@@ -522,9 +548,11 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
   final VerificationMeta _backdropPathMeta =
       const VerificationMeta('backdropPath');
   GeneratedTextColumn _backdropPath;
+
   @override
   GeneratedTextColumn get backdropPath =>
       _backdropPath ??= _constructBackdropPath();
+
   GeneratedTextColumn _constructBackdropPath() {
     return GeneratedTextColumn(
       'backdrop_path',
@@ -535,8 +563,10 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
 
   final VerificationMeta _isFavoriteMeta = const VerificationMeta('isFavorite');
   GeneratedBoolColumn _isFavorite;
+
   @override
   GeneratedBoolColumn get isFavorite => _isFavorite ??= _constructIsFavorite();
+
   GeneratedBoolColumn _constructIsFavorite() {
     return GeneratedBoolColumn('is_favorite', $tableName, false,
         defaultValue: Constant(false));
@@ -544,8 +574,10 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
 
   final VerificationMeta _budgetMeta = const VerificationMeta('budget');
   GeneratedIntColumn _budget;
+
   @override
   GeneratedIntColumn get budget => _budget ??= _constructBudget();
+
   GeneratedIntColumn _constructBudget() {
     return GeneratedIntColumn(
       'budget',
@@ -556,8 +588,10 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
 
   final VerificationMeta _homepageMeta = const VerificationMeta('homepage');
   GeneratedTextColumn _homepage;
+
   @override
   GeneratedTextColumn get homepage => _homepage ??= _constructHomepage();
+
   GeneratedTextColumn _constructHomepage() {
     return GeneratedTextColumn(
       'homepage',
@@ -569,9 +603,11 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
   final VerificationMeta _originalLanguageMeta =
       const VerificationMeta('originalLanguage');
   GeneratedTextColumn _originalLanguage;
+
   @override
   GeneratedTextColumn get originalLanguage =>
       _originalLanguage ??= _constructOriginalLanguage();
+
   GeneratedTextColumn _constructOriginalLanguage() {
     return GeneratedTextColumn(
       'original_language',
@@ -582,8 +618,10 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
 
   final VerificationMeta _popularityMeta = const VerificationMeta('popularity');
   GeneratedRealColumn _popularity;
+
   @override
   GeneratedRealColumn get popularity => _popularity ??= _constructPopularity();
+
   GeneratedRealColumn _constructPopularity() {
     return GeneratedRealColumn(
       'popularity',
@@ -594,8 +632,10 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
 
   final VerificationMeta _revenueMeta = const VerificationMeta('revenue');
   GeneratedIntColumn _revenue;
+
   @override
   GeneratedIntColumn get revenue => _revenue ??= _constructRevenue();
+
   GeneratedIntColumn _constructRevenue() {
     return GeneratedIntColumn(
       'revenue',
@@ -606,8 +646,10 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
 
   final VerificationMeta _runtimeMeta = const VerificationMeta('runtime');
   GeneratedIntColumn _runtime;
+
   @override
   GeneratedIntColumn get runtime => _runtime ??= _constructRuntime();
+
   GeneratedIntColumn _constructRuntime() {
     return GeneratedIntColumn(
       'runtime',
@@ -618,8 +660,10 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
 
   final VerificationMeta _statusMeta = const VerificationMeta('status');
   GeneratedTextColumn _status;
+
   @override
   GeneratedTextColumn get status => _status ??= _constructStatus();
+
   GeneratedTextColumn _constructStatus() {
     return GeneratedTextColumn(
       'status',
@@ -630,8 +674,10 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
 
   final VerificationMeta _taglineMeta = const VerificationMeta('tagline');
   GeneratedTextColumn _tagline;
+
   @override
   GeneratedTextColumn get tagline => _tagline ??= _constructTagline();
+
   GeneratedTextColumn _constructTagline() {
     return GeneratedTextColumn(
       'tagline',
@@ -643,9 +689,11 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
   final VerificationMeta _voteAverageMeta =
       const VerificationMeta('voteAverage');
   GeneratedRealColumn _voteAverage;
+
   @override
   GeneratedRealColumn get voteAverage =>
       _voteAverage ??= _constructVoteAverage();
+
   GeneratedRealColumn _constructVoteAverage() {
     return GeneratedRealColumn(
       'vote_average',
@@ -676,12 +724,15 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
         tagline,
         voteAverage
       ];
+
   @override
   $MoviesTable get asDslTable => this;
+
   @override
   String get $tableName => _alias ?? 'movies';
   @override
   final String actualTableName = 'movies';
+
   @override
   VerificationContext validateIntegrity(MoviesCompanion d,
       {bool isInserting = false}) {
@@ -810,6 +861,7 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
+
   @override
   Movie map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -888,11 +940,14 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
 }
 
 abstract class _$AppDatabase extends GeneratedDatabase {
-  _$AppDatabase(QueryExecutor e) : super(const SqlTypeSystem.withDefaults(), e);
+  _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.withDefaults(), e);
   $MoviesTable _movies;
+
   $MoviesTable get movies => _movies ??= $MoviesTable(this);
   MoviesDao _moviesDao;
+
   MoviesDao get moviesDao => _moviesDao ??= MoviesDao(this as AppDatabase);
+
   @override
   List<TableInfo> get allTables => [movies];
 }

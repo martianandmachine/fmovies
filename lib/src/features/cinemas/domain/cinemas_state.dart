@@ -10,6 +10,7 @@ class ShowUser extends CinemasState {
 
   ShowUser(this.position);
 }
+
 class CinemasLoading extends CinemasState {}
 
 class CinemasLoaded extends CinemasState {
