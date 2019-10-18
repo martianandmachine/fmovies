@@ -940,7 +940,7 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
 }
 
 abstract class _$AppDatabase extends GeneratedDatabase {
-  _$AppDatabase(QueryExecutor e) : super(const SqlTypeSystem.withDefaults(), e);
+  _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.withDefaults(), e);
   $MoviesTable _movies;
 
   $MoviesTable get movies => _movies ??= $MoviesTable(this);
