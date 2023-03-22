@@ -26,7 +26,7 @@ dependencies:
   flutter_bloc: ^8.1.1
   google_maps_flutter: ^2.0.10
   json_annotation: ^4.7.0
-  dio: ^4.0.6
+  dio: ">=4.0.6 <6.0.0"
   get_it: ^7.2.0
   geolocator: ^6.1.14
   location_permissions: ^4.0.1
